@@ -11,8 +11,11 @@ ARG build_git_sha="master"
 
 RUN apt-get update && \
   apt-get -y install pip && \
-  pip3 install sympy && \
-  pip3 install pandas
+  pip3 install sympy  \
+   pandas \ 
+   matplotlib \
+   pyyaml \ 
+   mock
 
 RUN cd /home && \
     git clone https://github.com/aurora-multiphysics/achlys.git && \
