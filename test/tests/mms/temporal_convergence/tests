@@ -1,0 +1,17 @@
+[Tests]
+[temporal]
+    type = CheckFiles
+    command = mms_temporal.py
+    check_files = 'mms_temporal.png'
+    required_python_packages = 'sympy'
+  []
+  [temporal_csv]
+    type = CSVDiff
+    command = mms_temporal.py
+    recover = false # this is not running a MooseApp, recover doesn't make any sense
+    csvdiff = 'mms_temporal.csv'
+    prereq = temporal
+    valgrind = none
+    required_python_packages = 'sympy'
+  []
+[]

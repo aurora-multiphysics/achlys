@@ -33,7 +33,7 @@ FLUID_PROPERTIES            := no
 FSI                         := no
 FUNCTIONAL_EXPANSION_TOOLS  := no
 GEOCHEMISTRY                := no
-HEAT_CONDUCTION             := no
+HEAT_CONDUCTION             := yes
 LEVEL_SET                   := no
 MISC                        := no
 NAVIER_STOKES               := no
@@ -53,7 +53,7 @@ include $(MOOSE_DIR)/modules/modules.mk
 APPLICATION_DIR    := $(CURDIR)
 APPLICATION_NAME   := achlys
 BUILD_EXEC         := yes
-GEN_REVISION       := no
+GEN_REVISION       := yes
 include            $(FRAMEWORK_DIR)/app.mk
 
 ###############################################################################

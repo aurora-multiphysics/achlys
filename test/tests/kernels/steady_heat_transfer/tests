@@ -1,0 +1,13 @@
+[Tests]
+  [temperature_test]
+    type = 'Exodiff'
+    input = 'temperature.i'
+    exodiff = 'temperature_out.e'
+  []
+  [csv_diff]
+    type = CSVDiff
+    input = 'temperature.i'
+    csvdiff = 'temperature_out.csv'
+    prereq = temperature_test
+  []
+[]
