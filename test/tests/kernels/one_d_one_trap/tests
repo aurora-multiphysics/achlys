@@ -1,0 +1,8 @@
+[Tests]
+  [test]
+    type = 'Exodiff'
+    input = 'one_d_one_trap.i'
+    exodiff = 'one_d_one_trap_out.e'
+    rel_err = 1e-8
+  []
+[]

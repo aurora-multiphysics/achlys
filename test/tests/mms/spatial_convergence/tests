@@ -1,0 +1,17 @@
+[Tests]
+[spatial]
+    type = CheckFiles
+    command = mms_spatial.py
+    check_files = 'mms_spatial.png'
+    required_python_packages = 'sympy'
+  []
+  [spatial_csv]
+    type = CSVDiff
+    command = mms_spatial.py
+    recover = false # this is not running a MooseApp, recover doesn't make any sense
+    csvdiff = 'mms_spatial.csv'
+    prereq = spatial
+    valgrind = none
+    required_python_packages = 'sympy'
+  []
+[]
