@@ -10,8 +10,8 @@ ARG compile_cores=1
 ARG build_git_sha="release/0.1.0"
 
 RUN cd /home && \
-    git clone git clone https://github.com/aurora-multiphysics/achlys.git && \
-    cd blue_kite && \
+    git clone https://github.com/aurora-multiphysics/achlys.git && \
+    cd achlys && \
     git checkout "$build_git_sha" && \
     make -j"$compile_cores" && \
     ./run_tests
