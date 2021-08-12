@@ -7,7 +7,15 @@
 
 FROM helenbrooks/moose-ubuntu
 ARG compile_cores=1
-ARG build_git_sha="release/0.1.0"
+ARG build_git_sha="master"
+
+RUN apt-get update && \
+  apt-get -y install pip && \
+  pip3 install sympy  \
+   pandas \ 
+   matplotlib \
+   pyyaml \ 
+   mock
 
 RUN cd /home && \
     git clone https://github.com/aurora-multiphysics/achlys.git && \
