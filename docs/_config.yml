@@ -18,13 +18,14 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-domain: https://aurora-multiphysics.github.io
-url: https://aurora-multiphysics.github.io/achlys
-baseurl: /docs/
-github_username: stephen-dixon
+#domain: https://aurora-multiphysics.github.io
+url: "https://aurora-multiphysics.github.io/achlys"
+baseurl: "/docs"
+#github_username: stephen-dixon
 
 # Build settings
-theme: minima
+#theme: minima
+remote_theme: pmarsceill/just-the-docs
 plugins:
   - jekyll-feed
 
@@ -36,8 +37,8 @@ plugins:
 # Excluded items can be processed by explicitly listing the directories or
 # their entries' file path in the `include:` list.
 #
- exclude:
-    - vendor
+# exclude:
+#    - vendor
 #   - .sass-cache/
 #   - .jekyll-cache/
 #   - gemfiles/

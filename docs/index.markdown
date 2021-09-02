@@ -3,4 +3,11 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home
+nav_order: 2
 ---
+
+
+
+[test page](/test.md) 
+
+[about](/about.markdown)
