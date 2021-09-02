@@ -24,11 +24,11 @@ baseurl: "/docs"
 #github_username: stephen-dixon
 
 # Build settings
+#markdown: maruku
 #theme: minima
-remote_theme: pmarsceill/just-the-docs
+#remote_theme: pmarsceill/just-the-docs
 plugins:
   - jekyll-feed
-
 # Exclude from processing.
 # The following items will not be processed, by default.
 # Any item listed under the `exclude:` key here will be automatically added to
