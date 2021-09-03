@@ -20,7 +20,7 @@
 
 #domain: "aurora-multiphysics.github.io"
 url: "https://aurora-multiphysics.github.io"
-#baseurl: "/achlys"
+baseurl: "https://github.com/aurora-multiphysics/achlys"
 #github_username: stephen-dixon
 
 # Build settings
