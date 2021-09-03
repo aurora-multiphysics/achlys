@@ -1,7 +1,8 @@
 ---
 layout: default
-title: Thermal Desorption
-parent: examples
+title: Theory
+parent: Thermal Desorption
+grand_parent: examples
 nav_order: 2
 ---
 # Thermal Desorption Spectrum

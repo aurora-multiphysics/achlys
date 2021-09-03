@@ -1,7 +1,8 @@
 ---
 layout: default
-title: 1D Analytical
-parent: examples
+title: Overview
+parent: 1D Analytical
+grand_parent: examples
 nav_order: 1
 ---
 # One Dimensional Analytical Solution
@@ -38,3 +39,7 @@ This can be simulated in Achlys and compared to the analytical solution. Example
 |De-trapping Energy, trap 1 | $$E_{1}$$ | $$8.6\times 10^{-3}$$ | $$eV$$ |
 | Temperature |  $$T_{imp}$$|  $$1000$$| $$K$$ |
 | Simulation time |$$t_{\text{sim}} $$| $$1.0\times 10^{-8}$$| $$s$$ |
+
+The expected results are shown in Figure \ref{fig:1d_diffusion}. Here the units have been converted from the raw result into SI units by multiplying by the atomic number density $$\rho = 3.16\times 10^{22}$$. Note that the differences between the simulation and analytical results are due to the coarse mesh used here. Accuracy can be improved by refining the mesh further, however, the calculation time will also increase. 
+
+![results_image](assets/figures/1d_diffusion.png)
