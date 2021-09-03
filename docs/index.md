@@ -1,3 +1,6 @@
+---
+layout: home
+---
 achlys
 =====
 Tritium diffusion in MOOSE
