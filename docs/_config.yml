@@ -19,8 +19,8 @@
 # in the templates via {{ site.myvariable }}.
 
 #domain: "aurora-multiphysics.github.io"
-url: "https://aurora-multiphysics.github.io"
-baseurl: "https://github.com/aurora-multiphysics/achlys"
+url: "https://aurora-multiphysics.github.io/achlys"
+baseurl: "/"
 #github_username: stephen-dixon
 
 # Build settings
