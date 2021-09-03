@@ -1,10 +1,6 @@
 ---
 layout: home
 ---
-achlys
-=====
-Tritium diffusion in MOOSE
-
 
 Achlys aims to model macroscopic tritium transport processes through fusion materials using the MOOSE Finite Element Framework. Specifically, this app implements a formulation of the Foster-McNabb equations presented by Hodille et al. [1] and Delaporte et al. [2].
 
