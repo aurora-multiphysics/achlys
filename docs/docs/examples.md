@@ -20,4 +20,6 @@ D_{\text{eff}} = \frac{D}{1 +\zeta}
 And $$\zeta$$ is given by:
 \begin{equation}
 \zeta = \frac{\lambda^2n_{\text{sol}}\nu_0}{D_0n_1}\exp \left(\frac{E_{\text{diff}}- E_1}{k_BT} \right) + \frac{c_m}{n_1}
-\end{equation} \\
+\end{equation} 
+
+This can be simulated in Blue-kite and compared to the analytical solution. Example input parameters are shown in Table \ref{table:1d_parameters} and simulation set-up will be explained in more detail below. Note that the complete input file is simply the sum of all the individual sections detailed below. 

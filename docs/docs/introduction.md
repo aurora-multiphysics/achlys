@@ -4,7 +4,7 @@ title: Introduction
 nav_order: 2
 ---
 
-$$\(\require{asmath}\)$$
+$$\require{asmath}$$
 # Achlys
 The Blue-Kite application aims to model macroscopic tritium transport processes through fusion materials using the MOOSE Finite Element Framework { moose_permann2020 } \cite{moose_multi_gaston2015} \cite{moose_ad_lindsay2021}. It sits amongst a small suite of similar codes (Red-kite most notably) differing in the precise scheme of equations it aims to solve; blue-kite is also distinct in implementing its own kernel, material, BC, and post-processor code instead of relying solely on the bare framework or standard modules distributed with MOOSE. Blue kite specifically implements a formulation of the Foster-McNabb equations presented by Hodille et al. \cite{HODILLE2015} and Delaporte et al. \cite{DELAPORTE2019} Benchmarking of blue-kite is currently being carried out against published computational and experimental results.
 
@@ -12,6 +12,7 @@ This document aims to present (i) the physical basis of the calculations being p
 \ref{eq:governing_equations_dm} \ref{eq:governing_equations_dc}
 
 # Governing Equations
+As detailed in Delaporte et al. \cite{DELAPORTE2019} following Hodille et al. \cite{HODILLE2015}, the system of governing diffusion-reaction equations with coupled transient heat conduction can be expressed as shown in Equations \ref{eq:governing_equations_dm} - \ref{eq:giverning_equations_T}. Note that Equations  \ref{eq:governing_equations_dm}  and \ref{eq:governing_equations_dc} are completely coupled, whereas the temperature dependence only acts one way. Temperature evolution itself can be evaluated entirely independently but the transport processes are highly temperature dependent.  
 \begin{equation}
 \frac{\partial C_{m}}{\partial t} = \nabla  \cdot \left( D \left(T \right) \nabla  C_{m} \right) - \sum \frac{\partial C_{t,i}}{\partial t} + S_{ext}
 \label{eq:governing_equations_dm}
