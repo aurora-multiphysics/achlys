@@ -43,4 +43,4 @@ A &= \frac{n_{a,max}n_{b,max} \left(f(x)\eta_a + \theta(x)\eta_b \right)}{n_{a,m
 \end{equation} 
 
 </div>
-The extrinsic trap evolution from Equation \ref{eq:combined_trap_creation} is available in Blue-kite through a derivative of the TrappingMaterial material class called ExtrinsicTransientTrappingMaterial. The resulting extrinsic trap concentrations are shown in Figure \ref{fig:extrinsic_trap_creation} both as a final spatial distribution and the changing concentrations over time at discrete locations. 
+The extrinsic trap evolution from Equation \ref{eq:combined_trap_creation} is available in Achlys through a derivative of the TrappingMaterial material class called ExtrinsicTransientTrappingMaterial. The resulting extrinsic trap concentrations are shown in Figure \ref{fig:extrinsic_trap_creation} both as a final spatial distribution and the changing concentrations over time at discrete locations. 
