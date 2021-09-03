@@ -21,7 +21,6 @@
 #domain: "aurora-multiphysics.github.io"
 url: "https://aurora-multiphysics.github.io"
 baseurl: "/achlys"
-#github_username: stephen-dixon
 
 # Build settings
 #markdown: maruku
