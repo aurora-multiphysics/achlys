@@ -31,29 +31,31 @@ As detailed in Delaporte et al. \cite{DELAPORTE2019} following Hodille et al. \c
 # Kernel Selection
 The selection of each kernel is laid out in more detail in the sections below, but the results are presented here for a quick reference. Note that all kernels are provided by the MOOSE framework without modification except in a single case: the TrappingEquilibriumEquation is a custom kernel implemented within Blue-Kite. 
 
-<div>
+### Mobile Concentration
+<div style="text-align: left">
 \begin{equation}
-\tag{Mobile Concentration}
-\underbrace{\left(\psi, \frac{\partial C_{m}}{\partial t}\right) }_{\text{\emph{(i)} ADTimeDerivative}}
-- \underbrace{\bigg(\nabla\psi, D\nabla C_m \bigg)} _{\text{\emph{(ii)} ADMatDiffusion}}
-+ \underbrace{\left(\psi, \sum \frac{\partial C_{t,i}}{\partial t} \right) }_{\text{\emph{(iii)} ADCoupledTimeDerivative}}
-+ \underbrace{\bigg( \psi,-S_{ext} \bigg)}_{\text{\emph{(iv)} ADBodyForce}} = 0
+\underbrace{\left(\psi, \frac{\partial C_{m}}{\partial t}\right) }_{\text{(i) ADTimeDerivative}}
+- \underbrace{\bigg(\nabla\psi, D\nabla C_m \bigg)} _{\text{(ii) ADMatDiffusion}}
++ \underbrace{\left(\psi, \sum \frac{\partial C_{t,i}}{\partial t} \right) }_{\text{(iii) ADCoupledTimeDerivative}}
++ \underbrace{\bigg( \psi,-S_{ext} \bigg)}_{\text{(iv) ADBodyForce}} = 0
 \end{equation}
 </div>
 
+### Trapped Concentration 
 <div>
 \begin{equation}
-\tag{Trapped Concentration, site $i$}
-\underbrace{\left(\psi, \frac{\partial C_{t,i}}{\partial t}\right) }_{\text{(\emph{i}) ADTimeDerivative}}
+\underbrace{\left(\psi, \frac{\partial C_{t,i}}{\partial t}\right) }_{\text{(i) ADTimeDerivative}}
 - \underbrace{\bigg(\psi, \nu_m C_m(n_i - C_{t,i}) \bigg) 
-+ \bigg(\psi,\nu_i C_{t,i}  \bigg) }_{\text{( \emph{iii} )  ADTrappingEquilibriumEquation}}
++ \bigg(\psi,\nu_i C_{t,i}  \bigg) }_{\text{( ii )  ADTrappingEquilibriumEquation}}
 = 0
 \end{equation}</div> 
 
+### Temperature Evolution
 <div>
 \begin{equation}
-\tag{Temperature Evolution}
 \underbrace{\left(\psi, \rho C_p \frac{\partial T}{\partial t}\right) }_{\text{ADHeatConductionTimeDerivative}}
 - \underbrace{\bigg(\nabla\psi, k\nabla T \bigg)  }_{\text{ADHeatConduction}} = 0
-\end{equation}</div>
+\end{equation}
+</div>
+
 
