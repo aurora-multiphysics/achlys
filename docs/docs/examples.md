@@ -3,11 +3,11 @@ layout: default
 title: Examples
 nav_order: 3
 ---
-#One Dimensional Analytical Solution
+# One Dimensional Analytical Solution
 
 This example aims to demonstrate a simple set-up to get started with. 
 
-Considering a 1-dimensional domain with a single, homogeneous trap type, a known, constant concentration, $$c_0$$, on one boundary and an initial concentration of $$0$$ on the other boundary. From penalva et al. \cite{PENALVA2012} following \cite{carslaw1959}, the particle flux through second boundary as a function of time can be solved analytically as shown in Equation \ref{eq:1d_analytical} under the condition that $$\zeta >> c_m/n_1$$. \\
+Considering a 1-dimensional domain with a single, homogeneous trap type, a known, constant concentration, $$c_0$$, on one boundary and an initial concentration of $$0$$ on the other boundary. From penalva et al. \cite{PENALVA2012} following \cite{carslaw1959}, the particle flux through second boundary as a function of time can be solved analytically as shown in Equation \ref{eq:1d_analytical} under the condition that $$\zeta >> c_m/n_1$$.
 
 \begin{equation}
 \label{eq:1d_analytical}

@@ -4,7 +4,7 @@ title: Introduction
 nav_order: 2
 ---
 
-\(\require{asmath}\)
+$$\(\require{asmath}\)$$
 # Achlys
 The Blue-Kite application aims to model macroscopic tritium transport processes through fusion materials using the MOOSE Finite Element Framework { moose_permann2020 } \cite{moose_multi_gaston2015} \cite{moose_ad_lindsay2021}. It sits amongst a small suite of similar codes (Red-kite most notably) differing in the precise scheme of equations it aims to solve; blue-kite is also distinct in implementing its own kernel, material, BC, and post-processor code instead of relying solely on the bare framework or standard modules distributed with MOOSE. Blue kite specifically implements a formulation of the Foster-McNabb equations presented by Hodille et al. \cite{HODILLE2015} and Delaporte et al. \cite{DELAPORTE2019} Benchmarking of blue-kite is currently being carried out against published computational and experimental results.
 
