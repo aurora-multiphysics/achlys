@@ -18,9 +18,9 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-domain: "aurora-multiphysics.github.io"
-url: "https://aurora-multiphysics.github.io/achlys"
-#baseurl: "/docs"
+#domain: "aurora-multiphysics.github.io"
+#url: "https://aurora-multiphysics.github.io/achlys"
+baseurl: "/docs"
 #github_username: stephen-dixon
 
 # Build settings
