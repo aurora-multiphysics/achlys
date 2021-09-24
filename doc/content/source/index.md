@@ -11,3 +11,5 @@
 !syntax list /Materials groups=achlysApp heading=[Achlys Materials](/materials/index.md) group-headings=False
 
 !syntax list /Postprocessors groups=achlysApp heading=[Achlys Postprocessors](/postprocessors/index.md) group-headings=False
+
+!! !contents
