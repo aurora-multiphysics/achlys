@@ -14,8 +14,8 @@ between the Achlys numerical estimation and an exact analytical solution.
 This more involved example is a key use-case for the code.
 This procedure aims to model the experiential work of [!cite](OGOROD2003).
 
-- [Overview and experimental set-up](thermal_desorption/thermal_desorption.md)
+- [Overview and experimental set-up](thermal_desorption/index.md)
 - Additional Theory 
-- Preparing the simulation
+- [Preparing the simulation](thermal_desorption/input_files.md)
 
 ## 3. Temperature gradients and material interfaces
