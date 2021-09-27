@@ -31,27 +31,32 @@ the experimental set-up follows [!cite](OGOROD2003)
 | parameter name  | symbol   | value | Unit |
 |:-|:-|:-|:-|
 | Density | $\rho$ | $6.3 \times 10^{28}$ | $m^{-3}$ |
-| Lattice sites | $N_{\text{sol}}$  | $2.0 \rho$  | $m^{-3}$ |
+| Lattice sites | $N_{\text{sol}}$  | $6.0 \rho$  | $m^{-3}$ |
 | Trap Density (low energy intrinsic)  | $n_1$    | $1.00\times 10^{-3}\rho$   | $m^{-3}$ |
-| Trap Density (high energy intrinsic) | $n_2$    | $1.00\times 10^{-4}\rho$   | $m^{-3}$ |
+| Trap Density (high energy intrinsic) | $n_2$    | $4.00\times 10^{-4}\rho$   | $m^{-3}$ |
 | Maximum extrinsic trap Density type a | $n_{3a\_max}$    | $1.00\times 10^{-1}\rho$   | $m^{-3}$ |
-| Maximum extrinsic trap Density type b | $n_{3b\_max}$    | $1.00\times 10^{-3}\rho$   | $m^{-3}$ |
+| Maximum extrinsic trap Density type b | $n_{3b\_max}$    | $1.00\times 10^{-2}\rho$   | $m^{-3}$ |
 | Diffusion rate pre-exponential factor | $D_0$ | $1.00\times 10^{-7}$ | $m^{2}s^{-1}$ |
 | Diffusion Energy | $E_{\text{diff}}$ | 0.39 | $eV$ |
 | Lattice constant | $\lambda$ | $1\times 10^{-9}$ | $m$ |
 | De-trapping pre-exponential factor (all traps) | $\nu_{1,2,3}$ |  $1.0\times 10^{-13}$ | $s^{-1}$ |
-| De-trapping Energy, trap 1 | $E_{1}$ | $0.85$ | $eV$ |
+| De-trapping Energy, trap 1 | $E_{1}$ | $0.87$ | $eV$ |
 | De-trapping Energy, trap 2 | $E_{2}$ | $1.00$ | $eV$ |
-| De-trapping Energy, trap 3 | $E_{3}$ | $1.45$ | $eV$ |
+| De-trapping Energy, trap 3 | $E_{3}$ | $1.5$ | $eV$ |
 | Temperature (implantation and resting) |  $T_{\text{imp}}$ |  $300$ | $K$ |
 | Temperature ramping rate |  $\beta$ |  $8$ | $K/s$ |
 | Simulation time | $t_{\text{sim}}$ | $1.0\times 10^{-8}$ | $s$ |
-| Extrinsic trap creation rate | $\mu_a$    | $1.00\times 10^{-2}$   | $s^{-1}$ |
+| Extrinsic trap creation rate | $\mu_a$    | $6.00\times 10^{-4}$   | $s^{-1}$ |
+| Extrinsic trap creation rate | $\mu_b$    | $2.00\times 10^{-4}$   | $s^{-1}$ |
+| Plastic deformation region | $x_p$ | $1.0\times 10^{-6}$ | $m$ |
 
-Also common between an calculation stages are the surface outflow conditions, for which a dirichlet
-condition with a zero value is applied to all external surfaces, and the core set of kernels, which 
-describe the common physics for all Achlys calculaitons; the source term is the only kernel that is 
-treated differently between calculations.
+Also common between all calculation stages are:
+
+- A zero valued dirichlet condition is applied for the mobile phase at all external surfaces
+- The core set of kernels are identical for all Achlys calculations. Though here the external source term is only used for the implantation phase.
+- Material properties as described in the table above
+- The problem geometry and mesh
+
 
 ## Stage 1: Implantation id=implantation
 

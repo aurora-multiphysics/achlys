@@ -23,7 +23,6 @@ These parameters are heavily temperature dependant and will be updated based on 
 
 $D$ is the diffusivity of the species through some material in units of $m^{2}s^{-1}$.
 This is modelled by an Arhhenius relation as given by [!eqref](eq:diff).
-The D0 and energy value parameters are determined experimentally for any pair of solute atom and bulk material lattice.
 \begin{equation}
 \label{eq:diff}
 D(T) = D_0 \exp \left( -E_{diff} / k_{B} T \right)
