@@ -1,4 +1,4 @@
-!config navigation breadcrumbs=True scrollspy=True
+!config navigation breadcrumbs=True scrollspy=True menu=documentation.menu.md
 
 !config navigation breadcrumbs=True scrollspy=True
 
@@ -11,7 +11,7 @@ and implements the parameterisation described by [!cite](DELAPORTE2019).
 
 - [Overview](examples/thermal_desorption/index.md)
 - [Additional theory](extrinsic_traps.md)
-- [Preparing the simulation](input_files.md)
+- [Preparing the simulation](module/examples/thermal_desorption/input_files.md)
 
 ## Description
 

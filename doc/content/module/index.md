@@ -8,7 +8,7 @@
 
 ### Module overview class=center style=font-weight:200;
 
-- [Introduction](module/introduction.md)
+- [Introduction and theory](module/introduction.md)
 - [Full source documentation](source/index.md)
 
 !col-end!

@@ -1,1 +1,356 @@
-<!DOCTYPE html><head><meta charset="UTF-8"><title>Kernels | achlys</title><link href="../../contrib/materialize/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"></link><link href="../../contrib/prism/prism.min.css" type="text/css" rel="stylesheet"></link><link href="../../css/moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/devel_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/alert_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/content_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/sqa_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/civet_moose.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../contrib/jquery/jquery.min.js"></script></head><body><div class="page-wrap"><header><nav><div class="nav-wrapper container"><a href="../../index.html" class="left moose-logo hide-on-med-and-down">achlys</a><ul class="right hide-on-med-and-down"></ul><a href="#" class="sidenav-trigger" data-target="04e0634f-f53a-4e73-b8b9-41d99666913c"><i class="material-icons">menu</i></a><ul class="sidenav" id="04e0634f-f53a-4e73-b8b9-41d99666913c"></ul><a href="#moose-search" class="modal-trigger"><i class="material-icons">search</i></a></div></nav><div class="modal modal-fixed-footer moose-search-modal" id="moose-search"><div class="modal-content container moose-search-modal-content"><div class="row"><div class="col l12"><div class="input-field"><input type_="text" onkeyup="mooseSearch()" placeholder="/index.md" id="moose-search-box"></input></div></div><div><div class="col s12" id="moose-search-results"></div></div></div></div><div class="modal-footer"><a href="#!" class="modal-close btn-flat">Close</a></div></div></header><main class="main"><div class="container"><div class="row"><div class="col hide-on-med-and-down l12"><nav class="breadcrumb-nav"><div class="nav-wrapper"><a href=".." class="breadcrumb">source</a><a href="." class="breadcrumb">kernels</a></div></nav></div></div><div class="row"><div class="moose-content col s12 m12 l10"><section id="c157af72-027d-426f-9082-5b699e357ae4" data-section-level="1" data-section-text="Kernels"><h1 id="kernels">Kernels</h1><section class="scrollspy" id="75f9193e-6eff-499a-af8a-be416a2022a0" data-section-level="2" data-section-text="Available Kernels"><h2 id="available-kernels">Available Kernels</h2><ul class="moose-syntax-list collection with-header"><li class="collection-header">achlys App</li><li class="collection-item"><a href="ADTrappingEquilibriumEquation.html">ADTrappingEquilibriumEquation</a>Compute the local movement of particles between the mobile phaseand the trapped phase for a specific trap type</li></ul></section></section></div><div class="col hide-on-med-and-down l2"><div class="toc-wrapper pin-top"><ul class="section table-of-contents"><li><a href="#75f9193e-6eff-499a-af8a-be416a2022a0" class="tooltipped" data-position="left" data-tooltip="Available Kernels">Available Kernels</a></li></ul></div></div></div></div></main></div></body><script type="text/javascript" src="../../contrib/materialize/materialize.min.js"></script><script type="text/javascript" src="../../contrib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="../../contrib/prism/prism.min.js"></script><script type="text/javascript" src="../../js/init.js"></script><script type="text/javascript" src="../../js/navigation.js"></script><script type="text/javascript" src="../../contrib/fuse/fuse.min.js"></script><script type="text/javascript" src="../../js/search_index.js"></script><script type="text/javascript" src="../../js/sqa_moose.js"></script>
+<!DOCTYPE html><head><meta charset="UTF-8"><title>Kernels | Achlys</title><link href="../../contrib/materialize/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"></link><link href="../../contrib/prism/prism.min.css" type="text/css" rel="stylesheet"></link><link href="../../css/moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/devel_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/alert_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/content_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/sqa_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/civet_moose.css" type="text/css" rel="stylesheet"></link><link href="../../contrib/katex/katex.min.css" type="text/css" rel="stylesheet"></link><link href="../../css/katex_moose.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../contrib/jquery/jquery.min.js"></script><script type="text/javascript" src="../../contrib/katex/katex.min.js"></script></head><body><div class="page-wrap"><header><nav><div class="nav-wrapper container"><a href="../../index.html" class="left moose-logo hide-on-med-and-down">Achlys</a><ul class="right hide-on-med-and-down"><li class="moose-mega-menu-trigger" data-target="18d8bdc6-fcf0-4f13-847e-828ebd9d1d18"><a>Documentation<i class="material-icons right">arrow_drop_down</i></a></li><li class="moose-mega-menu-trigger" data-target="6e0abd0d-83d0-49a1-b4fd-fddc1971b474"><a>Examples<i class="material-icons right">arrow_drop_down</i></a></li><li class="moose-mega-menu-trigger" data-target="37e54857-91e6-4151-9a5e-7ee4d758eca4"><a>Source code<i class="material-icons right">arrow_drop_down</i></a></li></ul><a href="#" class="sidenav-trigger" data-target="0f52245e-770b-4654-a3c2-8b3d0c135482"><i class="material-icons">menu</i></a><ul class="sidenav" id="0f52245e-770b-4654-a3c2-8b3d0c135482"><li><a href="../../documentation.menu.html">Documentation</a></li><li><a href="../../examples.menu.html">Examples</a></li><li><a href="../../source_code.menu.html">Source code</a></li></ul><a href="#moose-search" class="modal-trigger"><i class="material-icons">search</i></a></div></nav><div class="moose-mega-menu-content" id="18d8bdc6-fcf0-4f13-847e-828ebd9d1d18"><div class="moose-mega-menu-wrapper"><div class="row row"><div class="col s12 m6 l4"><h2><a href="../../module/index.html">Module <i class="material-icons moose-inline-icon">link</i></a></h2><p>  </p><ul class="browser-default"><li><p><a href="../../module/introduction.html">Introdcution and Theory</a></p></li></ul><p></p></div><div class="col s12 m6 l4"><h2><a href="../../module/examples/index.html">Examples <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../../module/examples/analytical/index.html">Comparison to Analytical Solution</a> </p></li><li><p><a href="../../module/examples/thermal_desorption/index.html">Thermal Desorption Spectrum</a></p></li></ul><p></p></div><div class="col s12 m6 l4"><h2><a href="../index.html">Source Code <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="index.html">kernels</a> </p></li><li><p><a href="../bcs/index.html">bcs</a> </p></li><li><p><a href="../materials/index.html">materials</a> </p></li><li><p><a href="../postprocessors/index.html">postprocessors</a></p></li></ul><p></p></div><p> </p><p>  </p><p></p><p>    </p><p></p><p></p></div><p>  </p></div></div><div class="moose-mega-menu-content" id="6e0abd0d-83d0-49a1-b4fd-fddc1971b474"><div class="moose-mega-menu-wrapper"><div class="row row"><div class="col s12 m6 l4"><h2><a href="../../module/examples/analytical/index.html">Comparison to Analytical Solution <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../../module/examples/analytical/analytical.html">Overview</a> </p></li><li><p><a href="../../module/examples/analytical/input_files.html">Input preparation</a></p></li></ul><p></p></div><div class="col s12 m6 l4"><h2><a href="../../module/examples/thermal_desorption/index.html">Thermal Desorption Spectrum <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../../module/examples/thermal_desorption/index.html">Overview</a> </p></li><li><p><a href="../../module/examples/thermal_desorption/extrinsic_traps.html">Additional theory</a> </p></li><li><p><a href="../../module/examples/thermal_desorption/input_files.html">Preparing the simulation</a></p></li></ul><p></p></div><p></p></div></div></div><div class="moose-mega-menu-content" id="37e54857-91e6-4151-9a5e-7ee4d758eca4"><div class="moose-mega-menu-wrapper"><div class="row row"><div class="col s12 m6 l4"><h2><a href="index.html">Kernels <i class="material-icons moose-inline-icon">link</i></a></h2><p>  </p><h2><a href="../bcs/index.html">BCs <i class="material-icons moose-inline-icon">link</i></a></h2><p></p></div><div class="col s12 m6 l4"><h2><a href="../materials/index.html">Materials <i class="material-icons moose-inline-icon">link</i></a></h2><p>   </p><p></p></div><div class="col s12 m6 l4"><h2><a href="../postprocessors/index.html">Postprocessors <i class="material-icons moose-inline-icon">link</i></a></h2><p>  </p><p></p><p>    </p><p></p></div><p></p></div><p>  </p></div></div><div class="modal modal-fixed-footer moose-search-modal" id="moose-search"><div class="modal-content container moose-search-modal-content"><div class="row"><div class="col l12"><div class="input-field"><input type_="text" onkeyup="mooseSearch()" placeholder="/index.md" id="moose-search-box"></input></div></div><div><div class="col s12" id="moose-search-results"></div></div></div></div><div class="modal-footer"><a href="#!" class="modal-close btn-flat">Close</a></div></div></header><main class="main"><div class="container"><div class="row"><div class="col hide-on-med-and-down l12"><nav class="breadcrumb-nav"><div class="nav-wrapper"><a href=".." class="breadcrumb">source</a><a href="." class="breadcrumb">kernels</a></div></nav></div></div><div class="row"><div class="moose-content col s12 m12 l10"><section id="ec6e40ea-f3e5-4e36-8cf8-50e06cf0ee9e" data-section-level="1" data-section-text="Kernels"><h1 id="kernels">Kernels</h1><p>The list of Achlys specific kernel implementations are given <a href="index.html#kernel_list">here</a>.  The following sections give the full description of the kernel selections for implementnig   the governing equations shown in  <a class="moose-equation-reference" href="#moose-equation-903b100f-78f0-43ac-b855-90fcb104192b">Eq. (1)</a>, <a class="moose-equation-reference" href="#moose-equation-8acbf3c7-cf54-4d1a-8928-80d9461ccb6c">Eq. (2)</a>, and <a class="moose-equation-reference" href="#moose-equation-b448e0fc-316b-424e-9f00-e6b260b71490">Eq. (3)</a>. The descriptions include links to the MOOSE framework documentation where standard kernels can be employed.</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-903b100f-78f0-43ac-b855-90fcb104192b"></span><span class="moose-katex-equation-number">(1)</span><script>var element = document.getElementById("moose-equation-903b100f-78f0-43ac-b855-90fcb104192b");katex.render("\\frac{\\partial C_{m}}{\\partial t} = \\nabla  \\cdot \\left( D \\left(T \\right) \\nabla  C_{m} \\right) - \\sum \\frac{\\partial C_{t,i}}{\\partial t} + S_{ext} ", element, {displayMode:true,throwOnError:false});</script></span></p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-8acbf3c7-cf54-4d1a-8928-80d9461ccb6c"></span><span class="moose-katex-equation-number">(2)</span><script>var element = document.getElementById("moose-equation-8acbf3c7-cf54-4d1a-8928-80d9461ccb6c");katex.render("\\frac{\\partial C_{t,i}}{\\partial t} = \\nu_m \\left(T\\right) C_m \\left(n_i - C_{t,i} \\right) - \\nu_i\\left(T\\right) C_{t,i} ", element, {displayMode:true,throwOnError:false});</script></span></p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-b448e0fc-316b-424e-9f00-e6b260b71490"></span><span class="moose-katex-equation-number">(3)</span><script>var element = document.getElementById("moose-equation-b448e0fc-316b-424e-9f00-e6b260b71490");katex.render(" \\rho_m C_p \\frac{\\partial T}{\\partial t} = \\nabla \\cdot \\left(k \\nabla T \\right)", element, {displayMode:true,throwOnError:false});</script></span></p><p>Note that some Achlys kernels are designed for use with specific  <a href="../materials/index.html">achlys materials</a> such as the Trapping Material class which calculates the diffusion coefficient and  trapping/detrapping reaction rates.</p><section class="scrollspy" id="1eead665-9a62-4b69-9bdc-afe391b15fad" data-section-level="2" data-section-text="Mobile Concentration"><h2 id="mobile-concentration">Mobile Concentration</h2><p>The first of the governing equations gives the mass balance for the mobile phase of dissolved atoms. This is a balance between the source/sink terms, given by either external sources or the coupling to the trapping/detrapping process, and diffusive transport driven by a concentration gradient.</p><p>Note that the coupled time derivative here provides the coupling  between the mobile and trapped phase mass balances.</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-742e330c-0764-4efd-bd82-aae90e4c7d89"></span><script>var element = document.getElementById("moose-equation-742e330c-0764-4efd-bd82-aae90e4c7d89");katex.render("\\underbrace{\\left(\\psi, \\frac{\\partial C_{m}}{\\partial t}\\right) }_{\\text{(i) \\:ADTimeDerivative}} - \\underbrace{\\bigg(\\nabla\\psi, D\\nabla C_m \\bigg)} _{\\text{(ii) \\:ADMatDiffusion}} + \\underbrace{\\left(\\psi, \\sum \\frac{\\partial C_{t,i}}{\\partial t} \\right) }_{\\text{(iii) \\:ADCoupledTimeDerivative}} + \\underbrace{\\bigg( \\psi,-S_{ext} \\bigg)}_{\\text{(iv) \\:ADBodyForce}} = 0", element, {displayMode:true,throwOnError:false});</script></span></p><div form="['left', 'left', 'left', 'left']" recursive class="moose-table-div"><table><thead><tr><th style=";text-align:left">Number</th><th style=";text-align:left">Description</th><th style=";text-align:left">Framework / Achlys</th><th style=";text-align:left">Link</th></tr></thead><tbody><tr><td style=";text-align:left">(i)</td><td style=";text-align:left">Time derivative</td><td style=";text-align:left">Framework</td><td style=";text-align:left"><a href="https://mooseframework.inl.gov/source/kernels/ADTimeDerivative.html">ADTimeDerivative</a></td></tr></tbody><tbody><tr><td style=";text-align:left">(ii)</td><td style=";text-align:left">Diffusion</td><td style=";text-align:left">Framework</td><td style=";text-align:left"><a href="https://mooseframework.inl.gov/source/kernels/ADMatDiffusion.html">ADMatDiffusion</a></td></tr></tbody><tbody><tr><td style=";text-align:left">(iii)</td><td style=";text-align:left">Coupled time derivate</td><td style=";text-align:left">Framework</td><td style=";text-align:left"><a href="https://mooseframework.inl.gov/source/kernels/ADCoupledTimeDerivative.html">ADCoupledTimeDerivative</a></td></tr></tbody><tbody><tr><td style=";text-align:left">(iv)</td><td style=";text-align:left">Source term</td><td style=";text-align:left">Framework</td><td style=";text-align:left"><a href="https://mooseframework.inl.gov/source/kernels/BodyForce.html">ADBodyForce</a></td></tr></tbody></table></div></section><section class="scrollspy" id="cc21ed29-6535-4458-b36d-db275ccd5ac8" data-section-level="2" data-section-text="Trapped Concentration , site var element = document.getElementById("moose-equation-02890013-c2c5-4c69-837d-16fab4d0a540");katex.render("i", element, {displayMode:false,throwOnError:false});"><h2 id="trapped-concentration-site">Trapped Concentration, site <span class="moose-katex-inline-equation" id="moose-equation-02890013-c2c5-4c69-837d-16fab4d0a540"><script>var element = document.getElementById("moose-equation-02890013-c2c5-4c69-837d-16fab4d0a540");katex.render("i", element, {displayMode:false,throwOnError:false});</script></span></h2><p>The second of the governing equations must be implemented once for each material trapping site being considered. This is achieved using the following kernels:</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-b541f62e-5cd2-4edf-9680-ec4a4bb91a5d"></span><script>var element = document.getElementById("moose-equation-b541f62e-5cd2-4edf-9680-ec4a4bb91a5d");katex.render("\\underbrace{\\left(\\psi, \\frac{\\partial C_{t,i}}{\\partial t}\\right) }_{\\text{(i) \\:ADTimeDerivative}} - \\underbrace{\\bigg(\\psi, \\nu_m C_m(n_i - C_{t,i}) \\bigg) + \\bigg(\\psi,\\nu_i C_{t,i}  \\bigg) }_{\\text{( iii ) \\: ADTrappingEquilibriumEquation}} = 0", element, {displayMode:true,throwOnError:false});</script></span></p><div form="['left', 'left', 'left', 'left']" recursive class="moose-table-div"><table><thead><tr><th style=";text-align:left">Number</th><th style=";text-align:left">Description</th><th style=";text-align:left">Framework / Achlys</th><th style=";text-align:left">Link</th></tr></thead><tbody><tr><td style=";text-align:left">(i)</td><td style=";text-align:left">Time derivative</td><td style=";text-align:left">Framework</td><td style=";text-align:left"><a href="https://mooseframework.inl.gov/source/kernels/ADTimeDerivative.html">ADTimeDerivative</a></td></tr></tbody><tbody><tr><td style=";text-align:left">(ii)</td><td style=";text-align:left">Trapping equilibrium</td><td style=";text-align:left">Achlys</td><td style=";text-align:left"><a href="ADTrappingEquilibriumEquation.html">ADEquilibriumEquation</a></td></tr></tbody></table></div></section><section class="scrollspy" id="35ab8736-acf3-4c0e-8c24-7e509dd4dff3" data-section-level="2" data-section-text="Temperature Evolution"><h2 id="temperature-evolution">Temperature Evolution</h2><p>Thermal transport calculations always use the <a href="https://mooseframework.inl.gov/modules/heat_conduction/index.html">MOOSE Heat Conduction App</a> without any modification or enhancement.</p><p><span class="moose-katex-block-equation"><span class="moose-katex-equation table-cell" id="moose-equation-3f4fef46-729e-477a-8733-2d5ad28e1c82"></span><script>var element = document.getElementById("moose-equation-3f4fef46-729e-477a-8733-2d5ad28e1c82");katex.render("\\underbrace{\\left(\\psi, \\rho C_p \\frac{\\partial T}{\\partial t}\\right) }_{\\text{ADHeatConductionTimeDerivative}} - \\underbrace{\\bigg(\\nabla\\psi, k\\nabla T \\bigg)  }_{\\text{ADHeatConduction}} = 0", element, {displayMode:true,throwOnError:false});</script></span></p><div form="['left', 'left', 'left', 'left']" recursive class="moose-table-div"><table><thead><tr><th style=";text-align:left">Number</th><th style=";text-align:left">Description</th><th style=";text-align:left">Framework / Achlys</th><th style=";text-align:left">Link</th></tr></thead><tbody><tr><td style=";text-align:left">(i)</td><td style=";text-align:left">Time derivative</td><td style=";text-align:left">Heat Conduction Module</td><td style=";text-align:left"><a href="https://mooseframework.inl.gov/source/kernels/ADHeatConductionTimeDerivative.html">ADHeatConductionTimeDerivative</a></td></tr></tbody><tbody><tr><td style=";text-align:left">(ii)</td><td style=";text-align:left">Heat conduction (Diffusion)</td><td style=";text-align:left">Heat Conduction Module</td><td style=";text-align:left"><a href="https://mooseframework.inl.gov/source/kernels/ADHeatConduction.html">ADHeatConduction</a></td></tr></tbody></table></div></section><section class="scrollspy" id="e1d7d786-680b-416f-9cd2-f87d9a502c53" data-section-level="2" data-section-text="Example usage"><h2 id="example-usage">Example usage</h2><p>Drawing together the previous sections, the following example shows how to construct the kernels input block for an (isothermal) achlys calculation  with 3 material traps.</p><pre class="moose-pre" style="max-height:350px;"><code class="language-text">[Variables]
+  [./Mobile]
+  [../]
+  [./Trapped_1]
+  [../]
+  [./Trapped_2]
+  []
+  [./Trapped_3]
+  []
+[]
+
+[Kernels]
+  [./H3_diffusion_eq1]
+    type = ADMatDiffusion
+    variable = Mobile
+    Diffusivity = D
+  [../]
+  [./mobile_time_deriv]
+    type = ADTimeDerivative
+    variable = Mobile
+  [../]
+  [./trapping_equilibrium_equation1]
+    type = ADTrappingEquilibriumEquation
+    variable = Trapped_1
+    v = Mobile
+    n_traps = n1
+    vi = V1
+  [../]
+  [./trapping_equilibrium_equation2]
+    type = ADTrappingEquilibriumEquation
+    variable = Trapped_2
+    v = Mobile
+    n_traps = n2
+    vi = V2
+  [../]
+  [./trapping_equilibrium_equation3]
+    type = ADTrappingEquilibriumEquation
+    variable = Trapped_3
+    v = Mobile
+    n_traps = n3
+    vi = V3
+  [../]
+  [./trapped_time_deriv_couple]
+    type = ADCoupledTimeDerivative
+    variable = Mobile
+    v = Trapped_1
+  [../]
+  [./trapped_time_deriv_couple2]
+    type = ADCoupledTimeDerivative
+    variable = Mobile
+    v = Trapped_2
+  [../]
+  [./trapped_time_deriv_couple3]
+    type = ADCoupledTimeDerivative
+    variable = Mobile
+    v = Trapped_3
+  [../]
+  [./trapped_time_deriv]
+    type = ADTimeDerivative
+    variable = Trapped_1
+  [../]
+  [./trapped_time_deriv2]
+    type = ADTimeDerivative
+    variable = Trapped_2
+  [../]
+  [./trapped_time_deriv3]
+    type = ADTimeDerivative
+    variable = Trapped_3
+  [../]
+[]
+</code></pre><a class="moose-source-filename tooltipped modal-trigger" href="#bf3190ab-2b4c-47ea-b204-c99389bbbcfc">(problems/thermal_desorption/ogorodnikova/tds_multiapp/desorp_multi.i)</a></section><section class="scrollspy" id="ed31256f-0b42-48d5-badc-aae6bc73145c" data-section-level="2" data-section-text="Available Kernels"><h2 id="kernel_list">Available Kernels</h2><ul class="moose-syntax-list collection with-header"><li class="collection-header">achlys App</li><li class="collection-item"><a href="ADTrappingEquilibriumEquation.html">ADTrappingEquilibriumEquation</a>Compute the local movement of particles between the mobile phaseand the trapped phase for a specific trap type</li></ul></section></section><div class="moose-modal modal" id="bf3190ab-2b4c-47ea-b204-c99389bbbcfc"><div class="modal-content"><h4>(problems/thermal_desorption/ogorodnikova/tds_multiapp/desorp_multi.i)</h4><pre class="moose-pre"><code class="language-text">[Mesh]
+ [./unlabelled]
+    file = /Users/sdixon/projects/blue_kite/problems/thermal_desorption/optimisation/ogorodnikova_1k.msh
+    type = FileMeshGenerator
+    construct_side_list_from_node_list=true
+  [../]
+  [./block_1]
+    type= AllSideSetsByNormalsGenerator
+    input = unlabelled
+    #fixed_normal = false
+  [../]
+[]
+
+[Problem]
+  type = FEProblem # This is the &quot;normal&quot; type of Finite Element Problem in MOOSE
+  coord_type = XYZ # cartesian
+[]
+
+[Variables]
+  [./Mobile]
+  [../]
+  [./Trapped_1]
+  [../]
+  [./Trapped_2]
+  []
+  [./Trapped_3]
+  []
+[]
+
+[Functions]
+  [./dts]
+    type = PiecewiseLinear
+    x = &#x27;0 1e-4 5e-4 1e-3&#x27;
+    y = &#x27;1e-4 1e-4 5e-4 5e-4&#x27;
+  [../]
+  [./Gaussian_implant]
+    type = ParsedFunction
+    value = &#x27;scale * exp( -0.5 * ((x - mean) / sd)^2)&#x27;
+    vars = &#x27;scale mean sd&#x27;
+    vals = &#x27;0.93e8 4.5e-9 4.5e-9&#x27;
+  [../]
+  [./Exponweib_implant]
+    type = ParsedFunction
+    value = &#x27;peak * (a * c / scale) * (( 1 - exp(-1 * (((x*1e9)-loc)/scale)^c))^(a-1) ) * exp(-1 * (((x*1e9)-loc)/scale)^c)*(((x*1e9)-loc)/scale)^(c-1)&#x27;
+    vars = &#x27;peak a c loc scale&#x27;
+    vals = &#x27;5.82e8 0.90 1.96 -0.013 4.909&#x27;
+  [../]
+[]
+
+[MultiApps]
+  [sub_app]
+    type = FullSolveMultiApp
+    #app_type = BlueKiteApp
+    input_files = &#x27;resting_multi.i&#x27;
+   # positions = &#x27;0   0.029   0
+   #              0.015 0.0.029 0
+   #              0.015 0.014 0
+   #              0.0 0.014 0&#x27;
+  execute_on = INITIAL
+  clone_master_mesh = true
+  []
+[]
+
+[Transfers]
+#   [to_sub] 
+#    type = MultiAppCopyTransfer
+#    multi_app = sub_app
+#    source_variable = &#x27;surface_temp&#x27;
+#    variable = &#x27;surface_temp&#x27;
+#    direction = to_multiapp
+#  []
+  [mobile_transfer]
+    type =  MultiAppCopyTransfer #MultiAppScalarToAuxScalarTransfer
+    multi_app = sub_app
+    source_variable = &#x27;Mobile&#x27;
+    variable = &#x27;Mobile&#x27;
+    direction = from_multiapp
+  []
+  [trap_1_transfer]
+    type =  MultiAppCopyTransfer #MultiAppScalarToAuxScalarTransfer
+    multi_app = sub_app
+    source_variable = &#x27;Trapped_1&#x27;
+    variable = &#x27;Trapped_1&#x27;
+    direction = from_multiapp
+  []
+  [trap_2_transfer]
+    type =  MultiAppCopyTransfer #MultiAppScalarToAuxScalarTransfer
+    multi_app = sub_app
+    source_variable = &#x27;Trapped_2&#x27;
+    variable = &#x27;Trapped_2&#x27;
+    direction = from_multiapp
+  []
+  [trap_3_transfer]
+    type =  MultiAppCopyTransfer #MultiAppScalarToAuxScalarTransfer
+    multi_app = sub_app
+    source_variable = &#x27;Trapped_3&#x27;
+    variable = &#x27;Trapped_3&#x27;
+    direction = from_multiapp
+  []
+[]
+
+[Kernels]
+  [./H3_diffusion_eq1]
+    type = ADMatDiffusion
+    variable = Mobile
+    Diffusivity = D
+  [../]
+  [./mobile_time_deriv]
+    type = ADTimeDerivative
+    variable = Mobile
+  [../]
+  [./trapping_equilibrium_equation1]
+    type = ADTrappingEquilibriumEquation
+    variable = Trapped_1
+    v = Mobile
+    n_traps = n1
+    vi = V1
+  [../]
+  [./trapping_equilibrium_equation2]
+    type = ADTrappingEquilibriumEquation
+    variable = Trapped_2
+    v = Mobile
+    n_traps = n2
+    vi = V2
+  [../]
+  [./trapping_equilibrium_equation3]
+    type = ADTrappingEquilibriumEquation
+    variable = Trapped_3
+    v = Mobile
+    n_traps = n3
+    vi = V3
+  [../]
+  [./trapped_time_deriv_couple]
+    type = ADCoupledTimeDerivative
+    variable = Mobile
+    v = Trapped_1
+  [../]
+  [./trapped_time_deriv_couple2]
+    type = ADCoupledTimeDerivative
+    variable = Mobile
+    v = Trapped_2
+  [../]
+  [./trapped_time_deriv_couple3]
+    type = ADCoupledTimeDerivative
+    variable = Mobile
+    v = Trapped_3
+  [../]
+  [./trapped_time_deriv]
+    type = ADTimeDerivative
+    variable = Trapped_1
+  [../]     
+  [./trapped_time_deriv2]
+    type = ADTimeDerivative
+    variable = Trapped_2
+  [../]
+  [./trapped_time_deriv3]
+    type = ADTimeDerivative
+    variable = Trapped_3
+  [../]
+[]
+
+[Postprocessors]
+  [/pfc_flux]
+    type = ADSideFluxIntegral
+    variable = Mobile
+    boundary = 1
+    diffusivity = D
+  [../]
+  [/back_flux]
+    type = ADSideFluxIntegral
+    variable = Mobile
+    boundary = 2
+    diffusivity = D
+  [../]
+  [./total_mobile]
+    type = VariableIntegral
+    variable = Mobile
+  [../]
+  [./total_trap_1]
+    type = VariableIntegral
+    variable = Trapped_1
+  [../]
+    [./total_trap_2]
+    type = VariableIntegral
+    variable = Trapped_2
+  [../]
+  [./total_trap_3]
+    type = VariableIntegral
+    variable = Trapped_3
+  [../]
+[]
+
+[BCs]
+  [./desorption]
+    type =  ADDirichletBC
+    variable = Mobile
+    boundary = 1
+    value = 0
+  [../]
+  [./back_desorption]
+    type =  ADDirichletBC
+    variable = Mobile
+    boundary = 2
+    value = 0
+  [../]
+[]
+
+[Materials]
+   [./implant]
+    type = ExtrinsicStaticTrappingMaterialRampingT
+# Energies
+    E_diff = 0.39
+    E1 = 0.87
+    E2 = 1.0
+    E3 = 1.50
+    k_boltz = 8.617333E-5
+# pre-exponential rate constants
+    v0 = 1.0E13
+    D0 = 4.1E-7
+    lambda = 1.1E-10
+# unused
+    rho = 1 # unecessary scaling factor, do not use
+# site densities
+    n_sol = 6
+    n1 = 1E-3 #1.0E25
+    n2 = 4e-4
+    n3a_max = 1e-1
+    n3b_max = 1e-2
+# trap creation rates
+    eta_a = 6e-4
+    eta_b = 2e-4
+    trap_evolution_time = 400
+# flux distribution parameters
+    flux = 4e-10
+    function = Gaussian_implant
+    xp = 1e-6
+#Temperature
+    initial_T = 300
+    beta = 8
+    block = &#x27;Tungsten&#x27; # &#x27;Stopping_zone&#x27; # Plastic_region
+# thermal properties
+    conductivity = 150 # W/K
+    Cp = 137 # J/(kg K)
+    density = 19300 # kg/m3
+  [../] 
+[]
+[Executioner]
+  type = Transient
+  solve_type = NEWTON
+  scheme = bdf2
+  automatic_scaling=True
+ compute_scaling_once=False
+  scaling_group_variables = &#x27;Trapped_3; Trapped_2; Trapped_1; Mobile&#x27;
+  resid_vs_jac_scaling_param = 0.8
+ # l_tol = 1e-4
+  l_max_its = 100
+  nl_max_funcs = 7
+  #nl_rel_tol = 1e-7
+  nl_abs_tol = 1e-29
+
+  # Set PETSc parameters to optimize solver efficiency
+  petsc_options_iname = &#x27;-ksp_type -pc_type -pc_factor_shift_type&#x27;
+  petsc_options_value = &#x27;bcgs lu  NONZERO&#x27;
+#  dt = 0.25 #0.001 #5e-2
+  end_time = 62.5
+  timestep_tolerance = 0.01
+    [TimeStepper]
+    type = IterationAdaptiveDT
+    optimal_iterations = 5
+    cutback_factor = 0.5
+    growth_factor = 1.1
+    dt = 0.1
+  []
+[]
+
+
+[Outputs]
+  #execute_on = &#x27;timestep_end&#x27;
+  exodus = false # Output Exodus format
+  csv = true
+[]
+[Debug]
+  show_material_props = true
+  show_var_residual_norms = true
+[]
+</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div></div><div class="col hide-on-med-and-down l2"><div class="toc-wrapper pin-top"><ul class="section table-of-contents"><li><a href="#1eead665-9a62-4b69-9bdc-afe391b15fad" class="tooltipped" data-position="left" data-tooltip="Mobile Concentration">Mobile Concentration</a></li><li><a href="#cc21ed29-6535-4458-b36d-db275ccd5ac8" class="tooltipped" data-position="left" data-tooltip="Trapped Concentration , site var element = document.getElementById("moose-equation-02890013-c2c5-4c69-837d-16fab4d0a540");katex.render("i", element, {displayMode:false,throwOnError:false});">Trapped Concentration , site var element = document.getElementById("moose-equation-02890013-c2c5-4c69-837d-16fab4d0a540");katex.render("i", element, {displayMode:false,throwOnError:false});</a></li><li><a href="#35ab8736-acf3-4c0e-8c24-7e509dd4dff3" class="tooltipped" data-position="left" data-tooltip="Temperature Evolution">Temperature Evolution</a></li><li><a href="#e1d7d786-680b-416f-9cd2-f87d9a502c53" class="tooltipped" data-position="left" data-tooltip="Example usage">Example usage</a></li><li><a href="#ed31256f-0b42-48d5-badc-aae6bc73145c" class="tooltipped" data-position="left" data-tooltip="Available Kernels">Available Kernels</a></li></ul></div></div></div></div></main></div></body><script type="text/javascript" src="../../contrib/materialize/materialize.min.js"></script><script type="text/javascript" src="../../contrib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="../../contrib/prism/prism.min.js"></script><script type="text/javascript" src="../../js/init.js"></script><script type="text/javascript" src="../../js/navigation.js"></script><script type="text/javascript" src="../../contrib/fuse/fuse.min.js"></script><script type="text/javascript" src="../../js/search_index.js"></script><script type="text/javascript" src="../../js/sqa_moose.js"></script>

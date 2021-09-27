@@ -8,7 +8,7 @@ using the [MOOSE](http://mooseframework.org) Finite Element Framework [!cite](mo
 The Achlys source code is hosted on [Github](https://github.com/aurora-multiphysics/achlys),
 a dockerfile is available to easily obtain the software.
 
-[Achlys](module/index.md)
+!! [Achlys](module/index.md)
 
 ## Governing Equations
 
@@ -135,7 +135,7 @@ this is the concentration in $\text{m}^{-3}$ divided by the number density of so
 Most physical processes are unaffected by this conversion and the SI units can be retrieved by
 applying a simple scale factor to the outputs, an exception being recombination boundary conditions
 which evaluate the square of the mobile concentration. In this case the scale factor must be re-applied
-within the boundary condition (supplied as a user-input).
+within the boundary condition (see [ADSurfaceRecombination](source/bcs/ADSurfaceRecombination.md) for example).
 
 The concentrations are scaled down in this way as a bug was experienced in early development where
 diffusion kernels would cease to function once the magnitude of the scalar field surpassed some threshold.

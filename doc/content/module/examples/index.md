@@ -1,4 +1,4 @@
-!config navigation breadcrumbs=True scrollspy=True
+!config navigation breadcrumbs=True scrollspy=True menu=documentation.menu.md
 
 # Examples
 

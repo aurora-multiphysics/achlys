@@ -2,7 +2,7 @@
 Links to other pages for this example :
 - [Overview](examples/thermal_desorption/index.md)
 - [Additional theory](extrinsic_traps.md)
-- [Preparing the simulation](input_files.md)
+- [Preparing the simulation](module/examples/thermal_desorption/input_files.md)
 
 # Input file preparation
 
@@ -54,6 +54,15 @@ describe the common physics for all Achlys calculaitons; the source term is the 
 treated differently between calculations.
 
 ## Stage 1: Implantation id=implantation
+
+In this simulation:
+
+- A gaussian implantation profile is used for the source term
+- A dirichlet boundary condition with a zero value for the surface  concentration of the mobile phase is used for all external surfaces
+- Constant values are used for the densities of two instrisic trap types, labelled trap 1 and trap2. These are uniformly distributed throughout the entire material domain.
+- A third trap is simulated whose concentration increases over time as the material is irradiated. This trap only appears in a narrow region near the surface exposed to particle bombardment. 
+- The temperature is kept at a constant 300 K
+- The total simulation time is 400 s
 
 ### Mesh
 
@@ -112,7 +121,31 @@ There are 3 things to note within this input block:
 
 ### Visualising implantation
 
+The implantation step of this calculation can be run as a standalone
+simulation. The input file can be run by passing it's path using the "-i" flag 
+as shown below; outputs will be written to the same folder in which
+the input is located.
+
+```
+achlys_exe=~/projects/achlys/achlys-opt
+input_file=~/projects/achlys/problems/thermal_desorption/ogorodnikova/tds_multiapp/implant_sub.i
+./achlys-opt -i $input_file
+```
+
+Paraview can be used to visualise the resulting exodus file. 
+in addition the total quantities of deuterium in each phase 
+will be written to a csv file at each timestep. 
+
+
 ## Stage 2: Resting id=resting
+
+In this stage:
+
+- The source term is switched off so no new particles are implanted
+- The creation of new type-3 traps also stops when the implantation flux stops meaning the concentration and distribution of traps remains static from the end of implantation
+- Desorption continues to occur from the external surfaces, though this is limited due to the low temperature; the boundary condition remains a zero-valued dirichlet condition
+- The temperature is a constant 300 K
+- The total resting time is 50 s
 
 ### Kernels
 
@@ -134,6 +167,13 @@ are applied at both surfaces.
 !listing /problems/thermal_desorption/ogorodnikova/tds_multiapp/resting_multi.i block=BCs
 
 ## Stage 3: Desorption id=desorption
+
+In this stage:
+
+- The temperature is raised at a constant rate of 8 K/s.
+- The boundary condition remains a zero-valued dirichlet condition.
+- The concentration and distribution of traps remains static. This state is unchanged from the end of the implantation calculation.
+- The rate of desorption from each surface is measured using the ADSideFluxIntegral postprocessor and results are written to a CSV file.
 
 ### Kernels
 

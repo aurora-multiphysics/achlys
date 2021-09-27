@@ -14,7 +14,11 @@ Renderer:
 
 Extensions:
     MooseDocs.extensions.navigation:
-        name: achlys
+        name: Achlys
+        menu:
+            Documentation: documentation.menu.md
+            Examples: examples.menu.md
+            Source code: source_code.menu.md
     MooseDocs.extensions.appsyntax:
         executable: ${ROOT_DIR}
         remove: !include ${MOOSE_DIR}/framework/doc/remove.yml
