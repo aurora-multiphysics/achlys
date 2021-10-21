@@ -49,7 +49,7 @@ For the case where trapping sites are created over time due to particle bombardm
 material classes have been developed. 
 
 
-- [ExtrinsicTransientTrappingMaterial](source/materials/ExtrinsicTransientTrappingMaterial.md) for the case of ongoing bombardment and trap creation
+- [ExtrinsicTransientTrappingMaterial](source/materials/ExtrinsicTransientTrappingMaterial2.md) for the case of ongoing bombardment and trap creation
 - [ExtrinsicStaticTrappingMaterial](source/materials/ExtrinsicStaticTrappingMaterial.md) for constant temperature cases after the creation process has ended
 - [ExtrinsicStaticTrappingMaterialRamptingT](source/materials/ExtrinsicStaticTrappingMaterialRampingT.md) for cases with a constant temperature ramp after the creation process has ended, for example in the case of thermal desorption
 

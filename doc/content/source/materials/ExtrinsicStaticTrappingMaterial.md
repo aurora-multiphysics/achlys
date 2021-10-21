@@ -15,7 +15,7 @@ subsequent transport calculations.
 
 Note there are a number of complimentary classes for use in cases where extrinsic trap creation is taking place or has taken place:
 
-- [ExtrinsicTransientTrappingMaterial](source/materials/ExtrinsicTransientTrappingMaterial.md) for the case of ongoing bombardment and trap creation
+- [ExtrinsicTransientTrappingMaterial](source/materials/ExtrinsicTransientTrappingMaterial2.md) for the case of ongoing bombardment and trap creation
 - [ExtrinsicStaticTrappingMaterial](source/materials/ExtrinsicStaticTrappingMaterial.md) for constant temperature cases after the creation process has ended
 - [ExtrinsicStaticTrappingMaterialRamptingT](source/materials/ExtrinsicStaticTrappingMaterialRampingT.md) for cases with a constant temperature ramp after the creation process has ended, for example in the case of thermal desorption
 

@@ -1,5 +1,9 @@
 !config navigation breadcrumbs=True scrollspy=True
 
+Links to other pages for this example :
+- [Overview](analytical.md)
+- [Set-up](module/examples/analytical/input_files.md)
+
 # One Dimensional Analytical Solution
 
 This example aims to demonstrate a simple set-up to get started with. 

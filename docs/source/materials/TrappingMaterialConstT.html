@@ -1,302 +1,4 @@
-<!DOCTYPE html><head><meta charset="UTF-8"><title>TrappingMaterialConstT | Achlys</title><link href="../../contrib/materialize/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"></link><link href="../../contrib/prism/prism.min.css" type="text/css" rel="stylesheet"></link><link href="../../css/moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/devel_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/alert_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/content_moose.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../contrib/jquery/jquery.min.js"></script></head><body><div class="page-wrap"><header><nav><div class="nav-wrapper container"><a class="left moose-logo hide-on-med-and-down">Achlys</a><ul class="right hide-on-med-and-down"><li class="moose-mega-menu-trigger" data-target="240216af-886a-40e6-8ff2-1c248dde03d7"><a>Documentation<i class="material-icons right">arrow_drop_down</i></a></li><li class="moose-mega-menu-trigger" data-target="2c14f8ef-0873-4fce-99ec-39ee86e3ea66"><a>Examples<i class="material-icons right">arrow_drop_down</i></a></li><li class="moose-mega-menu-trigger" data-target="dde8431d-fe8c-4c8a-ab99-1d1a723bb14f"><a>Source code<i class="material-icons right">arrow_drop_down</i></a></li></ul><a href="#" class="sidenav-trigger" data-target="d8a89d94-2347-4c09-9074-dc79082624ae"><i class="material-icons">menu</i></a><ul class="sidenav" id="d8a89d94-2347-4c09-9074-dc79082624ae"><li><a href="../../documentation.menu.html">Documentation</a></li><li><a href="../../examples.menu.html">Examples</a></li><li><a href="../../source_code.menu.html">Source code</a></li></ul><a href="#moose-search" class="modal-trigger"><i class="material-icons">search</i></a></div></nav><div class="moose-mega-menu-content" id="240216af-886a-40e6-8ff2-1c248dde03d7"><div class="moose-mega-menu-wrapper"><div class="row row"><div class="col s12 m6 l4"><h2><a href="../../module/index.html">Module <i class="material-icons moose-inline-icon">link</i></a></h2><p>  </p><ul class="browser-default"><li><p><a href="../../module/introduction.html">Introdcution and Theory</a></p></li></ul><p></p></div><div class="col s12 m6 l4"><h2><a href="../../module/examples/index.html">Examples <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../../module/examples/analytical/index.html">Comparison to Analytical Solution</a> </p></li><li><p><a href="../../module/examples/thermal_desorption/index.html">Thermal Desorption Spectrum</a></p></li></ul><p></p></div><div class="col s12 m6 l4"><h2><a href="../index.html">Source Code <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../kernels/index.html">kernels</a> </p></li><li><p><a href="../bcs/index.html">bcs</a> </p></li><li><p><a href="index.html">materials</a> </p></li><li><p><a href="../postprocessors/index.html">postprocessors</a></p></li></ul><p></p></div><p> </p><p>  </p><p></p><p>    </p><p></p><p></p></div><p>  </p></div></div><div class="moose-mega-menu-content" id="2c14f8ef-0873-4fce-99ec-39ee86e3ea66"><div class="moose-mega-menu-wrapper"><div class="row row"><div class="col s12 m6 l4"><h2><a href="../../module/examples/analytical/index.html">Comparison to Analytical Solution <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../../module/examples/analytical/analytical.html">Overview</a> </p></li><li><p><a href="../../module/examples/analytical/input_files.html">Input preparation</a></p></li></ul><p></p></div><div class="col s12 m6 l4"><h2><a href="../../module/examples/thermal_desorption/index.html">Thermal Desorption Spectrum <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../../module/examples/thermal_desorption/index.html">Overview</a> </p></li><li><p><a href="../../module/examples/thermal_desorption/extrinsic_traps.html">Additional theory</a> </p></li><li><p><a href="../../module/examples/thermal_desorption/input_files.html">Preparing the simulation</a></p></li></ul><p></p></div><p></p></div></div></div><div class="moose-mega-menu-content" id="dde8431d-fe8c-4c8a-ab99-1d1a723bb14f"><div class="moose-mega-menu-wrapper"><div class="row row"><div class="col s12 m6 l4"><h2><a href="../kernels/index.html">Kernels <i class="material-icons moose-inline-icon">link</i></a></h2><p>  </p><h2><a href="../bcs/index.html">BCs <i class="material-icons moose-inline-icon">link</i></a></h2><p></p></div><div class="col s12 m6 l4"><h2><a href="index.html">Materials <i class="material-icons moose-inline-icon">link</i></a></h2><p>   </p><p></p></div><div class="col s12 m6 l4"><h2><a href="../postprocessors/index.html">Postprocessors <i class="material-icons moose-inline-icon">link</i></a></h2><p>  </p><p></p><p>    </p><p></p></div><p></p></div><p>  </p></div></div><div class="modal modal-fixed-footer moose-search-modal" id="moose-search"><div class="modal-content container moose-search-modal-content"><div class="row"><div class="col l12"><div class="input-field"><input type_="text" onkeyup="mooseSearch()" id="moose-search-box"></input></div></div><div><div class="col s12" id="moose-search-results"></div></div></div></div><div class="modal-footer"><a href="#!" class="modal-close btn-flat">Close</a></div></div></header><main class="main"><div class="container"><div class="row"><div class="col hide-on-med-and-down l12"><nav class="breadcrumb-nav"><div class="nav-wrapper"><a href=".." class="breadcrumb">source</a><a href="." class="breadcrumb">materials</a><a href="#" class="breadcrumb">TrappingMaterialConstT</a></div></nav></div></div><div class="row"><div class="moose-content col s12 m12 l10"><section id="52900cee-d84e-470c-b994-b7a104d3b041" data-section-level="1" data-section-text="TrappingMaterialConstT"><h1 id="trappingmaterialconstt">TrappingMaterialConstT</h1><div class="card moose-alert moose-alert-construction"><div class="card-title moose-alert-title"><i class="material-icons moose-inline-icon">build</i><span class="moose-alert-title-brand">construction:</span>Undocumented Class</div><div class="card-content"><div class="moose-alert-content"><p><p>The TrappingMaterialConstT has not been documented. The content listed below should be used as a starting point for documenting the class, which includes the typical automatic documentation associated with a MooseObject; however, what is contained is ultimately determined by what is necessary to make the documentation clear for users.</p></p></div></div></div><p></p><section class="scrollspy" id="eee035da-6e9e-496a-a837-1ef541f6c50d" data-section-level="2" data-section-text="Overview"><h2 id="overview">Overview</h2><p></p></section><section class="scrollspy" id="3c0b28a7-f740-4d82-aa5f-14dd0c79f3fb" data-section-level="2" data-section-text="Example Input File Syntax"><h2 id="example-input-file-syntax">Example Input File Syntax</h2><p></p></section><section class="scrollspy" id="9f3b980a-c866-4274-9315-66d37c63a288" data-section-level="2" data-section-text="Input Parameters"><h2 id="input-parameters">Input Parameters</h2><section id="0f2b1606-e8d7-4760-8b30-86e5afdc6225" data-section-level="3" data-section-text="Required Parameters" data-details-open="open"><details class="moose-section-content" open="open"><ul class="collapsible" data-collapsible="expandable"><li><div class="collapsible-header"><span class="moose-parameter-name">D0</span><span class="moose-parameter-header-description">The diffusion pre-exponential factor</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>The diffusion pre-exponential factor</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">E1</span><span class="moose-parameter-header-description">Trap detrapping energy in eV</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Trap detrapping energy in eV</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">E2</span><span class="moose-parameter-header-description">Trap detrapping energy in eV</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Trap detrapping energy in eV</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">E3</span><span class="moose-parameter-header-description">Trap detrapping energy in eV</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Trap detrapping energy in eV</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">E_diff</span><span class="moose-parameter-header-description">diffusion energy in eV</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>diffusion energy in eV</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">const_T</span><span class="moose-parameter-header-description">placeholder for temperature</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>placeholder for temperature</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">k_boltz</span><span class="moose-parameter-header-description">Boltzman constant</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Boltzman constant</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">lambda</span><span class="moose-parameter-header-description">Lattice constant in m-1</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Lattice constant in m-1</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">n1</span><span class="moose-parameter-header-description">possible trapping sites</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>possible trapping sites</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">n2</span><span class="moose-parameter-header-description">possible trapping sites</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>possible trapping sites</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">n3</span><span class="moose-parameter-header-description">possible trapping sites</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>possible trapping sites</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">n_sol</span><span class="moose-parameter-header-description">density of interstitial sites</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>density of interstitial sites</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">v0</span><span class="moose-parameter-header-description">pre-exponential detrapping factor in Arrhenious eq.</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>pre-exponential detrapping factor in Arrhenious eq.</p></div></li></ul><summary><h3 data-details-open="open"><span class="moose-section-icon"></span>Required Parameters</h3></summary></details></section><section id="7b007fac-32f6-4c6c-8a9b-296d28b3c993" data-section-level="3" data-section-text="Optional Parameters" data-details-open="open"><details class="moose-section-content" open="open"><ul class="collapsible" data-collapsible="expandable"><li><div class="collapsible-header"><span class="moose-parameter-name">block</span><span class="moose-parameter-header-description">The list of block ids (SubdomainID) that this object will be applied</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>std::vector&lt;SubdomainName&gt;</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>The list of block ids (SubdomainID) that this object will be applied</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">boundary</span><span class="moose-parameter-header-description">The list of boundary IDs from the mesh where this boundary condition applies</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>std::vector&lt;BoundaryName&gt;</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>The list of boundary IDs from the mesh where this boundary condition applies</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">compute</span><span class="moose-parameter-header-default">True</span><span class="moose-parameter-header-description">When false, MOOSE will not call compute methods on this material. The user must call computeProperties() after retrieving the MaterialBase via MaterialBasePropertyInterface::getMaterialBase(). Non-computed MaterialBases are not sorted for dependencies.</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>True</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>bool</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>When false, MOOSE will not call compute methods on this material. The user must call computeProperties() after retrieving the MaterialBase via MaterialBasePropertyInterface::getMaterialBase(). Non-computed MaterialBases are not sorted for dependencies.</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">constant_on</span><span class="moose-parameter-header-default">NONE</span><span class="moose-parameter-header-description">When ELEMENT, MOOSE will only call computeQpProperties() for the 0th quadrature point, and then copy that value to the other qps.When SUBDOMAIN, MOOSE will only call computeQpProperties() for the 0th quadrature point, and then copy that value to the other qps. Evaluations on element qps will be skipped</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>NONE</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>MooseEnum</p><p class="moose-parameter-description-options"><span>Options:</span>NONE, ELEMENT, SUBDOMAIN</p><p class="moose-parameter-description"><span>Description:</span>When ELEMENT, MOOSE will only call computeQpProperties() for the 0th quadrature point, and then copy that value to the other qps.When SUBDOMAIN, MOOSE will only call computeQpProperties() for the 0th quadrature point, and then copy that value to the other qps. Evaluations on element qps will be skipped</p></div></li></ul><summary><h3 data-details-open="open"><span class="moose-section-icon"></span>Optional Parameters</h3></summary></details></section><section id="8a43a2bf-4c25-4680-a962-b3081a767ece" data-section-level="3" data-section-text="Advanced Parameters" data-details-open="close"><details class="moose-section-content"><ul class="collapsible" data-collapsible="expandable"><li><div class="collapsible-header"><span class="moose-parameter-name">control_tags</span><span class="moose-parameter-header-description">Adds user-defined labels for accessing object parameters via control logic.</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>std::vector&lt;std::string&gt;</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Adds user-defined labels for accessing object parameters via control logic.</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">enable</span><span class="moose-parameter-header-default">True</span><span class="moose-parameter-header-description">Set the enabled status of the MooseObject.</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>True</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>bool</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Set the enabled status of the MooseObject.</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">implicit</span><span class="moose-parameter-header-default">True</span><span class="moose-parameter-header-description">Determines whether this object is calculated using an implicit or explicit form</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>True</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>bool</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Determines whether this object is calculated using an implicit or explicit form</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">seed</span><span class="moose-parameter-header-default">0</span><span class="moose-parameter-header-description">The seed for the master random number generator</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>0</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>unsigned int</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>The seed for the master random number generator</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">use_displaced_mesh</span><span class="moose-parameter-header-default">False</span><span class="moose-parameter-header-description">Whether or not this object should use the displaced mesh for computation.  Note that in the case this is true but no displacements are provided in the Mesh block the undisplaced mesh will still be used.</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>False</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>bool</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Whether or not this object should use the displaced mesh for computation.  Note that in the case this is true but no displacements are provided in the Mesh block the undisplaced mesh will still be used.</p></div></li></ul><summary><h3 data-details-open="close"><span class="moose-section-icon"></span>Advanced Parameters</h3></summary></details></section><section id="3749afa3-51a2-4fdc-9bea-800a29e9dc91" data-section-level="3" data-section-text="Outputs Parameters" data-details-open="close"><details class="moose-section-content"><ul class="collapsible" data-collapsible="expandable"><li><div class="collapsible-header"><span class="moose-parameter-name">output_properties</span><span class="moose-parameter-header-description">List of material properties, from this material, to output (outputs must also be defined to an output type)</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>std::vector&lt;std::string&gt;</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>List of material properties, from this material, to output (outputs must also be defined to an output type)</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">outputs</span><span class="moose-parameter-header-default">none </span><span class="moose-parameter-header-description">Vector of output names were you would like to restrict the output of variables(s) associated with this object</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>none </p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>std::vector&lt;OutputName&gt;</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Vector of output names were you would like to restrict the output of variables(s) associated with this object</p></div></li></ul><summary><h3 data-details-open="close"><span class="moose-section-icon"></span>Outputs Parameters</h3></summary></details></section></section><section class="scrollspy" id="5312e723-98cb-4823-b2e6-56be27ecb244" data-section-level="2" data-section-text="Input Files"><h2 id="input-files">Input Files</h2><ul class="moose-list-inputs browser-default"><li><a class="moose-source-filename tooltipped modal-trigger" href="#cc610c93-8bdb-49a5-aef6-314a482dfbc6">(test/tests/kernels/one_d_one_trap/one_d_one_trap.i)</a></li><li><a class="moose-source-filename tooltipped modal-trigger" href="#fa595e4d-e7ce-4b83-bc73-4be0933bbd1b">(test/tests/mms/spatial_convergence/mms_spatial.i)</a></li><li><a class="moose-source-filename tooltipped modal-trigger" href="#e01e4e47-a2ee-47c0-94c6-411f3cf494dd">(test/tests/mms/temporal_convergence/mms_temporal.i)</a></li></ul></section></section><div class="moose-modal modal" id="cc610c93-8bdb-49a5-aef6-314a482dfbc6"><div class="modal-content"><h4>(test/tests/kernels/one_d_one_trap/one_d_one_trap.i)</h4><pre class="moose-pre"><code class="language-text">[Mesh]
-  type = GeneratedMesh
-  dim = 1 
-  nx = 20
-  xmax = 5e-5
-[]
-
-[Problem]
-  type = FEProblem # This is the &quot;normal&quot; type of Finite Element Problem in MOOSE
-  coord_type = XYZ # cartesian
-[]
-
-[Variables]
-  [./Mobile]
-    initial_condition = 0.0
-  [../]
-  [./Trapped]
-    initial_condition = 0.0
-  [../]
-[]
-
-[Kernels]
-  [./H3_diffusion_eq1]
-    type = ADMatDiffusion
-    variable = Mobile
-    diffusivity = D
-  [../]
-  [./mobile_time_deriv]
-    type = ADTimeDerivative
-    variable = Mobile
-  [../]
-  [./trapping_equilibrium_equation]
-    type = ADTrappingEquilibriumEquation
-    variable = Trapped
-    v = Mobile
-    vi = V1
-    n_traps = n1
-  [../]
-  [./trapped_time_deriv_couple]
-    type = ADCoupledTimeDerivative 
-    variable = Mobile
-    v = Trapped
-  [../]
-  [./trapped_time_deriv]
-    type = ADTimeDerivative
-    variable = Trapped
-  [../]
-[]
-
-[BCs]
-  [./left_face]
-    type = ADDirichletBC
-    variable = Mobile
-    boundary = left
-    value = 1e-4
-  [../]
-  [./right_face]
-    type = ADDirichletBC #DiffusionFluxBC
-    variable = Mobile
-    boundary = right
-    value = 0
-  [../]
-[]
-
-[Materials]
-  [./mat1]
-    type = TrappingMaterialConstT
-    v0 = 1.0E13
-    v1 = 1.0E13
-    v2 = 1.0E13
-    v3 = 1.0E13
-    E1 = 8.6e-3
-    E2 = 0.0
-    E3 = 0.0
-    k_boltz = 8.6E-5
-    D0 = 1.0
-    E_diff = 0.0
-    lambda = 3.16E-8
-    n_sol = 2
-    n1 = 0.1
-    n2 = 0.0
-    n3 = 0.0
-    const_T = 1000
-  [../]
-[]
-
-[Executioner]
-  type = Transient
-  solve_type = NEWTON 
-  # Set PETSc parameters to optimize solver efficiency
-  petsc_options_iname = &#x27;-pc_type -pc_hypre_type&#x27;
-  petsc_options_value = &#x27; hypre    boomeramg&#x27;
-  dt = 1e-9
-  num_steps = 10
-[]
-
-[Outputs]
-  console = false
-  exodus = true # Output Exodus format
-[]
-
-</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div><div class="moose-modal modal" id="fa595e4d-e7ce-4b83-bc73-4be0933bbd1b"><div class="modal-content"><h4>(test/tests/mms/spatial_convergence/mms_spatial.i)</h4><pre class="moose-pre"><code class="language-text">[Mesh]
-  type = GeneratedMesh # Can generate simple lines, rectangles and rectangular prisms
-  dim = 1 # Dimension of the mesh
-  nx = 4 # Number of elements in the x direction
-  xmax = 1.0 # Length of test chamber
-[]
-
-[Problem]
-  type = FEProblem # This is the &quot;normal&quot; type of Finite Element Problem in MOOSE
-  coord_type = XYZ # cartesian
-[]
-
-[Variables]
-  [./Mobile]
-    initial_condition = 0.0
-  [../]
-  [./Trapped]
-    initial_condition = 0.0
-#    scaling = 1e18
-  [../]
-[]
-
-#[ICs]
-#  [./Mobile]
-#    type = FunctionIC
-#    function = &#x27;1 + ( x * x)&#x27;
-#    variable = Mobile
-#  [../]
-#  [./Trapped]
-#    type = FunctionIC
-#    function = &#x27;2 + ( x * x)&#x27;
-#    variable = Trapped
-#  [../]
-#[]
-
-[Functions]
-  [spatial_convergence_f]
-    type = ParsedFunction
-    value = &#x27;(1/tau) * sin(2*pi*x/l) + D*((2*pi/l)^2) * sin(2*pi*x/l)*(t/tau) + (1/tau)*(x/l)^3&#x27;
-    vars = &#x27;l D tau&#x27;
-    vals = &#x27;1.0 1.0 1.0&#x27; #4.4e-9
-  []
-  [spatial_convergence_g]
-    type = ParsedFunction
-    value = &#x27;(1/tau) * (x/l)^3 - (vm * sin(2*pi*x/l) * t * (n - (t*(x/l)^3))) + (vi*(t*(x/l)^3))&#x27;
-    vars = &#x27;l D vm vi n tau&#x27;
-    vals = &#x27;1.0 1.0 0.5 1.0 2.0 1.0&#x27;
-  []
-  [exact]
-    type = ParsedFunction
-    value = &#x27;sin(2*pi*x/l) * (t/tau)&#x27;
-    vars = &#x27;l tau&#x27;
-    vals = &#x27;1.0 1.0&#x27;
-  []
-  #[temporal_convergence_f]
-  #  type = ParsedFunction
-  #  value = &#x27;&#x27;
-  #  vars = &#x27;l D&#x27;
-  #  vals = &#x27;0.02 4.4e-9&#x27;
-  #[]
-  #[temporal_convergence_g]
-  #  type = ParsedFunction
-  #  value = &#x27;&#x27;
-  #  vars = &#x27;l D&#x27;
-  #  vals = &#x27;0.02 4.4e-9&#x27;
-  #[]
-[]
-
-[Postprocessors]
-[error]
-    type = ElementL2Error
-    function = exact
-    variable = Mobile
-  []
-  [h]
-    type = AverageElementSize
-  []
-[]
-
-[Kernels]
-  [./H3_diffusion_eq1]
-    type = ADMatDiffusion
-    variable = Mobile
-    diffusivity = D
-  [../]
-  [./mobile_time_deriv]
-    type = ADTimeDerivative
-    variable = Mobile
-  [../]
-  [./trapping_equilibrium_equation]
-    type = ADTrappingEquilibriumEquation
-    variable = Trapped
-    v = Mobile
-    vi = V1
-    n_traps = n1
-  [../]
-  [./trapped_time_deriv_couple]
-    type = ADCoupledTimeDerivative
-    variable = Mobile
-    v = Trapped
-  [../]
-  [./trapped_time_deriv]
-    type = ADTimeDerivative
-    variable = Trapped
-  [../]
-# EXTRA MMS SOURCE TERMS
- [./eq1_mms_source]
-   variable = Mobile
-   type = ADBodyForce
-   function = spatial_convergence_f
-   value = 1
- [../]
- [./eq2_mms_source]
-   variable = Trapped
-   type = ADBodyForce
-   function = spatial_convergence_g
-   value = 1
- [../]
-[]
-
-[BCs]
-  [./left_face]
-    type = ADDirichletBC
-    variable = Mobile
-    boundary = left
-    value = 0
-  [../]
-  [./right_face]
-    type = ADDirichletBC
-    variable = Mobile
-    boundary = right
-    value = 0
-  [../]
-  [./left_face_t]
-    type = ADDirichletBC
-    variable = Trapped
-    boundary = left
-    value = 0
-  [../]
-  [./right_face_t]
-    type = ADFunctionDirichletBC
-    variable = Trapped
-    boundary = right
-    function = &#x27;t&#x27;
-  [../]
-[]
-[Materials]
-  [./mat1]
-    type = TrappingMaterialConstT
-    v0 = 1.0
-    E1 = 0.0
-    E2 = 0.0
-    E3 = 0.0
-    k_boltz = 8.6E-5
-    D0 = 1.0 #2.1019185 #4.1e-7
-    E_diff = 0.0
-    lambda = 0.4472135954999579
-    n_sol = 10
-    n1 = 2
-    n2 = 0.0
-    n3 = 0.0
-    const_T = 1000
-  [../]
-[]
-[Executioner]
-  type = Transient # Steady state problem
-  solve_type = NEWTON #&#x27;PJFNK&#x27; #NEWTON # Perform a Newton solve
-  compute_scaling_once = False
-  automatic_scaling = True
-  #  l_tol = 1e-4
- #   nl_rel_tol = 1e-4
-  #  nl_abs_tol = 5e-30
-#  resid_vs_jac_scaling_param = 1.0
-  nl_max_funcs = 7
-  petsc_options_iname = &#x27;-ksp_type -pc_type -pc_factor_shift_type&#x27;
-  petsc_options_value = &#x27;bcgs lu NONZERO&#x27;
-  dt = 1e-2
-  end_time = 1.0
-  timestep_tolerance = 1e-5
-[]
-[Preconditioning]
-  [./smp]
-    type = SMP
-    full = true
-  [../]
-[]
-[Outputs]
-  exodus = true # Output Exodus format
-  csv = true
-   #[./prov]
-  #  type = Provenance
-  #[../]
-[]
-#[Debug]
-#  show_material_props = true
-#  show_var_residual_norms = true
-#[]
-</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div><div class="moose-modal modal" id="e01e4e47-a2ee-47c0-94c6-411f3cf494dd"><div class="modal-content"><h4>(test/tests/mms/temporal_convergence/mms_temporal.i)</h4><pre class="moose-pre"><code class="language-text">[Mesh]
+<!DOCTYPE html><head><meta charset="UTF-8"><title>TrappingMaterialConstT | Achlys</title><link href="../../contrib/materialize/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"></link><link href="../../contrib/prism/prism.min.css" type="text/css" rel="stylesheet"></link><link href="../../css/moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/devel_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/alert_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/content_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/sqa_moose.css" type="text/css" rel="stylesheet"></link><link href="../../css/civet_moose.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../contrib/jquery/jquery.min.js"></script></head><body><div class="page-wrap"><header><nav><div class="nav-wrapper container"><a href="../../index.html" class="left moose-logo hide-on-med-and-down">Achlys</a><a href="https://github.com/aurora-multiphysics/achlys" class="right"><img src="../../media/framework/github-logo.png" class="github-mark"></img><img src="../../media/framework/github-mark.png" class="github-logo"></img></a><ul class="right hide-on-med-and-down"><li class="moose-mega-menu-trigger" data-target="5f02513f-623e-4504-adbb-6d9c23811e72"><a>Documentation<i class="material-icons right">arrow_drop_down</i></a></li><li class="moose-mega-menu-trigger" data-target="e78af34a-c495-4154-b770-75f72f8fa76f"><a>Examples<i class="material-icons right">arrow_drop_down</i></a></li><li class="moose-mega-menu-trigger" data-target="cd475fa2-9fe5-4f57-9bfc-aa395dd9a46c"><a>Source code<i class="material-icons right">arrow_drop_down</i></a></li></ul><a href="#" class="sidenav-trigger" data-target="a041ed28-ff9e-4574-9330-45cd97d54c77"><i class="material-icons">menu</i></a><ul class="sidenav" id="a041ed28-ff9e-4574-9330-45cd97d54c77"><li><a href="../../documentation.menu.html">Documentation</a></li><li><a href="../../examples.menu.html">Examples</a></li><li><a href="../../source_code.menu.html">Source code</a></li></ul><a href="#moose-search" class="modal-trigger"><i class="material-icons">search</i></a></div></nav><div class="moose-mega-menu-content" id="5f02513f-623e-4504-adbb-6d9c23811e72"><div class="moose-mega-menu-wrapper"><div class="row row"><div class="col s12 m6 l4"><h2><a href="../../module/index.html">Module <i class="material-icons moose-inline-icon">link</i></a></h2><p>  </p><ul class="browser-default"><li><p><a href="../../module/introduction.html">Introdcution and Theory</a></p></li></ul><p></p></div><div class="col s12 m6 l4"><h2><a href="../../module/examples/index.html">Examples <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../../module/examples/analytical/index.html">Comparison to Analytical Solution</a> </p></li><li><p><a href="../../module/examples/thermal_desorption/index.html">Thermal Desorption Spectrum</a></p></li></ul><p></p></div><div class="col s12 m6 l4"><h2><a href="../index.html">Source Code <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../kernels/index.html">kernels</a> </p></li><li><p><a href="../bcs/index.html">bcs</a> </p></li><li><p><a href="index.html">materials</a> </p></li><li><p><a href="../postprocessors/index.html">postprocessors</a></p></li></ul><p></p></div><p> </p><p>  </p><p></p><p>    </p><p></p><p></p></div><p>  </p></div></div><div class="moose-mega-menu-content" id="e78af34a-c495-4154-b770-75f72f8fa76f"><div class="moose-mega-menu-wrapper"><div class="row row"><div class="col s12 m6 l4"><h2><a href="../../module/examples/analytical/index.html">Comparison to Analytical Solution <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../../module/examples/analytical/analytical.html">Overview</a> </p></li><li><p><a href="../../module/examples/analytical/input_files.html">Input preparation</a></p></li></ul><p></p></div><div class="col s12 m6 l4"><h2><a href="../../module/examples/thermal_desorption/index.html">Thermal Desorption Spectrum <i class="material-icons moose-inline-icon">link</i></a></h2><ul class="browser-default"><li><p><a href="../../module/examples/thermal_desorption/index.html">Overview</a> </p></li><li><p><a href="../../module/examples/thermal_desorption/extrinsic_traps.html">Additional theory</a> </p></li><li><p><a href="../../module/examples/thermal_desorption/input_files.html">Preparing the simulation</a></p></li></ul><p></p></div><p></p></div></div></div><div class="moose-mega-menu-content" id="cd475fa2-9fe5-4f57-9bfc-aa395dd9a46c"><div class="moose-mega-menu-wrapper"><div class="row row"><div class="col s12 m6 l4"><h2><a href="../kernels/index.html">Kernels <i class="material-icons moose-inline-icon">link</i></a></h2><p>  </p><h2><a href="../bcs/index.html">BCs <i class="material-icons moose-inline-icon">link</i></a></h2><p></p></div><div class="col s12 m6 l4"><h2><a href="index.html">Materials <i class="material-icons moose-inline-icon">link</i></a></h2><p>   </p><p></p></div><div class="col s12 m6 l4"><h2><a href="../postprocessors/index.html">Postprocessors <i class="material-icons moose-inline-icon">link</i></a></h2><p>  </p><p></p><p>    </p><p></p></div><p></p></div><p>  </p></div></div><div class="modal modal-fixed-footer moose-search-modal" id="moose-search"><div class="modal-content container moose-search-modal-content"><div class="row"><div class="col l12"><div class="input-field"><input type_="text" onkeyup="mooseSearch()" placeholder="/index.md" id="moose-search-box"></input></div></div><div><div class="col s12" id="moose-search-results"></div></div></div></div><div class="modal-footer"><a href="#!" class="modal-close btn-flat">Close</a></div></div></header><main class="main"><div class="container"><div class="row"><div class="col hide-on-med-and-down l12"><nav class="breadcrumb-nav"><div class="nav-wrapper"><a href=".." class="breadcrumb">source</a><a href="." class="breadcrumb">materials</a><a href="#" class="breadcrumb">TrappingMaterialConstT</a></div></nav></div></div><div class="row"><div class="moose-content col s12 m12 l10"><section id="66ac8b9f-59fc-4418-bcc8-4ea546878995" data-section-level="1" data-section-text="TrappingMaterialConstT"><h1 id="trappingmaterialconstt">TrappingMaterialConstT</h1><div class="card moose-alert moose-alert-construction"><div class="card-title moose-alert-title"><i class="material-icons moose-inline-icon">build</i><span class="moose-alert-title-brand">construction:</span>Undocumented Class</div><div class="card-content"><div class="moose-alert-content"><p><p>The TrappingMaterialConstT has not been documented. The content listed below should be used as a starting point for documenting the class, which includes the typical automatic documentation associated with a MooseObject; however, what is contained is ultimately determined by what is necessary to make the documentation clear for users.</p></p></div></div></div><p></p><section class="scrollspy" id="77cbd84c-809c-4e49-8cd4-1ce87db87222" data-section-level="2" data-section-text="Overview"><h2 id="overview">Overview</h2><p></p></section><section class="scrollspy" id="11e7cc14-6e79-413e-8701-a0fd5483483d" data-section-level="2" data-section-text="Example Input File Syntax"><h2 id="example-input-file-syntax">Example Input File Syntax</h2><p></p></section><section class="scrollspy" id="9e5bd46a-9d65-454a-a183-f1a05ac3104e" data-section-level="2" data-section-text="Input Parameters"><h2 id="input-parameters">Input Parameters</h2><section id="b7250878-e06a-4efb-a0af-2570b3b11c00" data-section-level="3" data-section-text="Required Parameters" data-details-open="open"><details class="moose-section-content" open="open"><ul class="collapsible" data-collapsible="expandable"><li><div class="collapsible-header"><span class="moose-parameter-name">D0</span><span class="moose-parameter-header-description">The diffusion pre-exponential factor</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>The diffusion pre-exponential factor</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">E1</span><span class="moose-parameter-header-description">Trap detrapping energy in eV</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Trap detrapping energy in eV</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">E2</span><span class="moose-parameter-header-description">Trap detrapping energy in eV</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Trap detrapping energy in eV</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">E3</span><span class="moose-parameter-header-description">Trap detrapping energy in eV</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Trap detrapping energy in eV</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">E_diff</span><span class="moose-parameter-header-description">diffusion energy in eV</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>diffusion energy in eV</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">const_T</span><span class="moose-parameter-header-description">placeholder for temperature</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>placeholder for temperature</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">k_boltz</span><span class="moose-parameter-header-description">Boltzman constant</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Boltzman constant</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">lambda</span><span class="moose-parameter-header-description">Lattice constant in m-1</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Lattice constant in m-1</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">n1</span><span class="moose-parameter-header-description">possible trapping sites</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>possible trapping sites</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">n2</span><span class="moose-parameter-header-description">possible trapping sites</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>possible trapping sites</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">n3</span><span class="moose-parameter-header-description">possible trapping sites</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>possible trapping sites</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">n_sol</span><span class="moose-parameter-header-description">density of interstitial sites</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>density of interstitial sites</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">v0</span><span class="moose-parameter-header-description">pre-exponential detrapping factor in Arrhenious eq.</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>double</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>pre-exponential detrapping factor in Arrhenious eq.</p></div></li></ul><summary><h3 data-details-open="open"><span class="moose-section-icon"></span>Required Parameters</h3></summary></details></section><section id="005fbec6-0cfb-45bb-bc00-5516e29dab94" data-section-level="3" data-section-text="Optional Parameters" data-details-open="open"><details class="moose-section-content" open="open"><ul class="collapsible" data-collapsible="expandable"><li><div class="collapsible-header"><span class="moose-parameter-name">block</span><span class="moose-parameter-header-description">The list of blocks (ids or names) that this object will be applied</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>std::vector&lt;SubdomainName&gt;</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>The list of blocks (ids or names) that this object will be applied</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">boundary</span><span class="moose-parameter-header-description">The list of boundaries (ids or names) from the mesh where this boundary condition applies</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>std::vector&lt;BoundaryName&gt;</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>The list of boundaries (ids or names) from the mesh where this boundary condition applies</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">compute</span><span class="moose-parameter-header-default">True</span><span class="moose-parameter-header-description">When false, MOOSE will not call compute methods on this material. The user must call computeProperties() after retrieving the MaterialBase via MaterialBasePropertyInterface::getMaterialBase(). Non-computed MaterialBases are not sorted for dependencies.</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>True</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>bool</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>When false, MOOSE will not call compute methods on this material. The user must call computeProperties() after retrieving the MaterialBase via MaterialBasePropertyInterface::getMaterialBase(). Non-computed MaterialBases are not sorted for dependencies.</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">constant_on</span><span class="moose-parameter-header-default">NONE</span><span class="moose-parameter-header-description">When ELEMENT, MOOSE will only call computeQpProperties() for the 0th quadrature point, and then copy that value to the other qps.When SUBDOMAIN, MOOSE will only call computeQpProperties() for the 0th quadrature point, and then copy that value to the other qps. Evaluations on element qps will be skipped</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>NONE</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>MooseEnum</p><p class="moose-parameter-description-options"><span>Options:</span>NONE, ELEMENT, SUBDOMAIN</p><p class="moose-parameter-description"><span>Description:</span>When ELEMENT, MOOSE will only call computeQpProperties() for the 0th quadrature point, and then copy that value to the other qps.When SUBDOMAIN, MOOSE will only call computeQpProperties() for the 0th quadrature point, and then copy that value to the other qps. Evaluations on element qps will be skipped</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">declare_suffix</span><span class="moose-parameter-header-description">An optional suffix parameter that can be appended to any declared properties. The suffix will be prepended with a '_' character.</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>MaterialPropertyName</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>An optional suffix parameter that can be appended to any declared properties. The suffix will be prepended with a '_' character.</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">prop_getter_suffix</span><span class="moose-parameter-header-description">An optional suffix parameter that can be appended to any attempt to retrieve/get material properties. The suffix will be prepended with a '_' character.</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>MaterialPropertyName</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>An optional suffix parameter that can be appended to any attempt to retrieve/get material properties. The suffix will be prepended with a '_' character.</p></div></li></ul><summary><h3 data-details-open="open"><span class="moose-section-icon"></span>Optional Parameters</h3></summary></details></section><section id="9e0c73ce-c4b2-4b17-88a8-f56f32fa94d8" data-section-level="3" data-section-text="Advanced Parameters" data-details-open="close"><details class="moose-section-content"><ul class="collapsible" data-collapsible="expandable"><li><div class="collapsible-header"><span class="moose-parameter-name">control_tags</span><span class="moose-parameter-header-description">Adds user-defined labels for accessing object parameters via control logic.</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>std::vector&lt;std::string&gt;</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Adds user-defined labels for accessing object parameters via control logic.</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">enable</span><span class="moose-parameter-header-default">True</span><span class="moose-parameter-header-description">Set the enabled status of the MooseObject.</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>True</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>bool</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Set the enabled status of the MooseObject.</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">implicit</span><span class="moose-parameter-header-default">True</span><span class="moose-parameter-header-description">Determines whether this object is calculated using an implicit or explicit form</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>True</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>bool</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Determines whether this object is calculated using an implicit or explicit form</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">seed</span><span class="moose-parameter-header-default">0</span><span class="moose-parameter-header-description">The seed for the master random number generator</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>0</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>unsigned int</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>The seed for the master random number generator</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">use_displaced_mesh</span><span class="moose-parameter-header-default">False</span><span class="moose-parameter-header-description">Whether or not this object should use the displaced mesh for computation.  Note that in the case this is true but no displacements are provided in the Mesh block the undisplaced mesh will still be used.</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>False</p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>bool</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Whether or not this object should use the displaced mesh for computation.  Note that in the case this is true but no displacements are provided in the Mesh block the undisplaced mesh will still be used.</p></div></li></ul><summary><h3 data-details-open="close"><span class="moose-section-icon"></span>Advanced Parameters</h3></summary></details></section><section id="f3658ae9-097a-4e14-9c8d-a46c4bcfe271" data-section-level="3" data-section-text="Outputs Parameters" data-details-open="close"><details class="moose-section-content"><ul class="collapsible" data-collapsible="expandable"><li><div class="collapsible-header"><span class="moose-parameter-name">output_properties</span><span class="moose-parameter-header-description">List of material properties, from this material, to output (outputs must also be defined to an output type)</span></div><div class="collapsible-body"><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>std::vector&lt;std::string&gt;</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>List of material properties, from this material, to output (outputs must also be defined to an output type)</p></div></li><li><div class="collapsible-header"><span class="moose-parameter-name">outputs</span><span class="moose-parameter-header-default">none </span><span class="moose-parameter-header-description">Vector of output names were you would like to restrict the output of variables(s) associated with this object</span></div><div class="collapsible-body"><p class="moose-parameter-description-default"><span>Default:</span>none </p><p class="moose-parameter-description-cpptype"><span>C++ Type:</span>std::vector&lt;OutputName&gt;</p><p class="moose-parameter-description-options"><span>Options:</span></p><p class="moose-parameter-description"><span>Description:</span>Vector of output names were you would like to restrict the output of variables(s) associated with this object</p></div></li></ul><summary><h3 data-details-open="close"><span class="moose-section-icon"></span>Outputs Parameters</h3></summary></details></section></section><section class="scrollspy" id="584300b5-27c7-4a61-8191-577a5d495395" data-section-level="2" data-section-text="Input Files"><h2 id="input-files">Input Files</h2><ul class="moose-list-inputs browser-default"><li><a class="moose-source-filename tooltipped modal-trigger" href="#7b44527b-3724-4997-802b-468d6d5df7a4">(test/tests/mms/temporal_convergence/mms_temporal.i)</a></li><li><a class="moose-source-filename tooltipped modal-trigger" href="#6a735534-63e7-4016-b4cb-b196f51909b5">(test/tests/mms/spatial_convergence/mms_spatial.i)</a></li><li><a class="moose-source-filename tooltipped modal-trigger" href="#903abd1f-5a16-4edb-a3a5-a595370ad909">(test/tests/kernels/one_d_one_trap/one_d_one_trap.i)</a></li></ul></section></section><div class="moose-modal modal" id="7b44527b-3724-4997-802b-468d6d5df7a4"><div class="modal-content"><h4>(test/tests/mms/temporal_convergence/mms_temporal.i)</h4><pre class="moose-pre"><code class="language-text">[Mesh]
   type = GeneratedMesh # Can generate simple lines, rectangles and rectangular prisms
   dim = 1 # Dimension of the mesh
   nx = 10 # Number of elements in the x direction
@@ -522,4 +224,302 @@
 #  show_material_props = true
 #  show_var_residual_norms = true
 #[]
-</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div></div><div class="col hide-on-med-and-down l2"><div class="toc-wrapper pin-top"><ul class="section table-of-contents"><li><a href="#eee035da-6e9e-496a-a837-1ef541f6c50d" class="tooltipped" data-position="left" data-tooltip="Overview">Overview</a></li><li><a href="#3c0b28a7-f740-4d82-aa5f-14dd0c79f3fb" class="tooltipped" data-position="left" data-tooltip="Example Input File Syntax">Example Input File Syntax</a></li><li><a href="#9f3b980a-c866-4274-9315-66d37c63a288" class="tooltipped" data-position="left" data-tooltip="Input Parameters">Input Parameters</a></li><li><a href="#5312e723-98cb-4823-b2e6-56be27ecb244" class="tooltipped" data-position="left" data-tooltip="Input Files">Input Files</a></li></ul></div></div></div></div></main></div></body><script type="text/javascript" src="../../contrib/materialize/materialize.min.js"></script><script type="text/javascript" src="../../contrib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="../../contrib/prism/prism.min.js"></script><script type="text/javascript" src="../../js/init.js"></script><script type="text/javascript" src="../../js/navigation.js"></script><script type="text/javascript" src="../../contrib/fuse/fuse.min.js"></script><script type="text/javascript" src="../../js/search_index.js"></script>
+</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div><div class="moose-modal modal" id="6a735534-63e7-4016-b4cb-b196f51909b5"><div class="modal-content"><h4>(test/tests/mms/spatial_convergence/mms_spatial.i)</h4><pre class="moose-pre"><code class="language-text">[Mesh]
+  type = GeneratedMesh # Can generate simple lines, rectangles and rectangular prisms
+  dim = 1 # Dimension of the mesh
+  nx = 4 # Number of elements in the x direction
+  xmax = 1.0 # Length of test chamber
+[]
+
+[Problem]
+  type = FEProblem # This is the &quot;normal&quot; type of Finite Element Problem in MOOSE
+  coord_type = XYZ # cartesian
+[]
+
+[Variables]
+  [./Mobile]
+    initial_condition = 0.0
+  [../]
+  [./Trapped]
+    initial_condition = 0.0
+#    scaling = 1e18
+  [../]
+[]
+
+#[ICs]
+#  [./Mobile]
+#    type = FunctionIC
+#    function = &#x27;1 + ( x * x)&#x27;
+#    variable = Mobile
+#  [../]
+#  [./Trapped]
+#    type = FunctionIC
+#    function = &#x27;2 + ( x * x)&#x27;
+#    variable = Trapped
+#  [../]
+#[]
+
+[Functions]
+  [spatial_convergence_f]
+    type = ParsedFunction
+    value = &#x27;(1/tau) * sin(2*pi*x/l) + D*((2*pi/l)^2) * sin(2*pi*x/l)*(t/tau) + (1/tau)*(x/l)^3&#x27;
+    vars = &#x27;l D tau&#x27;
+    vals = &#x27;1.0 1.0 1.0&#x27; #4.4e-9
+  []
+  [spatial_convergence_g]
+    type = ParsedFunction
+    value = &#x27;(1/tau) * (x/l)^3 - (vm * sin(2*pi*x/l) * t * (n - (t*(x/l)^3))) + (vi*(t*(x/l)^3))&#x27;
+    vars = &#x27;l D vm vi n tau&#x27;
+    vals = &#x27;1.0 1.0 0.5 1.0 2.0 1.0&#x27;
+  []
+  [exact]
+    type = ParsedFunction
+    value = &#x27;sin(2*pi*x/l) * (t/tau)&#x27;
+    vars = &#x27;l tau&#x27;
+    vals = &#x27;1.0 1.0&#x27;
+  []
+  #[temporal_convergence_f]
+  #  type = ParsedFunction
+  #  value = &#x27;&#x27;
+  #  vars = &#x27;l D&#x27;
+  #  vals = &#x27;0.02 4.4e-9&#x27;
+  #[]
+  #[temporal_convergence_g]
+  #  type = ParsedFunction
+  #  value = &#x27;&#x27;
+  #  vars = &#x27;l D&#x27;
+  #  vals = &#x27;0.02 4.4e-9&#x27;
+  #[]
+[]
+
+[Postprocessors]
+[error]
+    type = ElementL2Error
+    function = exact
+    variable = Mobile
+  []
+  [h]
+    type = AverageElementSize
+  []
+[]
+
+[Kernels]
+  [./H3_diffusion_eq1]
+    type = ADMatDiffusion
+    variable = Mobile
+    diffusivity = D
+  [../]
+  [./mobile_time_deriv]
+    type = ADTimeDerivative
+    variable = Mobile
+  [../]
+  [./trapping_equilibrium_equation]
+    type = ADTrappingEquilibriumEquation
+    variable = Trapped
+    v = Mobile
+    vi = V1
+    n_traps = n1
+  [../]
+  [./trapped_time_deriv_couple]
+    type = ADCoupledTimeDerivative
+    variable = Mobile
+    v = Trapped
+  [../]
+  [./trapped_time_deriv]
+    type = ADTimeDerivative
+    variable = Trapped
+  [../]
+# EXTRA MMS SOURCE TERMS
+ [./eq1_mms_source]
+   variable = Mobile
+   type = ADBodyForce
+   function = spatial_convergence_f
+   value = 1
+ [../]
+ [./eq2_mms_source]
+   variable = Trapped
+   type = ADBodyForce
+   function = spatial_convergence_g
+   value = 1
+ [../]
+[]
+
+[BCs]
+  [./left_face]
+    type = ADDirichletBC
+    variable = Mobile
+    boundary = left
+    value = 0
+  [../]
+  [./right_face]
+    type = ADDirichletBC
+    variable = Mobile
+    boundary = right
+    value = 0
+  [../]
+  [./left_face_t]
+    type = ADDirichletBC
+    variable = Trapped
+    boundary = left
+    value = 0
+  [../]
+  [./right_face_t]
+    type = ADFunctionDirichletBC
+    variable = Trapped
+    boundary = right
+    function = &#x27;t&#x27;
+  [../]
+[]
+[Materials]
+  [./mat1]
+    type = TrappingMaterialConstT
+    v0 = 1.0
+    E1 = 0.0
+    E2 = 0.0
+    E3 = 0.0
+    k_boltz = 8.6E-5
+    D0 = 1.0 #2.1019185 #4.1e-7
+    E_diff = 0.0
+    lambda = 0.4472135954999579
+    n_sol = 10
+    n1 = 2
+    n2 = 0.0
+    n3 = 0.0
+    const_T = 1000
+  [../]
+[]
+[Executioner]
+  type = Transient # Steady state problem
+  solve_type = NEWTON #&#x27;PJFNK&#x27; #NEWTON # Perform a Newton solve
+  compute_scaling_once = False
+  automatic_scaling = True
+  #  l_tol = 1e-4
+ #   nl_rel_tol = 1e-4
+  #  nl_abs_tol = 5e-30
+#  resid_vs_jac_scaling_param = 1.0
+  nl_max_funcs = 7
+  petsc_options_iname = &#x27;-ksp_type -pc_type -pc_factor_shift_type&#x27;
+  petsc_options_value = &#x27;bcgs lu NONZERO&#x27;
+  dt = 1e-2
+  end_time = 1.0
+  timestep_tolerance = 1e-5
+[]
+[Preconditioning]
+  [./smp]
+    type = SMP
+    full = true
+  [../]
+[]
+[Outputs]
+  exodus = true # Output Exodus format
+  csv = true
+   #[./prov]
+  #  type = Provenance
+  #[../]
+[]
+#[Debug]
+#  show_material_props = true
+#  show_var_residual_norms = true
+#[]
+</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div><div class="moose-modal modal" id="903abd1f-5a16-4edb-a3a5-a595370ad909"><div class="modal-content"><h4>(test/tests/kernels/one_d_one_trap/one_d_one_trap.i)</h4><pre class="moose-pre"><code class="language-text">[Mesh]
+  type = GeneratedMesh
+  dim = 1 
+  nx = 20
+  xmax = 5e-5
+[]
+
+[Problem]
+  type = FEProblem # This is the &quot;normal&quot; type of Finite Element Problem in MOOSE
+  coord_type = XYZ # cartesian
+[]
+
+[Variables]
+  [./Mobile]
+    initial_condition = 0.0
+  [../]
+  [./Trapped]
+    initial_condition = 0.0
+  [../]
+[]
+
+[Kernels]
+  [./H3_diffusion_eq1]
+    type = ADMatDiffusion
+    variable = Mobile
+    diffusivity = D
+  [../]
+  [./mobile_time_deriv]
+    type = ADTimeDerivative
+    variable = Mobile
+  [../]
+  [./trapping_equilibrium_equation]
+    type = ADTrappingEquilibriumEquation
+    variable = Trapped
+    v = Mobile
+    vi = V1
+    n_traps = n1
+  [../]
+  [./trapped_time_deriv_couple]
+    type = ADCoupledTimeDerivative 
+    variable = Mobile
+    v = Trapped
+  [../]
+  [./trapped_time_deriv]
+    type = ADTimeDerivative
+    variable = Trapped
+  [../]
+[]
+
+[BCs]
+  [./left_face]
+    type = ADDirichletBC
+    variable = Mobile
+    boundary = left
+    value = 1e-4
+  [../]
+  [./right_face]
+    type = ADDirichletBC #DiffusionFluxBC
+    variable = Mobile
+    boundary = right
+    value = 0
+  [../]
+[]
+
+[Materials]
+  [./mat1]
+    type = TrappingMaterialConstT
+    v0 = 1.0E13
+    v1 = 1.0E13
+    v2 = 1.0E13
+    v3 = 1.0E13
+    E1 = 8.6e-3
+    E2 = 0.0
+    E3 = 0.0
+    k_boltz = 8.6E-5
+    D0 = 1.0
+    E_diff = 0.0
+    lambda = 3.16E-8
+    n_sol = 2
+    n1 = 0.1
+    n2 = 0.0
+    n3 = 0.0
+    const_T = 1000
+  [../]
+[]
+
+[Executioner]
+  type = Transient
+  solve_type = NEWTON 
+  # Set PETSc parameters to optimize solver efficiency
+  petsc_options_iname = &#x27;-pc_type -pc_hypre_type&#x27;
+  petsc_options_value = &#x27; hypre    boomeramg&#x27;
+  dt = 1e-9
+  num_steps = 10
+[]
+
+[Outputs]
+  console = false
+  exodus = true # Output Exodus format
+[]
+
+</code></pre></div><div class="modal-footer"><a class="modal-close btn-flat">Close</a></div></div></div><div class="col hide-on-med-and-down l2"><div class="toc-wrapper pin-top"><ul class="section table-of-contents"><li><a href="#77cbd84c-809c-4e49-8cd4-1ce87db87222" class="tooltipped" data-position="left" data-tooltip="Overview">Overview</a></li><li><a href="#11e7cc14-6e79-413e-8701-a0fd5483483d" class="tooltipped" data-position="left" data-tooltip="Example Input File Syntax">Example Input File Syntax</a></li><li><a href="#9e5bd46a-9d65-454a-a183-f1a05ac3104e" class="tooltipped" data-position="left" data-tooltip="Input Parameters">Input Parameters</a></li><li><a href="#584300b5-27c7-4a61-8191-577a5d495395" class="tooltipped" data-position="left" data-tooltip="Input Files">Input Files</a></li></ul></div></div></div></div></main></div></body><script type="text/javascript" src="../../contrib/materialize/materialize.min.js"></script><script type="text/javascript" src="../../contrib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="../../contrib/prism/prism.min.js"></script><script type="text/javascript" src="../../js/init.js"></script><script type="text/javascript" src="../../js/navigation.js"></script><script type="text/javascript" src="../../contrib/fuse/fuse.min.js"></script><script type="text/javascript" src="../../js/search_index.js"></script><script type="text/javascript" src="../../js/sqa_moose.js"></script>

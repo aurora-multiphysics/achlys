@@ -8,6 +8,7 @@ This example aims to demonstrate a simple set-up to get started with and provide
 between the Achlys numerical estimation and an exact analytical solution.
 
 - [Example 1: Analytical](analytical/analytical.md)
+- [Preparing the simulation](analytical/input_files.md)
 
 ## 2. Thermal Desorption Spectrum
 
