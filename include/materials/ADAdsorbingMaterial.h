@@ -36,10 +36,10 @@ private:
   Real _Ea;
   Real _k_boltz;
   Real _lambda;
-  Real _lambda_abs;
-  Real _lambda_des;
+  // Real _lambda_abs;
+  // Real _lambda_des;
   Real _n_sol;
-  Real _n_surf_val;
+  // Real _n_surf_val;
   Real _rho;
   Real _mass;
   Real _sigma;
@@ -57,6 +57,7 @@ private:
   ADMaterialProperty<Real> & _Sigma;
   ADMaterialProperty<Real> & _n_surf;
   ADMaterialProperty<Real> & _S;
+  ADMaterialProperty<Real> & _Lambda_abs;
 
 
 };

@@ -31,7 +31,6 @@ ADSurfaceAdsorption::ADSurfaceAdsorption(const InputParameters & parameters)
 ADReal
 ADSurfaceAdsorption::computeQpResidual()
 {
-  // ADReal theta = _u[_qp] / _n_surf[_qp] * 6.3e28;
   ADReal in = 2.0 * _gamma[_qp] * _s[_qp] * std::pow(1.0-_u[_qp], 2) - std::abs(_gamma[_qp] * _u[_qp] * _sigma[_qp]);
   ADReal out = (2.0 * _vd[_qp] * _u[_qp] * _u[_qp]);
     // + (_vsb[_qp] * _u[_qp]) 

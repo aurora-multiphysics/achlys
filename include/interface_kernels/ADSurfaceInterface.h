@@ -31,8 +31,7 @@ protected:
   const ADMaterialProperty<Real> & _sigma;
   const ADMaterialProperty<Real> & _S;
   const ADMaterialProperty<Real> & _Gamma;
-
   const ADMaterialProperty<Real> & _D_neighbor;
-  Real _n_surf;
-  Real _lambda;
+  const ADMaterialProperty<Real> & _n_surf;
+  const ADMaterialProperty<Real> & _lambda;
 };
