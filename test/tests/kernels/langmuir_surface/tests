@@ -1,0 +1,11 @@
+[Tests]
+  #[run]
+  #  type = RunApp
+  #  input = 'surface.i'
+  #[]
+  [steady_csv]
+    type = CSVDiff
+    input = 'surface.i'
+    csvdiff = 'surface_out.csv'
+  []
+[]
