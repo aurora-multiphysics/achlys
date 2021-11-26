@@ -9,7 +9,7 @@ ADVectorTrappingEquilibriumEquation::validParams()
   params.addClassDescription("Compute the local movement of particles between the mobile phase"
                              "and the trapped phase for a specific trap type");
   params.addRequiredCoupledVar("v", "Concentration of mobile particles");
-  params.addParam<MaterialPropertyName>("n_traps", "n", "material property for trapping density");
+  params.addParam<MaterialPropertyName>("n_traps", "ni", "material property for trapping density");
   params.addParam<MaterialPropertyName>("vi", "Vi", "the rate constant for this trap");
   params.addParam<MaterialPropertyName>("Vm", "Vm", "the rate constant the trapping process");
   params.addRequiredParam<Real>("index", "the trap index");
