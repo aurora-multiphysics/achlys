@@ -22,7 +22,7 @@ ADVectorTrappingEquilibriumEquation::ADVectorTrappingEquilibriumEquation(const I
     _v_m(getADMaterialProperty<Real>("Vm")),
     _v_i(getADMaterialProperty<std::vector<Real>>("vi")),
     _n_sites(getADMaterialProperty<std::vector<Real>>("n_traps")),
-    _idx(getParam<Real>("index"))
+    _idx(getParam<Real>("index") - 1)
 {
 }
 
