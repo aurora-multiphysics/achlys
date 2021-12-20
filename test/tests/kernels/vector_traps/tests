@@ -1,0 +1,32 @@
+# # # # # # #                             # # # # # # #
+#
+# aim is to regression test new vector implementation
+# against existing fixed-trap input formulation 
+#
+# # # # # # #                             # # # # # # #
+
+[Tests]
+#  [simple]
+#    type = CheckFiles
+#    input = 'simple.i'
+#    check_files = 'simple_out.csv'
+#    should_execute = true
+#  []
+#  [simple_vector]
+#    type = CheckFiles
+#    input = 'simple_vector.i'
+#    check_files = 'simple_vector_out.csv'
+#    prereq = simple
+#    should_execute = true
+#  []
+  [compare_simple_csv]
+    type = CSVDiff
+    input = 'simple.i'
+    csvdiff = 'simple_out.csv'
+  []
+  [compare_vector_csv]
+    type = CSVDiff
+    input = 'simple_vector.i'
+    csvdiff = 'simple_vector_out.csv'
+  []
+[]
