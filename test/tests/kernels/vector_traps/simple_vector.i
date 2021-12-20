@@ -1,7 +1,7 @@
 [Mesh]
   type = GeneratedMesh
   dim = 1 
-  nx = 50
+  nx = 20
   xmax = 5e-5
 []
 
@@ -132,13 +132,14 @@
 
 [Executioner]
   nl_abs_tol = 2e-12
+  nl_rel_tol = 1e-5
   type = Transient
   solve_type = NEWTON 
   # Set PETSc parameters to optimize solver efficiency
   petsc_options_iname = '-ksp_type -pc_type -pc_factor_shift_type'
   petsc_options_value = 'bcgs lu  NONZERO'
   dt = 1e-9
-  num_steps = 50
+  num_steps = 20
 []
 
 [Postprocessors]
