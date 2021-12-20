@@ -1,0 +1,8 @@
+[Tests]
+  [test]
+    type = 'Exodiff'
+    input = 'self_diffusion_step.i'
+    exodiff = 'self_diffusion_step_out.e'
+   rel_err = 1e-8
+  []
+[]
