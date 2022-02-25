@@ -5,12 +5,12 @@
 /**
  * DG kernel for enforcing continuity of chemical potential between two variables on adjacent blocks
  */
-class ADChemicalPotentialInterface : public ADInterfaceKernel
+class ADChemicalPotentialInterface2 : public ADInterfaceKernel
 {
 public:
   static InputParameters validParams();
 
-  ADChemicalPotentialInterface(const InputParameters & parameters);
+  ADChemicalPotentialInterface2(const InputParameters & parameters);
 
 protected:
   virtual ADReal computeQpResidual(Moose::DGResidualType type) override;

@@ -1,43 +1,43 @@
-#include "ADChemicalPotentialInterface.h"
+#include "ADChemicalPotentialInterface2.h"
 
-registerMooseObject("achlysApp", ADChemicalPotentialInterface);
+registerMooseObject("achlysApp", ADChemicalPotentialInterface2);
 
 InputParameters
-ADChemicalPotentialInterface::validParams()
+ADChemicalPotentialInterface2::validParams()
 {
   InputParameters params = ADInterfaceKernel::validParams();
   params.addParam<MaterialPropertyName>("s", "s", "The Solubility of primary variable concentration in this material");
   params.addParam<MaterialPropertyName>("s_neighbour", "s", "The Solubility of primary variable concentration in the neighbouring material");
-  params.addParam<Real>("penalty", 1e6, "Penalty term");
+  // params.addParam<Real>("penalty", 1e6, "Penalty term");
   params.addClassDescription(
       "The kernel is utilized to establish equivalence of chemical potential on an interface for variables.");
   return params;
 }
 
-ADChemicalPotentialInterface::ADChemicalPotentialInterface(const InputParameters & parameters)
+ADChemicalPotentialInterface2::ADChemicalPotentialInterface2(const InputParameters & parameters)
   : ADInterfaceKernel(parameters),
   _s(getADMaterialProperty<Real>("s")),
-  _s_neighbour(getNeighborADMaterialProperty<Real>("s_neighbour")),
-  _p(getParam<Real>("penalty"))
+  _s_neighbour(getNeighborADMaterialProperty<Real>("s_neighbour"))
+  // _p(getParam<Real>("penalty"))
 {
 }
 
 ADReal
-ADChemicalPotentialInterface::computeQpResidual(Moose::DGResidualType type)
+ADChemicalPotentialInterface2::computeQpResidual(Moose::DGResidualType type)
 {
-  ADReal r = (_u[_qp] / _s[_qp]) - (_neighbor_value[_qp] / _s_neighbour[_qp]);
+   ADReal r = 0; 
 
   switch (type)
   {
     case Moose::Element:
-      r *= 1.0 *_test[_i][_qp] * _p; 
+      r = _u[_qp] - (_neighbor_value[_qp] *_s[_qp] / _s_neighbour[_qp]);
+      return r;
 
-      break;
 
     case Moose::Neighbor:
-      r *=  -1.0  *_test_neighbor[_i][_qp] * _p;
-      break;
+      r = _neighbor_value[_qp] - (_u[_qp] * _s_neighbour[_qp]/ _s[_qp]);
+      return r;
   }
 
-  return r;
+  mooseError("Internal error.");
 }

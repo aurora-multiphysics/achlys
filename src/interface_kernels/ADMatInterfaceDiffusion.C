@@ -20,7 +20,7 @@ ADMatInterfaceDiffusion::validParams()
 ADMatInterfaceDiffusion::ADMatInterfaceDiffusion(const InputParameters & parameters)
   : ADInterfaceKernel(parameters),
   _D(getADMaterialProperty<Real>("D")),
-  _D_neigh(getNeighborADMaterialProperty<Real>("D_neigh"))
+  _D_neighbor(getNeighborADMaterialProperty<Real>("D_neigh"))
 {
 }
 
@@ -34,7 +34,7 @@ ADMatInterfaceDiffusion::computeQpResidual(Moose::DGResidualType type)
   switch (type)
   {
     case Moose::Element:
-      return res * _test[_i][_qp];
+      return -res * _test[_i][_qp];
 
     case Moose::Neighbor:
       return res * _test_neighbor[_i][_qp];
