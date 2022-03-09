@@ -12,15 +12,15 @@
 #include "ADMaterial.h"
 #include "LinearInterpolation.h"
 
-class TrappingMaterial;
+class KPTrappingMaterial;
 
 template <>
-InputParameters validParams<TrappingMaterial>();
+InputParameters validParams<KPTrappingMaterial>();
 
-class TrappingMaterial : public ADMaterial
+class KPTrappingMaterial : public ADMaterial
 {
 public:
-  TrappingMaterial(const InputParameters & parameters);
+  KPTrappingMaterial(const InputParameters & parameters);
 
 protected:
   virtual void computeQpProperties() override;
@@ -37,8 +37,8 @@ private:
   Real _k_boltz;
   Real _D0;
   Real _E_diff;
-  Real _lambda;
-  Real _n_sol;
+  Real _k0;
+//   Real _n_sol;
   Real _rho;
   Real _const_sites_avail_type_1;
   Real _const_sites_avail_type_2;

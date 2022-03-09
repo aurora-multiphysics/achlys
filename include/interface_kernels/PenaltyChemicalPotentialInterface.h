@@ -17,5 +17,7 @@ protected:
 
   const ADMaterialProperty<Real> & _s;
   const ADMaterialProperty<Real> & _s_neighbour;
+  const ADMaterialProperty<Real> & _rho;
+  const ADMaterialProperty<Real> & _rho_neighbor;
   Real _p;
 };

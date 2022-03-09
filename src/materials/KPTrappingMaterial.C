@@ -7,14 +7,14 @@
 // Licensed under LGPL 2.1, please see LICENSE for details
 // https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "TrappingMaterial.h"
+#include "KPTrappingMaterial.h"
 #include <cstdio>
 
-registerMooseObject("achlysApp", TrappingMaterial);
+registerMooseObject("achlysApp", KPTrappingMaterial);
 
 template <>
 InputParameters
-validParams<TrappingMaterial>()
+validParams<KPTrappingMaterial>()
 {
   InputParameters params = validParams<ADMaterial>();
   params.addRequiredParam<Real>("v1", "pre-exponential detrapping factor in Arrhenious eq.");
@@ -26,8 +26,8 @@ validParams<TrappingMaterial>()
   params.addRequiredParam<Real>("k_boltz", "Boltzman constant");
   params.addRequiredParam<Real>("D0", "The diffusion pre-exponential factor");
   params.addRequiredParam<Real>("E_diff", "diffusion energy in eV");
-  params.addRequiredParam<Real>("lambda", "Lattice constant in m-1");
-  params.addRequiredParam<Real>("n_sol", "density of interstitial sites");
+  params.addRequiredParam<Real>("k0", "Lattice constant in m-1");
+  // params.addRequiredParam<Real>("n_sol", "density of interstitial sites");
   params.addParam<Real>("rho", 6.3e28,  "material lattice density in m^-3");
   params.addRequiredParam<Real>("n1", "possible trapping sites");
   params.addRequiredParam<Real>("n2", "possible trapping sites");
@@ -42,7 +42,7 @@ validParams<TrappingMaterial>()
   return params;
 }
 
-TrappingMaterial::TrappingMaterial(const InputParameters & parameters)
+KPTrappingMaterial::KPTrappingMaterial(const InputParameters & parameters)
   : ADMaterial(parameters),
     //_simulation_temperature(coupledValues("Temperature")),
     _v1(getParam<Real>("v1")),
@@ -54,8 +54,8 @@ TrappingMaterial::TrappingMaterial(const InputParameters & parameters)
     _k_boltz(getParam<Real>("k_boltz")),
     _D0(getParam<Real>("D0")),
     _E_diff(getParam<Real>("E_diff")),
-    _lambda(getParam<Real>("lambda")),
-    _n_sol(getParam<Real>("n_sol")),
+    _k0(getParam<Real>("k0")),
+    // _n_sol(getParam<Real>("n_sol")),
     _rho(getParam<Real>("rho")),
     _const_sites_avail_type_1(getParam<Real>("n1")),
     _const_sites_avail_type_2(getParam<Real>("n2")),
@@ -86,11 +86,12 @@ TrappingMaterial::TrappingMaterial(const InputParameters & parameters)
 }
 
 void
-TrappingMaterial::computeQpProperties()
+KPTrappingMaterial::computeQpProperties()
 {
 
 _D[_qp] = _D0 * std::exp((-1.0 * _E_diff) / (_k_boltz * _T[_qp]));
-_Vm[_qp] = _D[_qp] / ( std::pow(_lambda, 2) * _n_sol);
+// _Vm[_qp] = _D[_qp] / ( std::pow(_lambda, 2) * _n_sol);
+_Vm[_qp] = _rho * _k0 * std::exp((-1.0 * _E_diff) / (_k_boltz * _T[_qp]));
 
 _V1[_qp] = _v1 * std::exp((-1.0 * _E1) / (_k_boltz * _T[_qp]));
 _V2[_qp] = _v2 * std::exp((-1.0 * _E2) / (_k_boltz * _T[_qp]));
