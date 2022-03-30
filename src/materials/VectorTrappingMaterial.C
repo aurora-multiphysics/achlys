@@ -39,6 +39,12 @@ VectorTrappingMaterial::VectorTrappingMaterial(const InputParameters & parameter
     _Vi(declareADProperty<std::vector<Real>>("Vi")),
     _n(declareADProperty<std::vector<Real>>("ni"))
 {
+    // test vectors are all same length
+  bool equal_arrays = _v0.size() == _ni.size() && _Ei.size() == _ni.size();
+  if (! equal_arrays)
+  {
+    mooseError("The trap parameter vectors v0, ni, and Ei must be the same length");
+  }
 }
 
 ADReal VectorTrappingMaterial::Arhhenious(Real v0, Real E)
@@ -49,24 +55,30 @@ ADReal VectorTrappingMaterial::Arhhenious(Real v0, Real E)
 void
 VectorTrappingMaterial::computeQpProperties()
 {
-  // test vectors are all same length
-  bool equal_arrays = _v0.size() == _ni.size() && _Ei.size() == _ni.size();
-  if (! equal_arrays)
-  {
-    mooseError("The trap parameter vectors v0, ni, and Ei must be the same length");
-  }
 
   _D[_qp] = _D0 * std::exp((-1.0 * _E_diff) / (_k_boltz * _T[_qp]));
   _Vm[_qp] = _D[_qp] / ( std::pow(_lambda, 2) * _n_sol);
 
-  // copy vector of trap densities into the ni material property
-  std::copy(_ni.begin(), _ni.end(),
-                std::back_inserter(_n[_qp]));
+  // initialise material arrays
+  if _ni[_qp].empty()
+  {
+    // copy vector of trap densities into the ni material property
+    std::copy(_ni.begin(), _ni.end(),
+                  std::back_inserter(_n[_qp]));
 
-  // apply arhennious function to the trapping rate material property using each value in the pair of input vectors.
-  std::transform(
-    _v0.begin(), _v0.end(), _Ei.begin(), 
-    std::back_inserter(_Vi[_qp]), 
-    [this] (Real i, Real j) -> ADReal {return this->Arhhenious(i, j);}
-    );
+    // apply arhennious function to the trapping rate material property using each value in the pair of input vectors.
+    std::transform(
+      _v0.begin(), _v0.end(), _Ei.begin(), 
+      std::back_inserter(_Vi[_qp]), 
+      [this] (Real i, Real j) -> ADReal {return this->Arhhenious(i, j);}
+      );
+  }
+  else:
+  {
+    std::transform(
+      _v0.begin(), _v0.end(), _Ei.begin(), 
+      _Vi[_qp], 
+      [this] (Real i, Real j) -> ADReal {return this->Arhhenious(i, j);}
+      );
+  }
 }
