@@ -17,23 +17,31 @@ public:
 
 protected:
   virtual void computeQpProperties() override;
+  // virtual void initQpStatefulProperties() override;
   ADReal Arhhenious(Real v0, Real E);
 
 private:
 
   //std::vector<const VariableValue *> _simulation_temperature;
-  std::vector<Real> _v0;
-  std::vector<Real> _Ei;
+  const std::vector<Real> _v0;
+  const std::vector<Real> _Ei;
+  const std::vector<Real> _ni;
+  std::vector<std::string> _ni_names;
+  std::vector<std::string> _vi_names;
+
   Real _k_boltz;
   Real _D0;
   Real _E_diff;
   Real _lambda;
   Real _n_sol;
-  std::vector<Real> _ni;
+  // RealEigenVector _ni;
+  
 
   const ADVariableValue & _T;
   ADMaterialProperty<Real> & _D;
   ADMaterialProperty<Real> & _Vm;
-  ADMaterialProperty<std::vector<Real>> & _Vi;
-  ADMaterialProperty<std::vector<Real>> & _n;
+
+  int _num_traps;
+  std::vector<ADMaterialProperty<Real> *> _n;
+  std::vector<ADMaterialProperty<Real> *> _Vi;
 };

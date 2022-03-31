@@ -20,8 +20,8 @@ protected:
 
   const ADVariableValue & _v;
   const ADMaterialProperty<Real> & _v_m;
-  const ADMaterialProperty<std::vector<Real>> & _v_i;
-  const ADMaterialProperty<std::vector<Real>> & _n_sites;
-  Real _idx;
+  const ADMaterialProperty<RealEigenVector> & _v_i;
+  const ADMaterialProperty<RealEigenVector> & _n_sites;
+  int _idx;
 
 };

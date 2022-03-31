@@ -12,7 +12,7 @@ ADVectorTrappingEquilibriumEquation::validParams()
   params.addParam<MaterialPropertyName>("n_traps", "ni", "material property for trapping density");
   params.addParam<MaterialPropertyName>("vi", "Vi", "the rate constant for this trap");
   params.addParam<MaterialPropertyName>("Vm", "Vm", "the rate constant the trapping process");
-  params.addRequiredParam<Real>("index", "the trap index");
+  params.addRequiredParam<int>("index", "the trap index");
   return params;
 }
 
@@ -20,17 +20,18 @@ ADVectorTrappingEquilibriumEquation::ADVectorTrappingEquilibriumEquation(const I
   : ADKernel(parameters),
     _v(adCoupledValue("v")),
     _v_m(getADMaterialProperty<Real>("Vm")),
-    _v_i(getADMaterialProperty<std::vector<Real>>("vi")),
-    _n_sites(getADMaterialProperty<std::vector<Real>>("n_traps")),
-    _idx(getParam<Real>("index") - 1)
+    _v_i(getADMaterialProperty<RealEigenVector>("vi")),
+    _n_sites(getADMaterialProperty<RealEigenVector>("n_traps")),
+    _idx(getParam<int>("index") - 1)
 {
 }
 
 ADReal
 ADVectorTrappingEquilibriumEquation::computeQpResidual()
 {
-  ADReal detrapping = _v_i[_qp][_idx] * _u[_qp];
-  ADReal trapping = _v_m[_qp] * _v[_qp] * (_n_sites[_qp][_idx] - _u[_qp]);
+  // Eigen::matrix container is indexed with () instead of []
+  ADReal detrapping = _v_i[_qp](_idx) * _u[_qp];
+  ADReal trapping = _v_m[_qp] * _v[_qp] * (_n_sites[_qp](_idx) - _u[_qp]);
   
   return -1.0 * _test[_i][_qp] * (trapping - detrapping);
 }
