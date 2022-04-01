@@ -22,14 +22,15 @@ ArrheniusMaterial::ArrheniusMaterial(const InputParameters & parameters)
     _v0(getParam<Real>("v0")),
     _E(getParam<Real>("E")),
     _k(getParam<Real>("k")),
-    _T(adCoupledValue("Temperature"))
+    _T(adCoupledValue("Temperature")),
+    _property(declareADProperty<Real>(_name))
     // _property(declareADProperty<Real>(_name));
 {
-  _property = declareADProperty<Real>(_name);
+  // _property = declareADProperty<Real>(_name);
 }
 
 void
 ArrheniusMaterial::computeQpProperties()
 {
-  _property[_qp] = v0 * std::exp((-1.0 * E) / (_k_boltz * _T[_qp]));
+  _property[_qp] = _v0 * std::exp((-1.0 * _E) / (_k * _T[_qp]));
 }

@@ -2,10 +2,15 @@
 #pragma once
 
 // #include "TensorMechanicsActionBase.h"
-include "Action.h"
+#include "Action.h"
 #include "libmesh/point.h"
+#include "BlockRestrictable.h"
 
-class FosterMcNabbTrapAction : public Action
+#include<vector>
+#include<string>
+
+class FosterMcNabbTrapAction : public Action,
+                               public BlockRestrictable
 {
 public:
   static InputParameters validParams();
@@ -14,111 +19,90 @@ public:
 
   virtual void act();
 
-private:
-    struct arrhenius_parameters
-    {
-        Real v0;
-        Real E;
-    };
-    std::map<std::string, FosterMcNabbTrapAction::trap_parameters> _traps;
-    Real _k;
-    const ADVariableValue & _temperature_variable;
-
 protected:
-    void addVariables(std::string names);
+    void addVariables();
     void addMaterials();
-    void addArrheniusMaterials(std::map<std::string, FosterMcNabbTrapAction::trap_parameters> & names);
-    void addArrheniusMaterials(std::map<std::string, std::pair<Real, Real> & names);
-    
+    // svoid addArrheniusMaterials(std::map<std::string, FosterMcNabbTrapAction::trap_parameters> & names);
+    // void addArrheniusMaterials(std::map<std::string, std::pair<Real, Real> & names);
+    void addArrheniusMaterial(std::string name, Real V0, Real E);
+    void addGenericConstantMaterial(std::vector<std::string> names, std::vector<Real> values);
+
     void addTrappingKernels();
-    void addTrappingReactionKernels(std::vector<std::string>> trap_variables);
-    void addTimeKernels(std::vector<std::string>> variables);
-    void addTrapCouplingKernels(std::vector<std::pair<std::string,std::string>> mobile_trap_pairs);
+    void addTrappingReactionKernels();
+    void addDetrappingRateMaterials();
+    void addTimeKernels();
+    void addTrapCouplingKernels();
+    void addDiffusionKernel();
+
+    const std::vector<Real> _n;
+    const std::vector<Real> _v0;
+    const std::vector<Real> _E;
+    // const ADVariableValue & _temperature_variable;
+    std::string _temperature_variable;
 
 
+    Real _k;
+    Real _D0;
+    Real _Ed;
+    Real _S0;
+    Real _Es;
+    Real _p0;
+    Real Ep;
+    Real _lambda;
+    Real _n_sol;
+    Real _rho;
 
-  void actSubdomainChecks();
-  void actOutputGeneration();
-  void actEigenstrainNames();
-  void actOutputMatProp();
-  void actGatherActionParameters();
-  void verifyOrderAndFamilyOutputs();
-  void actLagrangianKernelStrain();
-  void actStressDivergenceTensorsStrain();
-
-  virtual std::string getKernelType();
-  virtual InputParameters getKernelParameters(std::string type);
-
-  /**
-   * Helper function to decode `generate_outputs` options using a "table" of
-   * scalar output quantities and a "setup" lambda that performs the input parameter
-   * setup for the output material object.
-   */
-//   template <typename T, typename T2>
-//   bool setupOutput(std::string out, T table, T2 setup);
-
-//   ///@{ displacement variables
-//   std::vector<VariableName> _displacements;
-
-//   /// Number of displacement variables
-//   unsigned int _ndisp;
-
-//   /// Coupled displacement variables
-//   std::vector<VariableName> _coupled_displacements;
-//   ///@}
-
-//   ///@{ residual debugging
-//   std::vector<AuxVariableName> _save_in;
-//   std::vector<AuxVariableName> _diag_save_in;
-//   ///@}
-
-//   Moose::CoordinateSystemType _coord_system;
-
-//   /// if this vector is not empty the variables, kernels and materials are restricted to these subdomains
-//   std::vector<SubdomainName> _subdomain_names;
-
-//   /// set generated from the passed in vector of subdomain names
-//   std::set<SubdomainID> _subdomain_ids;
-
-//   /// set generated from the combined block restrictions of all TensorMechanics/Master action blocks
-//   std::set<SubdomainID> _subdomain_id_union;
-
-  const std::vector<MaterialPropertyName>> _material_definition_names;
+    std::string _trap_variable_base;
+    std::string _mobile_variable_base;
+    std::string _detrap_material_base;
+    
+    std::string _trap_material_base;
+    std::string _trap_density_material_base;
 
 
-  /// base name for the current master action block
-  const std::string _base_name;
+    int _n_traps;
 
-  /// use displaced mesh (true unless _strain is SMALL)
-  bool _use_displaced_mesh;
+    std::string _mobile_variable_name;
+    std::string _trapping_rate_material_name;
 
-  /// output materials to generate scalar stress/strain tensor quantities
-  std::vector<std::string> _generate_output;
-  MultiMooseEnum _material_output_order;
-  MultiMooseEnum _material_output_family;
+    std::string _block_prepend;
+    
+    std::vector<std::string> _trap_variable_names;
+    std::vector<std::string> _all_variable_names;
+    std::vector<std::string> _trap_density_names;
+    std::vector<std::string> _detrapping_rate_names;
+
+    // option to use specified value for the trapping reaction rate
+    bool _trapping_rate_specified;
+    bool _trapping_energy_specified;
+    bool _solubility_specified;
 
 
-  /// automatically gather names of eigenstrain tensors provided by simulation objects
-  const bool _auto_eigenstrain;
+//   void actSubdomainChecks();
+//   void actOutputGeneration();
+//   void actEigenstrainNames();
+//   void actOutputMatProp();
+//   void actGatherActionParameters();
+//   void verifyOrderAndFamilyOutputs();
+//   void actLagrangianKernelStrain();
+//   void actStressDivergenceTensorsStrain();
 
-  std::vector<MaterialPropertyName> _eigenstrain_names;
+//   virtual std::string getKernelType();
+//   virtual InputParameters getKernelParameters(std::string type);
 
-  /// New or old kernel system
-  const bool _lagrangian_kernels;
 
-  const LKFormulation _lk_formulation;
+  
+//   struct arrhenius_parameters
+//     {
+//         arrhenius_parameters(Real v0, Real E):v0(v0),E(E){};
+//         Real v0;
+//         Real E;
+//     };
 
-  // Helper to translate into MOOSE talk
-  static const std::map<unsigned int, std::string> _order_mapper;
-  // Name of the homogenization scalar variable
-  const std::string _hname = "hvar";
-  // Name of the integrator
-  const std::string _integrator_name = "integrator";
-  // Name of the homogenization strain
-  const std::string _homogenization_strain_name = "homogenization_gradient";
-  // Other homogenization info
-  MultiMooseEnum _constraint_types;
-  std::vector<FunctionName> _targets;
+//     std::map<std::string, FosterMcNabbTrapAction::arrhenius_parameters> _traps;
+//     const ADVariableValue & _temperature_variable;
+//     const std::vector<MaterialPropertyName>> _material_definition_names;
+
 };
 
 // template <typename T, typename T2>
