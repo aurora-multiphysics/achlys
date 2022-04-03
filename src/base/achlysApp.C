@@ -58,7 +58,7 @@ achlysApp::registerAll(Factory & f, ActionFactory & af, Syntax & syntax)
   Registry::registerActionsTo(af, {"achlysApp"});
 
   /* register custom execute flags, action syntax, etc. here */
-  associateSyntaxInner(s, af);
+  associateSyntaxInner(syntax, af);
 }
 
 void

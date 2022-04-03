@@ -11,6 +11,7 @@ ADTrappingEquilibriumEquation::validParams()
   params.addRequiredCoupledVar("v", "Concentration of mobile particles");
   params.addParam<MaterialPropertyName>("n_traps", "n0", "material property for trapping density");
   params.addParam<MaterialPropertyName>("vi", "v0", "the rate constant for this trap");
+  params.addParam<MaterialPropertyName>("Vm", "Vm", "the reaction rate for the trapping process");
   return params;
 }
 

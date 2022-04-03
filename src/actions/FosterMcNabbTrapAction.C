@@ -49,12 +49,15 @@ registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_materials");
 
     -- create new data strcutures or just use naive loops through input variables to start?
 
+    -- BCs etc. will wlays be in terms of mobile species so maybe best to set these explicitly outsid eof the action?
+
 */
 
 InputParameters
 FosterMcNabbTrapAction::validParams()
 {
     InputParameters params = Action::validParams();
+    // params += BlockRestrictable::validParams();
     params.addClassDescription("Set up kernels and materials for a Foster-McNabb trapping model");
     // params.addParam<std::vector<MaterialPropertyName>>("material_definitions", "material classes providing input data");
     params.addRequiredParam<std::vector<Real>>("v0", "pre-exponential detrapping factor in Arrhenious eq.");
@@ -63,20 +66,22 @@ FosterMcNabbTrapAction::validParams()
     params.addRequiredParam<Real>("k", "Boltzman constant");
     params.addRequiredParam<Real>("D0", "The diffusion pre-exponential factor");
     params.addRequiredParam<Real>("Ed", "diffusion energy in eV");
-    params.addParam<Real>("S0", "The solubility pre-exponential factor");
-    params.addParam<Real>("Es", "energy of solution in eV");
+    params.addParam<Real>("S0", 0.0, "The solubility pre-exponential factor");
+    params.addParam<Real>("Es", 0.0, "energy of solution in eV");
     params.addParam<Real>("p0", -1, "Explicit pre-exponential factor for the trapping reaction rate (bypasses internal calculaution based on D(T) and lambda)");
     params.addParam<Real>("Ep", -1, "Explicit binding energy for the trapping reaction rate");
     params.addParam<Real>("lambda", -1, "Lattice constant in m-1");
     params.addParam<Real>("n_sol", -1, "density of interstitial sites in atomic fraction");
-    params.addParam<Real>("atomic_density", 1, "Number density of solute atoms in m^-3");
+    params.addParam<Real>("atomic_density", 1.0, "Number density of solute atoms in m^-3");
     params.addRequiredParam<std::string>("Temperature","simulation temperature");
     params.addParam<std::string>("trap_variable_base", "trap", "the base name for automatically created trap variables");
     params.addParam<std::string>("mobile_variable_base", "mobile", "the base name for automatically created mobile variables");
     params.addParam<std::string>("detrap_material_base", "detrapping_rate", "the base name for the de-trapping rate material property");
     params.addParam<std::string>("trapping_material_base", "trapping_rate", "the base name for the trapping rate material property");
     params.addParam<std::string>("trap_density_material_base", "trap_density", "the base name for trap density material property");
+    params.addParam<std::vector<SubdomainName>>("blocks", "optional list of subdomain IDs this action applies to");
     // enum for order of variables
+    // enum for molar or eV formulation
     // interface type -- global variables or block restricted?
     // handle variable trap densities 
     // varying requirements for input variables e.g. solubility for CP interface but not otherwise
@@ -85,11 +90,12 @@ FosterMcNabbTrapAction::validParams()
 
 FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
   : Action(params),
+//   BlockRestrictable(this),
     // _material_definition_names(getParam<std::vector<MaterialPropertyName>>("material_definitions"))
     _n(getParam<std::vector<Real>>("n")),
     _v0(getParam<std::vector<Real>>("v0")),
     _E(getParam<std::vector<Real>>("E")),
-    _temperature_variable(<std::string>("Temperature")),
+    _temperature_variable(getParam<std::string>("Temperature")),
     _k(getParam<Real>("k")),
     _D0(getParam<Real>("D0")),
     _Ed(getParam<Real>("Ed")),
@@ -99,12 +105,13 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     _Ep(getParam<Real>("Ep")),
     _lambda(getParam<Real>("lambda")),
     _n_sol(getParam<Real>("n_sol")),
-    _rho(getParam<Real>("atomc_density")),
+    _rho(getParam<Real>("atomic_density")),
     _trap_variable_base(getParam<std::string>("trap_variable_base")),
     _mobile_variable_base(getParam<std::string>("mobile_variable_base")),
     _detrap_material_base(getParam<std::string>("detrap_material_base")),
-    _trap_material_base(getParam<std::string>("trap_material_base")),
-    _trap_density_material_base(getParam<std::string>("trap_density_material_base"))
+    _trap_material_base(getParam<std::string>("trapping_material_base")),
+    _trap_density_material_base(getParam<std::string>("trap_density_material_base")),
+    _blocks(getParam<std::vector<SubdomainName>>("blocks"))
     
 
 {
@@ -152,7 +159,7 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
         _block_prepend = std::string("_") + std::string(_blocks[0]);
     }
 
-    for (int i = 0; i < _v0.size(); i++)
+    for (int i = 0; i < _n_traps; i++)
     {
         std::string name = _trap_variable_base + _block_prepend + "_" + std::to_string(i +1);
         _trap_variable_names.push_back(name);
@@ -194,16 +201,15 @@ FosterMcNabbTrapAction::act()
 
 void FosterMcNabbTrapAction::addVariables()
 {
+    auto params = _factory.getValidParams("MooseVariable");
     // const bool second = _order_specified ? _order == "SECOND" : _problem->mesh().hasSecondOrderElements();
     const bool second_order =  _problem->mesh().hasSecondOrderElements();
+    params.set<MooseEnum>("order") = second_order ? "SECOND" : "FIRST";
+    params.set<MooseEnum>("family") = "LAGRANGE";
 
     for (const auto & name : _all_variable_names)
     {
-        // can the same params object be used to instantiate multiple variables? -- YES!
         _problem->addVariable("MooseVariable", name, params);
-        params.set<MooseEnum>("order") = second_order ? "SECOND" : "FIRST";
-        params.set<MooseEnum>("family") = "LAGRANGE";
-        auto params = _factory.getValidParams("MooseVariable");
     }
 }
 
@@ -250,22 +256,24 @@ void FosterMcNabbTrapAction::addMaterials()
 
 void FosterMcNabbTrapAction::addDetrappingRateMaterials()
 {
-    std::string type = "ArrheniusMaterial"
-    for (int i = 0; i< _v0.size(); v++)
+    std::string type = "ArrheniusMaterial";
+    for (int i = 0; i< _n_traps; i++)
     {
-        params = _factory.getValidParams(type);
+        auto params = _factory.getValidParams(type);
         std::string material_property_name = _detrap_material_base + "_" + std::to_string(i + 1);
-        params.set<MaterialPropertyName>("name") = material_property_name;
+        // params.set<MaterialPropertyName>("name") = material_property_name;
+        params.set<std::string>("name") = material_property_name;
         params.set<Real>("v0") = _v0[i];
         params.set<Real>("E") = _E[i];
         params.set<Real>("k") = _k;
-        params.set<NonlinearVariableName>("Temperature") = _temperature_variable;
+        // params.set<NonlinearVariableName>("Temperature") = _temperature_variable;
+        params.set<std::vector<VariableName>>("Temperature") = {_temperature_variable};
         std::string material_block_name = material_property_name + _block_prepend;
         if (!_blocks.empty())
         {
             params.set<std::vector<SubdomainName>>("blocks") = _blocks; 
         }
-        params.set<std::vector<std::string>>("outputs") = "exodus"; 
+        params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
         _problem->addMaterial(type, material_block_name, params);
     }
 }
@@ -301,18 +309,20 @@ void FosterMcNabbTrapAction::addDetrappingRateMaterials()
 
 void FosterMcNabbTrapAction::addArrheniusMaterial(std::string name, Real V0, Real E)
 {
-    std::string type = "ArrheniusMaterial"
-    params = _factory.getValidParams(type);
+    std::string type = "ArrheniusMaterial";
+    auto params = _factory.getValidParams(type);
     if (!_blocks.empty())
     {
         params.set<std::vector<SubdomainName>>("blocks") = _blocks; 
     }
-    params.set<MaterialPropertyName>("name") = name;
-    params.set<Real>("v0") = v0;
+    // params.set<MaterialPropertyName>("name") = name;
+    params.set<std::string>("name") = name;
+    params.set<Real>("v0") = V0;
     params.set<Real>("E") = E;
     params.set<Real>("k") = _k; 
-    params.set<NonlinearVariableName>("Temperature") = _temperature_variable;
-    params.set<std::vector<std::string>>("outputs") = "exodus"; 
+    params.set<std::vector<VariableName>>("Temperature") = {_temperature_variable};
+    // params.set<std::string>("Temperature") = _temperature_variable;
+    params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
     std::string material_block_name = name + _block_prepend;
     if (!_blocks.empty())
     {
@@ -324,16 +334,16 @@ void FosterMcNabbTrapAction::addArrheniusMaterial(std::string name, Real V0, Rea
 
 void FosterMcNabbTrapAction::addGenericConstantMaterial(std::vector<std::string> names, std::vector<Real> values)
 {
-    std::string type = "ADGenericConstantMaterial"
-    params = _factory.getValidParams(type);
-    params.set<std::string>("prop_names") = names;
-    params.set<Real>("prop_names") = values;
+    std::string type = "ADGenericConstantMaterial";
+    auto params = _factory.getValidParams(type);
+    params.set<std::vector<std::string>>("prop_names") = names;
+    params.set<std::vector<Real>>("prop_values") = values;
     std::string material_block_name = _trap_density_material_base + _block_prepend;
     if (!_blocks.empty())
     {
         params.set<std::vector<SubdomainName>>("blocks") = _blocks; 
     }
-    params.set<std::vector<std::string>>("outputs") = "exodus"; 
+    params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
     _problem->addMaterial(type, material_block_name, params);
 }
 
@@ -362,14 +372,15 @@ void FosterMcNabbTrapAction::addGenericConstantMaterial(std::vector<std::string>
 void FosterMcNabbTrapAction::addTrappingReactionKernels()
 {
     std::string kernel_type = "ADTrappingEquilibriumEquation";
-    for (int i = 0; i < _v0.size(); i++)
+    for (int i = 0; i < _n_traps; i++)
     {
         InputParameters params = _factory.getValidParams(kernel_type);
-        params.set<NonlinearVariableName>("v") = _mobile_variable_name;
-        params.set<NonlinearVariableName>("variable") = trap_variable_names[i];
-        std::string kernel_name = trap_variable_names[i] + "_trapping_reaction"
+        params.set<std::vector<VariableName>>("v") = {_mobile_variable_name};
+        params.set<NonlinearVariableName>("variable") = _trap_variable_names[i];
+        std::string kernel_name = _trap_variable_names[i] + "_trapping_reaction";
         params.set<MaterialPropertyName>("vi") = _detrapping_rate_names[i];
         params.set<MaterialPropertyName>("n_traps") = _trap_density_names[i];
+        params.set<MaterialPropertyName>("Vm") = {_trapping_rate_material_name};
         // if (!_blocks.empty())
         // {
         //     params.set<std::vector<SubdomainName>>("blocks") = _blocks; 
@@ -397,7 +408,7 @@ void FosterMcNabbTrapAction::addTimeKernels()
   {
     InputParameters params = _factory.getValidParams(kernel_type);
     params.set<NonlinearVariableName>("variable") = variable_name;
-    std::string kernel_name = variable_name + "_dt"
+    std::string kernel_name = variable_name + "_dt";    
     _problem->addKernel(kernel_type, kernel_name, params);
   }
 }
@@ -405,12 +416,12 @@ void FosterMcNabbTrapAction::addTimeKernels()
 void FosterMcNabbTrapAction::addTrapCouplingKernels()
 {
     std::string kernel_type = "ADCoupledTimeDerivative";
-  for (int i = 0; i<_v0.size; i++)
+  for (int i = 0; i < _n_traps; i++)
     {
         InputParameters params = _factory.getValidParams(kernel_type);
-        params.set<NonlinearVariableName>("v") = _trap_variable_names[i];
+        params.set<std::vector<VariableName>>("v") = {_trap_variable_names[i]};
         params.set<NonlinearVariableName>("variable") = _mobile_variable_name;
-        std::string kernel_name = trap_variable_names[i] + "_coupled_dt"
+        std::string kernel_name = _trap_variable_names[i] + "_coupled_dt";
         _problem->addKernel(kernel_type, kernel_name, params);
     }
 }
@@ -421,7 +432,7 @@ void FosterMcNabbTrapAction::addDiffusionKernel()
     InputParameters params = _factory.getValidParams(kernel_type);
     params.set<NonlinearVariableName>("variable") = _mobile_variable_name;
     params.set<MaterialPropertyName>("diffusivity") = "D";
-    std::string kernel_name = _mobile_variable_name + "diffusion"
+    std::string kernel_name = _mobile_variable_name + "diffusion";
     _problem->addKernel(kernel_type, kernel_name, params);
 }
 

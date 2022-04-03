@@ -2,6 +2,7 @@
 #pragma once
 
 // #include "TensorMechanicsActionBase.h"
+#include "MooseObject.h"
 #include "Action.h"
 #include "libmesh/point.h"
 #include "BlockRestrictable.h"
@@ -9,8 +10,7 @@
 #include<vector>
 #include<string>
 
-class FosterMcNabbTrapAction : public Action,
-                               public BlockRestrictable
+class FosterMcNabbTrapAction : public Action
 {
 public:
   static InputParameters validParams();
@@ -34,9 +34,9 @@ protected:
     void addTrapCouplingKernels();
     void addDiffusionKernel();
 
-    const std::vector<Real> _n;
-    const std::vector<Real> _v0;
-    const std::vector<Real> _E;
+    std::vector<Real> _n;
+    std::vector<Real> _v0;
+    std::vector<Real> _E;
     // const ADVariableValue & _temperature_variable;
     std::string _temperature_variable;
 
@@ -47,7 +47,7 @@ protected:
     Real _S0;
     Real _Es;
     Real _p0;
-    Real Ep;
+    Real _Ep;
     Real _lambda;
     Real _n_sol;
     Real _rho;
@@ -59,6 +59,7 @@ protected:
     std::string _trap_material_base;
     std::string _trap_density_material_base;
 
+    std::vector<SubdomainName> _blocks;
 
     int _n_traps;
 
