@@ -58,13 +58,19 @@ protected:
     
     std::string _trap_material_base;
     std::string _trap_density_material_base;
+    std::string _diffusivity_material_base;
+    std::string _solubility_material_base;
 
     std::vector<SubdomainName> _blocks;
+
+    // bool _transient;
 
     int _n_traps;
 
     std::string _mobile_variable_name;
     std::string _trapping_rate_material_name;
+    std::string _diffusivity_material_name;
+    std::string _solubility_material_name;
 
     std::string _block_prepend;
     
