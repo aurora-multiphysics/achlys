@@ -6,6 +6,7 @@
 #include "Action.h"
 #include "libmesh/point.h"
 #include "BlockRestrictable.h"
+#include "AddAuxVariableAction.h"
 
 #include<vector>
 #include<string>
@@ -33,6 +34,12 @@ protected:
     void addTimeKernels();
     void addTrapCouplingKernels();
     void addDiffusionKernel();
+
+    void addAuxVariables();
+    void addAuxKernels();
+
+    void add_aux_variable(std::string name, bool second_order);
+    void add_parsed_aux(std::string name, std::vector<std::string> args, std::string function);
 
     std::vector<Real> _n;
     std::vector<Real> _v0;
@@ -84,63 +91,24 @@ protected:
     bool _trapping_energy_specified;
     bool _solubility_specified;
 
+    bool _variable_order_specified;
+    MultiMooseEnum _variable_order;
+    MultiMooseEnum VariableOrders();
 
-//   void actSubdomainChecks();
-//   void actOutputGeneration();
-//   void actEigenstrainNames();
-//   void actOutputMatProp();
-//   void actGatherActionParameters();
-//   void verifyOrderAndFamilyOutputs();
-//   void actLagrangianKernelStrain();
-//   void actStressDivergenceTensorsStrain();
+    MultiMooseEnum _interface_type;
+    enum class InterfaceType
+    {
+        chemical_potential,
+        concentration
+    }
 
-//   virtual std::string getKernelType();
-//   virtual InputParameters getKernelParameters(std::string type);
-
-
-  
-//   struct arrhenius_parameters
-//     {
-//         arrhenius_parameters(Real v0, Real E):v0(v0),E(E){};
-//         Real v0;
-//         Real E;
-//     };
-
-//     std::map<std::string, FosterMcNabbTrapAction::arrhenius_parameters> _traps;
-//     const ADVariableValue & _temperature_variable;
-//     const std::vector<MaterialPropertyName>> _material_definition_names;
 
 };
 
-// template <typename T, typename T2>
-// bool
-// TensorMechanicsAction::setupOutput(std::string out, T table, T2 setup)
-// {
-//   for (const auto & t1 : table)
-//   {
-//     // find the officially supported properties
-//     for (const auto & t2 : t1.second.second)
-//       if (t1.first + '_' + t2 == out)
-//       {
-//         const auto it = _rank_two_cartesian_component_table.find(t2);
-//         if (it != _rank_two_cartesian_component_table.end())
-//         {
-//           setup(it->second, t1.second.first);
-//           return true;
-//         }
-//         else
-//           mooseError("Internal error. The permitted tensor shortcuts must be keys in the "
-//                      "'_rank_two_cartesian_component_table'.");
-//       }
+MultiMooseEnum
+FosterMcNabbTrapAction::VariableOrders()
+{
+  auto orders = AddAuxVariableAction::getAuxVariableOrders().getRawNames();
 
-//     // check for custom properties
-//     auto prefix = t1.first + '_';
-//     if (out.substr(0, prefix.length()) == prefix)
-//     {
-//       setup(out.substr(prefix.length()), t1.second.first);
-//       return true;
-//     }
-//   }
-
-//   return false;
-// }
+  return MultiMooseEnum(orders);
+}

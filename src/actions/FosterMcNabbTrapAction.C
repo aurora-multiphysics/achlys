@@ -16,17 +16,14 @@
 #include "libmesh/string_to_enum.h"
 #include <algorithm>
 
-// registerMooseAction("achlysApp", FosterMcNabbTrapAction, "meta_action");
-// registerMooseAction("achlysApp", FosterMcNabbTrapAction, "setup_mesh_complete");
-// registerMooseAction("achlysApp", FosterMcNabbTrapAction, "validate_coordinate_systems");
+
 registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_variables");
-// registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_variable");
 registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_kernels");
-// registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_kernel");
 registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_materials");
-// registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_master_action_material");
-// registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_scalar_kernel");
-// registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_user_object");
+registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_interface_kernels");
+registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_variables");
+registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_kernels");
+
 
 /*
     1) create new trap_i variables for each element given in material property vectors (for each material subdomain)
@@ -35,6 +32,7 @@ registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_materials");
     2) declare new material properties 
 
     3) create 3 kernels for the Foster-McNabb trapping model, including coupling with the mobile term
+        i) test if simulation is steady or transient to optionally create time-based kernels
 
     4) instantiate interface kernels if required
 
@@ -51,15 +49,33 @@ registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_materials");
 
     -- BCs etc. will wlays be in terms of mobile species so maybe best to set these explicitly outsid eof the action?
 
+    To-do:
+      - add ENUMS for some input options:
+        i) variable order
+        ii) interface models
+        iii) energy units
+
+      - switches
+        i) create variable or use existing
+        ii) create summary aux-variables
+
+      - automate unit rescaling from SI input to atomic fraction in calc
+        i) options for energy units
+
+      - add interface kernels
+        i) need a common (or final) action to grab list of boundary ids from blocks implementing this action
+
+      - add aux kernel summary
+
+      - option for function input for trap density instead of domain constant value
+
 */
 
 InputParameters
 FosterMcNabbTrapAction::validParams()
 {
     InputParameters params = Action::validParams();
-    // params += BlockRestrictable::validParams();
     params.addClassDescription("Set up kernels and materials for a Foster-McNabb trapping model");
-    // params.addParam<std::vector<MaterialPropertyName>>("material_definitions", "material classes providing input data");
     params.addRequiredParam<std::vector<Real>>("v0", "pre-exponential detrapping factor in Arrhenious eq.");
     params.addRequiredParam<std::vector<Real>>("E", "Trap detrapping energy in eV");
     params.addRequiredParam<std::vector<Real>>("n", "possible trapping sites");
@@ -79,12 +95,19 @@ FosterMcNabbTrapAction::validParams()
     params.addParam<std::string>("detrap_material_base", "detrapping_rate", "the base name for the de-trapping rate material property");
     params.addParam<std::string>("trapping_material_base", "trapping_rate", "the base name for the trapping rate material property");
     params.addParam<std::string>("trap_density_material_base", "trap_density", "the base name for trap density material property");
-    params.addParam<std::string>("diffusivity_material_base", "D", "the base name for the diffusivity material property");
-    params.addParam<std::string>("solubility_material_base", "S", "the base name for the solubility material property");
+    // params.addParam<std::string>("diffusivity_material_base", "D", "the base name for the diffusivity material property");
+    // params.addParam<std::string>("solubility_material_base", "S", "the base name for the solubility material property");
     params.addParam<std::vector<SubdomainName>>("block", "optional list of subdomain IDs this action applies to");
+    params.addParam<MultiMooseEnum>("variable_order",
+                                  FosterMcNabbTrapAction::outputPropertiesType(),
+                                  "Order of the variables which will be generated");
+    MultiMooseEnum interface_type = ("CHEMICAL_POTENTIAL CONCENTRATION", "CHEMICAL_POTENTIAL");
+    params.addParam<MultiMooseEnum>("interface_type", interface_type, "Whether to implement continuity of mobile concentration"
+                                    " or continuity of chemical potential at material interfaces"
+    params.addParam<bool>("generate_interface_kernels", false, "Wether to generate interface kernels between different subdomains")
+    
     // enum for order of variables
     // enum for molar or eV formulation
-    // interface type -- global variables or block restricted?
     // handle variable trap densities 
     // varying requirements for input variables e.g. solubility for CP interface but not otherwise
     return params;
@@ -115,9 +138,9 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     _trap_density_material_base(getParam<std::string>("trap_density_material_base")),
     _diffusivity_material_base(getParam<std::string>("diffusivity_material_base")),
     _solubility_material_base(getParam<std::string>("solubility_material_base")),
-    _blocks(getParam<std::vector<SubdomainName>>("block"))
+    _blocks(getParam<std::vector<SubdomainName>>("block")),
+    _interface_type(getParam<MultiMooseEnum>("interface_type").getEnum<InterfaceType>())
     
-
 {
     //   determine order of variables to be created 
     //    // verifyOrderAndFamilyOutputs();
@@ -156,10 +179,8 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
         construct unique lists of variable names
     */
     _block_prepend = "";
-    // if (_par.isParamSetByUser("block"))
     if(! _blocks.empty())
     {
-        // from block-resitrable class the list of user_suppled SubdominNames is stored here
         _block_prepend = std::string("_") + std::string(_blocks[0]);
     }
 
@@ -182,7 +203,18 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     _diffusivity_material_name = _diffusivity_material_base + _block_prepend;
     _solubility_material_name = _solubility_material_base + _block_prepend;
 
+    // uncontrolled names for generated objects:
+    // - diffusivity - D
+    // - Solubility - S
+    // - Density - rho
+
     // _transient = _problem->isTransient();
+    // bool naive_interface = _interface_type == InterfaceType::concentration; 
+    _variable_order_specified = isParamValid("variable_order")
+    if (isParamValid("variable_order"))
+    {
+        _variable_order = getParam<MultiMooseEnum>("variable_order");
+    }
 }
 
 
@@ -474,3 +506,30 @@ void FosterMcNabbTrapAction::addDiffusionKernel()
 //   }
 // }
 
+/*
+    NOTE: only want to call this from some master process as it's used for summary data across al domains... 
+*/
+void FosterMcNabbTrapAction::add_aux_variable(std::string name, bool second_order)
+{
+    // only want to call this
+    auto params = _factory.getValidParams("MooseVariable");
+    params.set<MooseEnum>("order") = second_order ? "SECOND" : "FIRST";
+    params.set<MooseEnum>("family") = "LAGRANGE";
+    _problem->addAuxVariable("MooseVariable", name, params);
+}
+
+
+void FosterMcNabbTrapAction::add_parsed_aux(std::string name, std::vector<std::string> args, std::string function)
+{
+    params = _factory.getValidParams("ParsedAux");
+    params.set<AuxVariableName>("variable") = name;
+    params.set<std::vector<VariableValue *>>("args") = args;
+    params.set<<std::string>("function") = function;
+    params.set<ExecFlagEnum>("execute_on") = EXEC_TIMESTEP_END;s
+    if (!_blocks.empty())
+        {
+            params.set<std::vector<SubdomainName>>("blocks") = _blocks; 
+        }
+    std::string block_name = name + _block_prepend + "parsed_aux";
+    _problem->addAuxKernel(block_name, params);
+}
