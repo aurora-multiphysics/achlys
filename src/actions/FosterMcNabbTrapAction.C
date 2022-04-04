@@ -103,8 +103,10 @@ FosterMcNabbTrapAction::validParams()
                                   "Order of the variables which will be generated");
     MultiMooseEnum interface_type = ("CHEMICAL_POTENTIAL CONCENTRATION", "CHEMICAL_POTENTIAL");
     params.addParam<MultiMooseEnum>("interface_type", interface_type, "Whether to implement continuity of mobile concentration"
-                                    " or continuity of chemical potential at material interfaces"
-    params.addParam<bool>("generate_interface_kernels", false, "Wether to generate interface kernels between different subdomains")
+                                    " or continuity of chemical potential at material interfaces");
+    params.addParam<bool>("generate_interface_kernels", false, "Wether to generate interface kernels between different subdomains");
+    params.addParam<std::vector<std::string>>("aux_variables", "List of summary quantities which are continuous across subdomained "
+                                            "and converted to SI units. Available options are mobile, trapped, and retention");
     
     // enum for order of variables
     // enum for molar or eV formulation
@@ -215,6 +217,15 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     {
         _variable_order = getParam<MultiMooseEnum>("variable_order");
     }
+    else
+    {
+        const bool second_order =  _problem->mesh().hasSecondOrderElements();
+        _variable_order = second_order ? "SECOND" : "FIRST";
+    }
+    if (isParamValid("aux_variables"))
+    {
+        _aux_variable_names = getParam<std::vector<std::string>>("aux_variables");
+    }
 }
 
 
@@ -231,15 +242,15 @@ FosterMcNabbTrapAction::act()
     }
     if (_current_task == "add_kernels")
     {
-        addTrappingReactionKernels();
-
-        if (_problem->isTransient())
-        {
-            addTimeKernels();
-            addTrapCouplingKernels();
-        }
-
-        addDiffusionKernel();
+        addKernels();
+    }
+        if (_current_task == "add_aux_variables")
+    {
+        addAuxVariables();
+    }
+    if (_current_task == "add_aux_kernels")
+    {
+        addAuxKernels();
     }
 }
 
@@ -420,6 +431,20 @@ void FosterMcNabbTrapAction::addGenericConstantMaterial(std::vector<std::string>
 //     _problem->addKernel(kernel_type, kernel_name, params);
 //   }
 // }
+
+void FosterMcNabbTrapAction::addKernels()
+{
+    addTrappingReactionKernels();
+
+        if (_problem->isTransient())
+        {
+            addTimeKernels();
+            addTrapCouplingKernels();
+        }
+
+        addDiffusionKernel();
+}
+
 void FosterMcNabbTrapAction::addTrappingReactionKernels()
 {
     std::string kernel_type = "ADTrappingEquilibriumEquation";
@@ -505,17 +530,78 @@ void FosterMcNabbTrapAction::addDiffusionKernel()
 
 //   }
 // }
+void FosterMcNabbTrapAction::add_aux_variable()
+{
+    for (auto variable_name: _aux_variable_names)
+    {
+        add_aux_variable(variable_name);
+    }
+}
 
-/*
-    NOTE: only want to call this from some master process as it's used for summary data across al domains... 
-*/
-void FosterMcNabbTrapAction::add_aux_variable(std::string name, bool second_order)
+
+void add_aux_kernels()
+{   
+    // could add map of input names to outputs e.g. continuous_mobile, total_trapped, and retention
+    if ( std::find(_requested_aux_variables.begin(), _requested_aux_variables.end(), "mobile") != vec.end() )
+    {
+        add_continuous_mobile_aux();
+    }
+        if ( std::find(_requested_aux_variables.begin(), _requested_aux_variables.end(), "trapped") != vec.end() )
+    {
+        add_total_trapped_aux();
+    }    
+    if ( std::find(_requested_aux_variables.begin(), _requested_aux_variables.end(), "retention") != vec.end() )
+    {
+        add_total_retention_aux();
+    }
+}
+
+
+void FosterMcNabbTrapAction::add_aux_variable(std::string name)
 {
     // only want to call this
     auto params = _factory.getValidParams("MooseVariable");
-    params.set<MooseEnum>("order") = second_order ? "SECOND" : "FIRST";
+    params.set<MooseEnum>("order") = _variable_order;
     params.set<MooseEnum>("family") = "LAGRANGE";
     _problem->addAuxVariable("MooseVariable", name, params);
+}
+
+void FosterMcNabbTrapAction::add_continuous_mobile_aux()
+{
+    std::vector<std::string> args = {_mobile_variable_name, "rho"};
+    std::string function = _mobile_variable_name + " * rho"
+    add_parsed_aux(_mobile_variable_name, args, funtion);
+}
+
+void FosterMcNabbTrapAction::add_total_trapped_aux()
+{
+    std::vector<std::string> args = _trap_variable_names;
+    args.push_back("rho");
+    std::string function = std::string("(") + _trap_variable_names[0];
+    for (auto trap: _trap_variable_names)
+    {
+        if (trap == _trap_variable_names[0])
+        {
+            continue;
+        }
+        function += " + " + trap;
+    }
+    function += ') * rho'
+    add_parsed_aux(_mobile_variable_name, args, funtion);
+}
+
+void FosterMcNabbTrapAction::add_total_retention_aux()
+{
+    // validate if mobile is included
+    std::vector<std::string> args = _all_variable_names;
+    args.push_back("rho");
+    std::string function = std::string("(") + _mobile_variable_name;
+    for (auto trap: _trap_variable_names)
+    {
+        function += " + " + trap;
+    }
+    function += ') * rho'
+    add_parsed_aux(_mobile_variable_name, args, funtion);
 }
 
 
@@ -531,5 +617,93 @@ void FosterMcNabbTrapAction::add_parsed_aux(std::string name, std::vector<std::s
             params.set<std::vector<SubdomainName>>("blocks") = _blocks; 
         }
     std::string block_name = name + _block_prepend + "parsed_aux";
+    _problem->addAuxKernel(block_name, params);
+}
+
+void add_interface_kernels()
+{
+
+}
+
+/*
+    Check required materials have been initialised on all blocks on a boundary before 
+    decalring the interface kernels which required them
+
+    - is this guaranteed if all add_kernel and add_material actions are complete before add_interface_kernels is executed?
+*/
+void boundary_materials_exist(BoundaryName boundary, std::string material_name)
+{
+    //  consider hasActiveBlockObjects
+    auto boundary_id = _problem->mesh().getBoundaryID(boundary);
+    std::set<SubdomainID> blocks = _problem->mesh().getBoundaryConnectedBlocks(boundary_id);
+
+    std::vector<bool> required_material_exists;
+    required_material_exists.resize(blocks.size())
+    unsigned int i = 0;
+    for (auto block: blocks)
+    {
+        required_material_exists[i] = false;
+        // vector of shared pointers
+        auto objects = _problem->getMaterialWarehouse().getBlockObjects(block);
+        for (auto object: objects)
+        {
+            if (object->name() == material_name)
+            {
+                required_material_exists[i] = true;
+                break;
+            }
+        }
+        i++;
+    }
+    // or vector of ints and sum?
+    return std::all_of(required_material_exists.begin(), required_material_exists.end(), [](bool v) { return v; });
+}
+
+
+void FosterMcNabbTrapAction::add_chemical_potential_interface(std::string variable_1_name, std::string variable_1_name, 
+        BoundaryName boundary)
+{
+    params = _factory.getValidParams("ADChemicalPotentialInterface");
+    params.set<VariableName>("variable") = variable_1_name;
+    params.set<VariableName>("neighbor_var") = variable_1_name;
+    params.set<MaterialPropertyName>("s") = "S";
+    params.set<MaterialPropertyName>("s_neighbour") = "S";
+    params.set<MaterialPropertyName>("D") = "D";
+    params.set<MaterialPropertyName>("D_neighbour") = "D";
+    params.set<MaterialPropertyName>("rho") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
+    params.set<std::vector<BoundaryName>>("boundary") = {boundary};
+
+    std::string block_name = std::string(boundary) + "_chemical_potential_interface";
+    _problem->addAuxKernel(block_name, params);
+}
+
+void FosterMcNabbTrapAction::add_mass_continuity_interface(std::string variable_1_name, std::string variable_1_name, 
+        BoundaryName boundary)
+{
+    params = _factory.getValidParams("ADMatInterfaceDiffusion");
+    params.set<VariableName>("variable") = variable_1_name;
+    params.set<VariableName>("neighbor_var") = variable_1_name;
+    params.set<MaterialPropertyName>("D") = "D";
+    params.set<MaterialPropertyName>("D_neighbour") = "D";
+    params.set<MaterialPropertyName>("rho") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
+    params.set<std::vector<BoundaryName>>("boundary") = {boundary};
+
+    std::string block_name = std::string(boundary) + "_mass_continuity_interface";
+    _problem->addAuxKernel(block_name, params);
+}
+
+void FosterMcNabbTrapAction::add_mobile_concentration_interface(std::string variable_1_name, std::string variable_1_name, 
+        BoundaryName boundary)
+{
+    params = _factory.getValidParams("ADVariableMatch");
+    params.set<VariableName>("variable") = variable_1_name;
+    params.set<VariableName>("neighbor_var") = variable_1_name;
+    params.set<MaterialPropertyName>("rho") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
+    params.set<std::vector<BoundaryName>>("boundary") = {boundary};
+
+    std::string block_name = std::string(boundary) + "_mobile_concentration_interface";
     _problem->addAuxKernel(block_name, params);
 }

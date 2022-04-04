@@ -35,8 +35,20 @@ protected:
     void addTrapCouplingKernels();
     void addDiffusionKernel();
 
+    void addInterfaceKernels();
+    void add_chemical_potential_interface(std::string variable_1_name, std::string variable_1_name, 
+        BoundaryName boundary);
+    void add_mass_continuity_interface(std::string variable_1_name, std::string variable_1_name, 
+        BoundaryName boundary);
+    void add_mobile_concentration_interface(std::string variable_1_name, std::string variable_1_name, 
+        BoundaryName boundary)
+
     void addAuxVariables();
     void addAuxKernels();
+    void add_parsed_aux(std::string name, std::vector<std::string> args, std::string function);
+    void add_continuous_mobile_aux();
+    void add_total_trapped_aux();
+    void add_total_retention_aux();
 
     void add_aux_variable(std::string name, bool second_order);
     void add_parsed_aux(std::string name, std::vector<std::string> args, std::string function);
@@ -69,6 +81,7 @@ protected:
     std::string _solubility_material_base;
 
     std::vector<SubdomainName> _blocks;
+    std::vector<std::string> _requested_aux_variables;
 
     // bool _transient;
 
@@ -85,6 +98,8 @@ protected:
     std::vector<std::string> _all_variable_names;
     std::vector<std::string> _trap_density_names;
     std::vector<std::string> _detrapping_rate_names;
+
+    std::vector<std::string> _aux_variable_names;
 
     // option to use specified value for the trapping reaction rate
     bool _trapping_rate_specified;
