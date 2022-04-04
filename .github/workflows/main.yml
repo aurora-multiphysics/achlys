@@ -13,6 +13,7 @@ jobs:
     name: BuildTestUbuntu
     env:
       PRCOMMITSHA : ${{ github.event.pull_request.head.sha }}
+      COVERALLS_TOKEN : ${{ secrets.COVERALLS_TOKEN }}
     steps:
       # First check out the repository to get the docker file
       - name: Checkout
@@ -22,7 +23,7 @@ jobs:
         run: echo $PRCOMMITSHA
       - name: DockerBuildTestPR
         if:  ${{ github.event.pull_request.head.sha != '' }}
-        run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$PRCOMMITSHA docker/achlys-ubuntu/
+        run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$PRCOMMITSHA docker/achlys-ubuntu/ --build-arg test_coverage=true --build-arg coveralls_token=$COVERALLS_TOKEN --build-arg coveralls_branch=$GITHUB_HEAD_REF
       - name:  DockerBuildTestPush
         if:  ${{ github.event.pull_request.head.sha == '' }}
-        run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$GITHUB_SHA docker/achlys-ubuntu/
+        run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$GITHUB_SHA docker/achlys-ubuntu/ --build-arg test_coverage=true --build-arg coveralls_token=$COVERALLS_TOKEN --build-arg coveralls_branch=${GITHUB_REF##*/}

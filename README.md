@@ -1,5 +1,6 @@
 [![GitHub Actions build status](https://github.com/aurora-multiphysics/achlys/actions/workflows/main.yml/badge.svg?event=push)](https://github.com/aurora-multiphysics/achlys/actions/workflows/main.yml)
 [![DOI](https://zenodo.org/badge/394964935.svg)](https://zenodo.org/badge/latestdoi/394964935)
+[![Coverage Status](https://coveralls.io/repos/github/aurora-multiphysics/achlys/badge.svg?branch=master)](https://coveralls.io/github/aurora-multiphysics/achlys?branch=master)
 
 achlys
 =====
