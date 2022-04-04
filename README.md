@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/394964935.svg)](https://zenodo.org/badge/latestdoi/394964935)
+
 achlys
 =====
 
