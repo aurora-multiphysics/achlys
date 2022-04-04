@@ -530,7 +530,7 @@ void FosterMcNabbTrapAction::addDiffusionKernel()
 
 //   }
 // }
-void FosterMcNabbTrapAction::add_aux_variable()
+void FosterMcNabbTrapAction::addAuxVariables()
 {
     for (auto variable_name: _aux_variable_names)
     {
@@ -539,7 +539,7 @@ void FosterMcNabbTrapAction::add_aux_variable()
 }
 
 
-void add_aux_kernels()
+void FosterMcNabbTrapAction::addAuxKernels()
 {   
     // could add map of input names to outputs e.g. continuous_mobile, total_trapped, and retention
     if ( std::find(_requested_aux_variables.begin(), _requested_aux_variables.end(), "mobile") != vec.end() )
@@ -659,10 +659,29 @@ void boundary_materials_exist(BoundaryName boundary, std::string material_name)
     return std::all_of(required_material_exists.begin(), required_material_exists.end(), [](bool v) { return v; });
 }
 
+/*
+    Assuming we have one action instance for each material block then 2 blocks, 1 on each side of the interface
+    will try to intialise the interface kernels. 
+
+    Implement some method to test and prevent the second instantiation.
+
+    -- do we also need to test for the materials on the second side are availabnle when we 
+       declare the kernel on the primary side?
+*/
+void FosterMcNabbTrapAction::interface_exists_already(std::string block_name)
+{
+    auto kernels = _problem->getKernelWarehouse();
+    return kernel.hasActiveObject(block_name);
+}
 
 void FosterMcNabbTrapAction::add_chemical_potential_interface(std::string variable_1_name, std::string variable_1_name, 
         BoundaryName boundary)
 {
+    std::string block_name = std::string(boundary) + "_chemical_potential_interface";
+    if (interface_exists_already(block_name))
+    {
+        return;
+    }
     params = _factory.getValidParams("ADChemicalPotentialInterface");
     params.set<VariableName>("variable") = variable_1_name;
     params.set<VariableName>("neighbor_var") = variable_1_name;
@@ -674,13 +693,18 @@ void FosterMcNabbTrapAction::add_chemical_potential_interface(std::string variab
     params.set<MaterialPropertyName>("rho_neighbour") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
 
-    std::string block_name = std::string(boundary) + "_chemical_potential_interface";
+    // or just be lazy and shove this in a try/except block?
     _problem->addAuxKernel(block_name, params);
 }
 
 void FosterMcNabbTrapAction::add_mass_continuity_interface(std::string variable_1_name, std::string variable_1_name, 
         BoundaryName boundary)
 {
+    std::string block_name = std::string(boundary) + "_mass_continuity_interface";
+    if (interface_exists_already(block_name))
+    {
+        return;
+    }
     params = _factory.getValidParams("ADMatInterfaceDiffusion");
     params.set<VariableName>("variable") = variable_1_name;
     params.set<VariableName>("neighbor_var") = variable_1_name;
@@ -689,14 +713,17 @@ void FosterMcNabbTrapAction::add_mass_continuity_interface(std::string variable_
     params.set<MaterialPropertyName>("rho") = "rho";
     params.set<MaterialPropertyName>("rho_neighbour") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
-
-    std::string block_name = std::string(boundary) + "_mass_continuity_interface";
     _problem->addAuxKernel(block_name, params);
 }
 
 void FosterMcNabbTrapAction::add_mobile_concentration_interface(std::string variable_1_name, std::string variable_1_name, 
         BoundaryName boundary)
 {
+    std::string block_name = std::string(boundary) + "_mobile_concentration_interface";
+    if (interface_exists_already(block_name))
+    {
+        return;
+    }
     params = _factory.getValidParams("ADVariableMatch");
     params.set<VariableName>("variable") = variable_1_name;
     params.set<VariableName>("neighbor_var") = variable_1_name;

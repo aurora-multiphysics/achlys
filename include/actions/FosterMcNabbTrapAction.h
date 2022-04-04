@@ -45,6 +45,7 @@ protected:
 
     void addAuxVariables();
     void addAuxKernels();
+    
     void add_parsed_aux(std::string name, std::vector<std::string> args, std::string function);
     void add_continuous_mobile_aux();
     void add_total_trapped_aux();
