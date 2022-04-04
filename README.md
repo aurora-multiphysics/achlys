@@ -1,3 +1,4 @@
+[![GitHub Actions build status](https://github.com/aurora-multiphysics/achlys/actions/workflows/main.yml/badge.svg?event=push)](https://github.com/aurora-multiphysics/achlys/actions/workflows/main.yml)
 [![DOI](https://zenodo.org/badge/394964935.svg)](https://zenodo.org/badge/latestdoi/394964935)
 
 achlys
