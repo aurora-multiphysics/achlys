@@ -135,5 +135,5 @@ FosterMcNabbTrapAction::VariableOrders()
 {
   auto orders = AddAuxVariableAction::getAuxVariableOrders().getRawNames();
 
-  return MooseEnum(orders);
+  return MooseEnum(orders, "FIRST");
 }

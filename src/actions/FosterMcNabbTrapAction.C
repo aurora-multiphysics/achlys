@@ -44,6 +44,7 @@ registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_kernels");
     ii) global variable options? (seen some convergence issues just being block-restricted)
     iii) can this generalise to multi-isotope models?
     iv) switch between molar and atomic units? 
+    v) stateful PJFNK? set_mf_reuse_base(false)
 
     -- create new data strcutures or just use naive loops through input variables to start?
 
@@ -99,8 +100,8 @@ FosterMcNabbTrapAction::validParams()
     params.addParam<std::string>("detrap_material_base", "detrapping_rate", "the base name for the de-trapping rate material property");
     params.addParam<std::string>("trapping_material_base", "trapping_rate", "the base name for the trapping rate material property");
     params.addParam<std::string>("trap_density_material_base", "trap_density", "the base name for trap density material property");
-    // params.addParam<std::string>("diffusivity_material_base", "D", "the base name for the diffusivity material property");
-    // params.addParam<std::string>("solubility_material_base", "S", "the base name for the solubility material property");
+    params.addParam<std::string>("diffusivity_material_base", "D", "the base name for the diffusivity material property");
+    params.addParam<std::string>("solubility_material_base", "S", "the base name for the solubility material property");
     params.addParam<std::vector<SubdomainName>>("block", "optional list of subdomain IDs this action applies to");
     params.addParam<MooseEnum>("variable_order",
                                   FosterMcNabbTrapAction::VariableOrders(),
@@ -218,16 +219,17 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
 
     // _transient = _problem->isTransient();
     // bool naive_interface = _interface_type == InterfaceType::concentration; 
-    _variable_order_specified = isParamValid("variable_order");
-    if (isParamValid("variable_order"))
+    _variable_order_specified = params.isParamSetByUser("variable_order");
+    if (! _variable_order_specified)
     {
-        _variable_order = getParam<MooseEnum>("variable_order");
+        _variable_order = "FIRST";
     }
-    else
-    {
-        const bool second_order =  _problem->mesh().hasSecondOrderElements();
-        _variable_order = second_order ? "SECOND" : "FIRST";
-    }
+    
+    //  if (!isParamValid("variable_order"))
+    // {
+    //     // const bool second_order =  _mesh.hasSecondOrderElements();
+    //     _variable_order = "FIRST"; //second_order ? "SECOND" : "FIRST";
+    // }
 
     if (isParamValid("aux_variables"))
     {
@@ -244,6 +246,15 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
 void
 FosterMcNabbTrapAction::act()
 {
+    // if (_current_task == "setup_mesh_complete")
+    // {
+    //     if (!_variable_order_specified)
+    //     {
+    //         const bool second_order =  _mesh->hasSecondOrderElements();
+    //         _variable_order = second_order ? "SECOND" : "FIRST";
+    //     }
+    // }
+
     if (_current_task == "add_variables")
     {
         addVariables();
@@ -277,7 +288,7 @@ void FosterMcNabbTrapAction::addVariables()
     // const bool second = _order_specified ? _order == "SECOND" : _problem->mesh().hasSecondOrderElements();
     // const bool second_order =  _problem->mesh().hasSecondOrderElements();
     // params.set<MooseEnum>("order") = second_order ? "SECOND" : "FIRST";
-    params.set<MooseEnum>("order") = MooseEnum(_variable_order);
+    params.set<MooseEnum>("order") = _variable_order;
     params.set<MooseEnum>("family") = "LAGRANGE";
     if (!_blocks.empty())
     {
@@ -468,7 +479,7 @@ void FosterMcNabbTrapAction::add_aux_variable(std::string name)
 {
     // only want to call this
     auto params = _factory.getValidParams("MooseVariable");
-    params.set<MooseEnum>("order") = MooseEnum(_variable_order);
+    params.set<MooseEnum>("order") = _variable_order;
     params.set<MooseEnum>("family") = "LAGRANGE";
     _problem->addAuxVariable("MooseVariable", name, params);
 }
@@ -536,7 +547,7 @@ void FosterMcNabbTrapAction::add_parsed_aux(std::string name, std::vector<std::s
 void FosterMcNabbTrapAction::addInterfaceKernels()
 {
     // convert input array to set
-    std::set<std::string> bounday_set(_solid_boundaries.begin(), _solid_boundaries.end());
+    // std::set<std::string> bounday_set(_solid_boundaries.begin(), _solid_boundaries.end());
 
     // get list of blocks
     // _problem->hasBlockMaterialProperty
@@ -545,6 +556,21 @@ void FosterMcNabbTrapAction::addInterfaceKernels()
     // _problem->getMaterialPropertyBoundaryNames()
     // std::set blocks = _problem->getBoundaryConnectedBlocks
     // std::set ids = _problem->getSubdomainInterfaceBoundaryIds 
+
+    // 1. get boundary ids
+
+    // 2. get blocks on other side of boundary
+
+    // 3. infer (or accept input for) neighbour mobile variable name
+
+    if (_interface_type == "chemical_potential")
+    {
+        add_chemical_potential_based_interface();
+    }
+    else
+    {
+        add_concentration_based_interface();
+    }
 }
 
 void FosterMcNabbTrapAction::add_chemical_potential_based_interface()
