@@ -102,13 +102,13 @@ FosterMcNabbTrapAction::validParams()
     // params.addParam<std::string>("diffusivity_material_base", "D", "the base name for the diffusivity material property");
     // params.addParam<std::string>("solubility_material_base", "S", "the base name for the solubility material property");
     params.addParam<std::vector<SubdomainName>>("block", "optional list of subdomain IDs this action applies to");
-    params.addParam<MultiMooseEnum>("variable_order",
+    params.addParam<MooseEnum>("variable_order",
                                   FosterMcNabbTrapAction::VariableOrders(),
                                   "Order of the variables which will be generated");
-    MultiMooseEnum interface_type("CHEMICAL_POTENTIAL CONCENTRATION", "CHEMICAL_POTENTIAL");
-    params.addParam<MultiMooseEnum>("interface_type", interface_type, "Whether to implement continuity of mobile concentration"
+    MooseEnum interface_type("CHEMICAL_POTENTIAL CONCENTRATION", "CHEMICAL_POTENTIAL");
+    params.addParam<MooseEnum>("interface_type", interface_type, "Whether to implement continuity of mobile concentration"
                                     " or continuity of chemical potential at material interfaces");
-    params.addParam<std::vector<std::string>>("solid_boundaries", "List of boundaries across which to add interface kernels")
+    params.addParam<std::vector<std::string>>("solid_boundaries", "List of boundaries across which to add interface kernels");
     params.addParam<bool>("generate_interface_kernels", false, "Wether to generate interface kernels between different subdomains");
     params.addParam<std::vector<std::string>>("aux_variables", "List of summary quantities which are continuous across subdomained "
                                             "and converted to SI units. Available options are mobile, trapped, and retention");
@@ -146,7 +146,8 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     _diffusivity_material_base(getParam<std::string>("diffusivity_material_base")),
     _solubility_material_base(getParam<std::string>("solubility_material_base")),
     _blocks(getParam<std::vector<SubdomainName>>("block")),
-    _interface_type(getParam<MooseEnum>("interface_type").getEnum<InterfaceType>())
+    _interface_type(getParam<MooseEnum>("interface_type").getEnum<InterfaceType>()),
+    _variable_order(getParam<MooseEnum>("variable_order"))
     
 {
     //   determine order of variables to be created 
@@ -220,7 +221,7 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     _variable_order_specified = isParamValid("variable_order");
     if (isParamValid("variable_order"))
     {
-        _variable_order = getParam<MultiMooseEnum>("variable_order");
+        _variable_order = getParam<MooseEnum>("variable_order");
     }
     else
     {
@@ -513,20 +514,26 @@ void FosterMcNabbTrapAction::add_total_retention_aux()
 
 void FosterMcNabbTrapAction::add_parsed_aux(std::string name, std::vector<std::string> args, std::string function)
 {
-    auto params = _factory.getValidParams("ParsedAux");
+    std::vector<VariableName> coupled_vars;
+    for (auto name: args)
+    {
+        coupled_vars.push_back(name);
+    }
+    std::string type = "ParsedAux";
+    auto params = _factory.getValidParams(type);
     params.set<AuxVariableName>("variable") = name;
-    params.set<std::vector<VariableValue *>>("args") = args;
-    params.set<<std::string>("function") = function;
+    params.set<std::vector<VariableName>>("args") = coupled_vars; // <VariableVlaue *>
+    params.set<std::string>("function") = function;
     params.set<ExecFlagEnum>("execute_on") = EXEC_TIMESTEP_END;
     if (!_blocks.empty())
         {
             params.set<std::vector<SubdomainName>>("blocks") = _blocks; 
         }
     std::string block_name = name + _block_prepend + "parsed_aux";
-    _problem->addAuxKernel(block_name, params);
+    _problem->addAuxKernel(type, block_name, params);
 }
 
-void addInterfaceKernels()
+void FosterMcNabbTrapAction::addInterfaceKernels()
 {
     // convert input array to set
     std::set<std::string> bounday_set(_solid_boundaries.begin(), _solid_boundaries.end());
@@ -610,9 +617,10 @@ void boundary_materials_exist(BoundaryName boundary, std::string material_name)
 */
 bool FosterMcNabbTrapAction::interface_exists_already(std::string block_name)
 {
-    auto kernels = _problem->getKernelWarehouse();
+    auto kernels = _problem->getNonlinearSystem().getKernelWarehouse();
     // not active!
-    return kernel.hasActiveObject(block_name);
+    // return kernel.hasActiveObject(block_name);
+    return false;
 }
 
 void FosterMcNabbTrapAction::add_chemical_potential_interface(std::string variable_1_name, std::string variable_2_name, 
@@ -623,7 +631,8 @@ void FosterMcNabbTrapAction::add_chemical_potential_interface(std::string variab
     {
         return;
     }
-    auto params = _factory.getValidParams("ADChemicalPotentialInterface");
+    std::string type = "ADChemicalPotentialInterface";
+    auto params = _factory.getValidParams(type);
     params.set<VariableName>("variable") = variable_1_name;
     params.set<VariableName>("neighbor_var") = variable_2_name;
     params.set<MaterialPropertyName>("s") = "S";
@@ -635,7 +644,15 @@ void FosterMcNabbTrapAction::add_chemical_potential_interface(std::string variab
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
 
     // or just be lazy and shove this in a try/except block?
-    _problem->addAuxKernel(block_name, params);
+    try
+    {
+        _problem->addAuxKernel(type, block_name, params);
+    }
+    catch(...) // what kind of error is thrown in the case of duplicates?
+    {
+
+    }
+    
 }
 
 void FosterMcNabbTrapAction::add_mass_continuity_interface(std::string variable_1_name, std::string variable_2_name, 
@@ -655,7 +672,15 @@ void FosterMcNabbTrapAction::add_mass_continuity_interface(std::string variable_
     params.set<MaterialPropertyName>("rho") = "rho";
     params.set<MaterialPropertyName>("rho_neighbour") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
-    _problem->addAuxKernel(type, block_name, params);
+    // _problem->addAuxKernel(type, block_name, params);
+    try
+    {
+        _problem->addAuxKernel(type, block_name, params);
+    }
+    catch(...) // what kind of error is thrown in the case of duplicates?
+    {
+
+    }
 }
 
 void FosterMcNabbTrapAction::add_mobile_concentration_interface(std::string variable_1_name, std::string variable_2_name, 
@@ -666,7 +691,7 @@ void FosterMcNabbTrapAction::add_mobile_concentration_interface(std::string vari
     {
         return;
     }
-    std::string type = "ADVariableMatch"
+    std::string type = "ADVariableMatch";
     auto params = _factory.getValidParams(type);
     params.set<VariableName>("variable") = variable_1_name;
     params.set<VariableName>("neighbor_var") = variable_2_name;
@@ -674,6 +699,14 @@ void FosterMcNabbTrapAction::add_mobile_concentration_interface(std::string vari
     params.set<MaterialPropertyName>("rho_neighbour") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
 
-    std::string block_name = std::string(boundary) + "_mobile_concentration_interface";
-    _problem->addAuxKernel(block_name, params);
+    // std::string block_name = std::string(boundary) + "_mobile_concentration_interface";
+    // _problem->addAuxKernel(type, block_name, params);
+    try
+    {
+        _problem->addAuxKernel(type, block_name, params);
+    }
+    catch(...) // what kind of error is thrown in the case of duplicates?
+    {
+
+    }
 }

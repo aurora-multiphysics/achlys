@@ -7,6 +7,8 @@
 #include "libmesh/point.h"
 #include "BlockRestrictable.h"
 #include "AddAuxVariableAction.h"
+#include "NonlinearSystem.h"
+#include "KernelBase.h"
 
 #include<vector>
 #include<string>
@@ -19,6 +21,8 @@ public:
   FosterMcNabbTrapAction(const InputParameters & params);
 
   virtual void act();
+
+  static MooseEnum VariableOrders();
 
 protected:
     void addVariables();
@@ -113,24 +117,23 @@ protected:
     bool _trapping_energy_specified;
     bool _solubility_specified;
 
-    bool _variable_order_specified;
-    MultiMooseEnum _variable_order;
-    MultiMooseEnum VariableOrders();
-
-    MultiMooseEnum _interface_type;
+    // MooseEnum _interface_type;
     enum class InterfaceType
     {
         chemical_potential,
         concentration
     };
+    InterfaceType _interface_type;
 
+    bool _variable_order_specified;
+    MooseEnum _variable_order;
 
 };
 
-MultiMooseEnum
+MooseEnum
 FosterMcNabbTrapAction::VariableOrders()
 {
   auto orders = AddAuxVariableAction::getAuxVariableOrders().getRawNames();
 
-  return MultiMooseEnum(orders);
+  return MooseEnum(orders);
 }
