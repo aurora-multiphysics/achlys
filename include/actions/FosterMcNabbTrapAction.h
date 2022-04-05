@@ -22,6 +22,7 @@ public:
 
 protected:
     void addVariables();
+    void addKernels();
     void addMaterials();
     // svoid addArrheniusMaterials(std::map<std::string, FosterMcNabbTrapAction::trap_parameters> & names);
     // void addArrheniusMaterials(std::map<std::string, std::pair<Real, Real> & names);
@@ -36,23 +37,27 @@ protected:
     void addDiffusionKernel();
 
     void addInterfaceKernels();
-    void add_chemical_potential_interface(std::string variable_1_name, std::string variable_1_name, 
+    bool interface_exists_already(std::string block_name);
+    void add_chemical_potential_interface(std::string variable_1_name, std::string variable_2_name, 
         BoundaryName boundary);
-    void add_mass_continuity_interface(std::string variable_1_name, std::string variable_1_name, 
+    void add_mass_continuity_interface(std::string variable_1_name, std::string variable_2_name, 
         BoundaryName boundary);
-    void add_mobile_concentration_interface(std::string variable_1_name, std::string variable_1_name, 
-        BoundaryName boundary)
+    void add_mobile_concentration_interface(std::string variable_1_name, std::string variable_2_name, 
+        BoundaryName boundary);
+    void add_chemical_potential_based_interface();
+    void add_concentration_based_interface();
 
     void addAuxVariables();
     void addAuxKernels();
-    
+
     void add_parsed_aux(std::string name, std::vector<std::string> args, std::string function);
     void add_continuous_mobile_aux();
     void add_total_trapped_aux();
     void add_total_retention_aux();
 
     void add_aux_variable(std::string name, bool second_order);
-    void add_parsed_aux(std::string name, std::vector<std::string> args, std::string function);
+    void add_aux_variable(std::string name);
+    // void add_parsed_aux(std::string name, std::vector<std::string> args, std::string function);
 
     std::vector<Real> _n;
     std::vector<Real> _v0;
@@ -101,6 +106,7 @@ protected:
     std::vector<std::string> _detrapping_rate_names;
 
     std::vector<std::string> _aux_variable_names;
+    std::vector<std::string> _solid_boundaries;
 
     // option to use specified value for the trapping reaction rate
     bool _trapping_rate_specified;
@@ -116,7 +122,7 @@ protected:
     {
         chemical_potential,
         concentration
-    }
+    };
 
 
 };

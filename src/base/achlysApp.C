@@ -46,6 +46,18 @@ associateSyntaxInner(Syntax & syntax, ActionFactory & /*action_factory*/)
   registerTask("add_kernels", /*is_required=*/false);
   addTaskDependency("add_kernels", "add_kernel");
 
+  // add interface  Kernels action
+  registerTask("add_interface_kernels", /*is_required=*/false);
+  addTaskDependency("add_interface_kernels", "add_interface_kernel");
+
+  // add aux variable action
+  registerTask("add_aux_variables", /*is_required=*/false);
+  addTaskDependency("add_aux_variables", "add_aux_variable");
+
+  // add aux kernel action
+  registerTask("add_aux_kernels", /*is_required=*/false);
+  addTaskDependency("add_aux_kernels", "add_aux_kernel");
+
 //   // add BCs actions
 //   registerTask("add_trap_bcs", /*is_required=*/false);
 //   addTaskDependency("add_trap_bcs", "add_bc");
