@@ -563,7 +563,7 @@ void FosterMcNabbTrapAction::addInterfaceKernels()
 
     // 3. infer (or accept input for) neighbour mobile variable name
 
-    if (_interface_type == "chemical_potential")
+    if (_interface_type == InterfaceType::chemical_potential)
     {
         add_chemical_potential_based_interface();
     }
@@ -659,8 +659,8 @@ void FosterMcNabbTrapAction::add_chemical_potential_interface(std::string variab
     }
     std::string type = "ADChemicalPotentialInterface";
     auto params = _factory.getValidParams(type);
-    params.set<VariableName>("variable") = variable_1_name;
-    params.set<VariableName>("neighbor_var") = variable_2_name;
+    params.set<NonlinearVariableName>("variable") = variable_1_name;
+    params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("s") = "S";
     params.set<MaterialPropertyName>("s_neighbour") = "S";
     params.set<MaterialPropertyName>("D") = "D";
@@ -691,8 +691,8 @@ void FosterMcNabbTrapAction::add_mass_continuity_interface(std::string variable_
     }
     std::string type = "ADMatInterfaceDiffusion";
     auto params = _factory.getValidParams(type);
-    params.set<VariableName>("variable") = variable_1_name;
-    params.set<VariableName>("neighbor_var") = variable_2_name;
+    params.set<NonlinearVariableName>("variable") = variable_1_name;
+    params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("D") = "D";
     params.set<MaterialPropertyName>("D_neighbour") = "D";
     params.set<MaterialPropertyName>("rho") = "rho";
@@ -719,8 +719,8 @@ void FosterMcNabbTrapAction::add_mobile_concentration_interface(std::string vari
     }
     std::string type = "ADVariableMatch";
     auto params = _factory.getValidParams(type);
-    params.set<VariableName>("variable") = variable_1_name;
-    params.set<VariableName>("neighbor_var") = variable_2_name;
+    params.set<NonlinearVariableName>("variable") = variable_1_name;
+    params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("rho") = "rho";
     params.set<MaterialPropertyName>("rho_neighbour") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
