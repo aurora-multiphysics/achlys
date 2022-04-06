@@ -15,6 +15,7 @@
 
 #include "libmesh/string_to_enum.h"
 #include <algorithm>
+#include <iostream>
 
 
 registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_variables");
@@ -118,6 +119,7 @@ FosterMcNabbTrapAction::validParams()
     // enum for molar or eV formulation
     // handle variable trap densities 
     // varying requirements for input variables e.g. solubility for CP interface but not otherwise
+    // options to write created aux variables/materials to file
     return params;
 }
 
@@ -233,7 +235,16 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
 
     if (isParamValid("aux_variables"))
     {
-        _aux_variable_names = getParam<std::vector<std::string>>("aux_variables");
+        std::vector<std::string> request = getParam<std::vector<std::string>>("aux_variables");
+        std::vector<std::string> permitted = {"mobile", "trapped", "retention"};
+        for (auto var: permitted)
+        {
+            if (std::find(request.begin(), request.end(), var) != request.end())
+            {
+                _aux_variable_names.push_back(var);
+            }
+        }
+        // _aux_variable_names = getParam<std::vector<std::string>>("aux_variables");
     }
 
     if (isParamValid("solid_boundaries"))
@@ -460,15 +471,15 @@ void FosterMcNabbTrapAction::addAuxVariables()
 void FosterMcNabbTrapAction::addAuxKernels()
 {   
     // could add map of input names to outputs e.g. continuous_mobile, total_trapped, and retention
-    if ( std::find(_requested_aux_variables.begin(), _requested_aux_variables.end(), "mobile") != _requested_aux_variables.end() )
+    if ( std::find(_aux_variable_names.begin(), _aux_variable_names.end(), "mobile") != _aux_variable_names.end() )
     {
         add_continuous_mobile_aux();
     }
-        if ( std::find(_requested_aux_variables.begin(), _requested_aux_variables.end(), "trapped") != _requested_aux_variables.end() )
+        if ( std::find(_aux_variable_names.begin(), _aux_variable_names.end(), "trapped") != _aux_variable_names.end() )
     {
         add_total_trapped_aux();
     }    
-    if ( std::find(_requested_aux_variables.begin(), _requested_aux_variables.end(), "retention") != _requested_aux_variables.end() )
+    if ( std::find(_aux_variable_names.begin(), _aux_variable_names.end(), "retention") != _aux_variable_names.end() )
     {
         add_total_retention_aux();
     }
@@ -486,15 +497,20 @@ void FosterMcNabbTrapAction::add_aux_variable(std::string name)
 
 void FosterMcNabbTrapAction::add_continuous_mobile_aux()
 {
-    std::vector<std::string> args = {_mobile_variable_name, "rho"};
-    std::string function = _mobile_variable_name + " * rho";
-    add_parsed_aux(_mobile_variable_name, args, function);
+    std::vector<std::string> args = {_mobile_variable_name};
+    // std::vector<std::string> const_vars = {"rho"};
+    // std::vector<std::string> const_vals = {std::to_string(_rho)};
+    std::string function = _mobile_variable_name + " * " + std::to_string(_rho);
+    std::cout << "parsed aux function: \n" << function << "\n";
+    add_parsed_aux("mobile", args, function);
 }
 
 void FosterMcNabbTrapAction::add_total_trapped_aux()
 {
     std::vector<std::string> args = _trap_variable_names;
-    args.push_back("rho");
+    // args.push_back("rho");
+    // std::vector<std::string> const_vars = {"rho"};
+    // std::vector<std::string> const_vals = {std::to_string(_rho)};
     std::string function = std::string("(") + _trap_variable_names[0];
     for (auto trap: _trap_variable_names)
     {
@@ -504,43 +520,47 @@ void FosterMcNabbTrapAction::add_total_trapped_aux()
         }
         function += " + " + trap;
     }
-    function += ") * rho";
-    add_parsed_aux(_mobile_variable_name, args, function);
+    function += ") * " + std::to_string(_rho);
+    add_parsed_aux("trapped", args, function);
 }
 
 void FosterMcNabbTrapAction::add_total_retention_aux()
 {
     // validate if mobile is included
     std::vector<std::string> args = _all_variable_names;
-    args.push_back("rho");
+    // args.push_back("rho");
+    // std::vector<std::string> const_vars = {"rho"};
+    // std::vector<std::string> const_vals = {std::to_string(_rho)};
     std::string function = std::string("(") + _mobile_variable_name;
     for (auto trap: _trap_variable_names)
     {
         function += " + " + trap;
     }
-    function += ") * rho";
-    add_parsed_aux(_mobile_variable_name, args, function);
+    function += ") * " + std::to_string(_rho);
+    add_parsed_aux("retention", args, function);
 }
 
 
 void FosterMcNabbTrapAction::add_parsed_aux(std::string name, std::vector<std::string> args, std::string function)
 {
     std::vector<VariableName> coupled_vars;
-    for (auto name: args)
+    for (auto coupled_name: args)
     {
-        coupled_vars.push_back(name);
+        coupled_vars.push_back(coupled_name);
     }
     std::string type = "ParsedAux";
     auto params = _factory.getValidParams(type);
     params.set<AuxVariableName>("variable") = name;
     params.set<std::vector<VariableName>>("args") = coupled_vars; // <VariableVlaue *>
+    // params.set<std::vector<std::string>>("constant_names") = const_vars;
+    // params.set<std::vector<std::string>>("constant_expressions") = const_vals;
     params.set<std::string>("function") = function;
     params.set<ExecFlagEnum>("execute_on") = EXEC_TIMESTEP_END;
     if (!_blocks.empty())
         {
-            params.set<std::vector<SubdomainName>>("blocks") = _blocks; 
+            params.set<std::vector<SubdomainName>>("block") = _blocks; 
         }
-    std::string block_name = name + _block_prepend + "parsed_aux";
+    std::string block_name = name + _block_prepend + "_parsed_aux";
     _problem->addAuxKernel(type, block_name, params);
 }
 
@@ -575,22 +595,60 @@ void FosterMcNabbTrapAction::addInterfaceKernels()
 
 void FosterMcNabbTrapAction::add_chemical_potential_based_interface()
 {
-    for (auto boundary: _solid_boundaries)
+    for (auto boundary_name: _solid_boundaries)
     {
-        std::string var2 = _mobile_variable_base + "_" + std::string(boundary);
-        add_chemical_potential_interface(_mobile_variable_name, var2, boundary);
-        add_mass_continuity_interface(_mobile_variable_name, var2, boundary);
+        std::string neighbour_block = get_neighbour_block_name(boundary_name);
+        if (!neighbour_block.empty())
+        {
+            std::string var2 = _mobile_variable_base + "_" + neighbour_block;
+            std::cout << "chemical_potential_based block " << _blocks[0] << ": " << var2 << "\n";
+            add_chemical_potential_interface(var2, _mobile_variable_name, boundary_name);
+            add_mass_continuity_interface(var2, _mobile_variable_name, boundary_name);
+        }
     }
 }
 
 void FosterMcNabbTrapAction::add_concentration_based_interface()
 {
-    for (auto boundary: _solid_boundaries)
+    for (auto boundary_name: _solid_boundaries)
     {
-        std::string var2 = _mobile_variable_base + "_" + std::string(boundary);
-        add_mobile_concentration_interface(_mobile_variable_name, var2, boundary);
-        add_mass_continuity_interface(_mobile_variable_name, var2, boundary);
+
+        std::string neighbour_block = get_neighbour_block_name(boundary_name);
+        if (!neighbour_block.empty())
+        {
+            std::string var2 = _mobile_variable_base + "_" + get_neighbour_block_name(boundary_name);
+            std::cout << "concentration_based block " << _blocks[0] << ": " << var2 << "\n";
+            add_mobile_concentration_interface(_mobile_variable_name, var2, boundary_name);
+            add_mass_continuity_interface(_mobile_variable_name, var2, boundary_name);
+        }
     }
+}
+
+SubdomainName FosterMcNabbTrapAction::get_neighbour_block_name(std::string boundary_name)
+{
+    
+    // 1. get list of blocks associated with boundary
+    BoundaryID boundary_id = _mesh->getBoundaryID(boundary_name);
+    auto block_ids = _mesh->getBoundaryConnectedBlocks(boundary_id);
+
+    // 2. determine which block NOT is not a member of the current object
+    for (auto block_id: block_ids)
+    {
+        SubdomainName block_name = _mesh->getSubdomainName(block_id);
+        if (block_name.empty())
+        {
+            block_name = std::to_string(block_id);
+        }
+        if (std::find(_blocks.begin(), _blocks.end(), block_name) == _blocks.end())
+        {
+            // assumes only one
+            return block_name;
+        }
+    }
+    // error: nothing found
+    return "";
+
+    
 }
 
 /*
@@ -663,8 +721,8 @@ void FosterMcNabbTrapAction::add_chemical_potential_interface(std::string variab
     params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("s") = "S";
     params.set<MaterialPropertyName>("s_neighbour") = "S";
-    params.set<MaterialPropertyName>("D") = "D";
-    params.set<MaterialPropertyName>("D_neighbour") = "D";
+    // params.set<MaterialPropertyName>("D") = "D";
+    // params.set<MaterialPropertyName>("D_neighbour") = "D";
     params.set<MaterialPropertyName>("rho") = "rho";
     params.set<MaterialPropertyName>("rho_neighbour") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
@@ -672,12 +730,19 @@ void FosterMcNabbTrapAction::add_chemical_potential_interface(std::string variab
     // or just be lazy and shove this in a try/except block?
     try
     {
-        _problem->addAuxKernel(type, block_name, params);
+        _problem->addInterfaceKernel(type, block_name, params);
+    }
+    catch (const std::exception &exc)
+    {
+        // catch anything thrown within try block that derives from std::exception
+        std::cout << exc.what();
+        std::cout<<"Error intialising auxkernel for chempot continuity, block" << _blocks[0] << "\n";
     }
     catch(...) // what kind of error is thrown in the case of duplicates?
     {
-
+        std::cout<<"Error intialising auxkernel for cehmpot continuity, block" << _blocks[0] << "\n";
     }
+    // _problem->addAuxKernel(type, block_name, params);
     
 }
 
@@ -701,11 +766,17 @@ void FosterMcNabbTrapAction::add_mass_continuity_interface(std::string variable_
     // _problem->addAuxKernel(type, block_name, params);
     try
     {
-        _problem->addAuxKernel(type, block_name, params);
+        _problem->addInterfaceKernel(type, block_name, params);
+    }
+    catch (const std::exception &exc)
+    {
+        // catch anything thrown within try block that derives from std::exception
+        std::cout << exc.what();
+        std::cout<<"Error intialising auxkernel for mass continuity, block" << _blocks[0] << "\n";
     }
     catch(...) // what kind of error is thrown in the case of duplicates?
     {
-
+        std::cout<<"Error intialising auxkernel for mass continuity, block" << _blocks[0] << "\n";
     }
 }
 
@@ -729,10 +800,16 @@ void FosterMcNabbTrapAction::add_mobile_concentration_interface(std::string vari
     // _problem->addAuxKernel(type, block_name, params);
     try
     {
-        _problem->addAuxKernel(type, block_name, params);
+        _problem->addInterfaceKernel(type, block_name, params);
+    }
+    catch (const std::exception &exc)
+    {
+        // catch anything thrown within try block that derives from std::exception
+        std::cout << exc.what();
+        std::cout<<"Error intialising auxkernel for concentration continuity, block" << _blocks[0] << "\n";
     }
     catch(...) // what kind of error is thrown in the case of duplicates?
     {
-
+        std::cout<<"Error intialising auxkernel for concentration continuity, block" << _blocks[0] << "\n";
     }
 }

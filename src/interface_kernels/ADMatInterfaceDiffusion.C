@@ -11,7 +11,7 @@ ADMatInterfaceDiffusion::validParams()
   params.addParam<MaterialPropertyName>("D",
                     "D",
                     "the name of the diffusion constant material property");
-  params.addParam<MaterialPropertyName>("D_neighbor",
+  params.addParam<MaterialPropertyName>("D_neighbour",
                     "D",
                     "the name of the neighbouring diffusion constant material property");
   params.addParam<MaterialPropertyName>("rho",
@@ -43,7 +43,7 @@ ADMatInterfaceDiffusion::computeQpResidual(Moose::DGResidualType type)
   switch (type)
   {
     case Moose::Element:
-      return -(res / _rho[_qp]) * _test[_i][_qp];
+      return (res / _rho[_qp]) * _test[_i][_qp]; // * -1?
 
     case Moose::Neighbor:
       return (res / _rho_neighbor[_qp]) * _test_neighbor[_i][_qp];

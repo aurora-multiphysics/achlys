@@ -50,11 +50,14 @@ protected:
         BoundaryName boundary);
     void add_chemical_potential_based_interface();
     void add_concentration_based_interface();
+    SubdomainName get_neighbour_block_name(std::string boundary_name);
 
     void addAuxVariables();
     void addAuxKernels();
 
     void add_parsed_aux(std::string name, std::vector<std::string> args, std::string function);
+    // void add_parsed_aux(std::string name, std::vector<std::string> args, std::vector<std::string> const_vars,
+                        //  std::vector<std::string> const_vals, std::string function);
     void add_continuous_mobile_aux();
     void add_total_trapped_aux();
     void add_total_retention_aux();
