@@ -13,6 +13,12 @@
 #include<vector>
 #include<string>
 
+namespace AchlysConstants
+{
+    static const Real Boltzmann = 8.617e-5; // ev / K
+    static const Real UiversalGas = 8.3145; // J / (mol K)
+}
+
 class FosterMcNabbTrapAction : public Action
 {
 public:
@@ -32,6 +38,7 @@ protected:
     // void addArrheniusMaterials(std::map<std::string, std::pair<Real, Real> & names);
     void addArrheniusMaterial(std::string name, Real V0, Real E);
     void addGenericConstantMaterial(std::vector<std::string> names, std::vector<Real> values);
+    void addParsedMaterial(std::string name, std::vector<std::string> args, std::string function);
 
     void addTrappingKernels();
     void addTrappingReactionKernels();
@@ -130,6 +137,21 @@ protected:
 
     bool _variable_order_specified;
     MooseEnum _variable_order;
+
+    enum class EnergyUnits
+    {
+        kJ,
+        eV
+    };
+    EnergyUnits _energy_units;
+
+    enum class ConcentrationUnits
+    {
+        atomic_fraction,
+        moles_per_m3,
+        atoms_per_m3
+    };
+    ConcentrationUnits _concentration_units;
 
 };
 

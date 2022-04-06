@@ -75,6 +75,8 @@ registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_kernels");
 
       - handle options for accepting existing variable rather than creating new obes
 
+      - solubility can be an interface material?
+
 */
 
 InputParameters
@@ -85,7 +87,7 @@ FosterMcNabbTrapAction::validParams()
     params.addRequiredParam<std::vector<Real>>("v0", "pre-exponential detrapping factor in Arrhenious eq.");
     params.addRequiredParam<std::vector<Real>>("E", "Trap detrapping energy in eV");
     params.addRequiredParam<std::vector<Real>>("n", "possible trapping sites");
-    params.addRequiredParam<Real>("k", "Boltzman constant");
+    // params.addRequiredParam<Real>("k", "Boltzman constant");
     params.addRequiredParam<Real>("D0", "The diffusion pre-exponential factor");
     params.addRequiredParam<Real>("Ed", "diffusion energy in eV");
     params.addParam<Real>("S0", 0.0, "The solubility pre-exponential factor");
@@ -106,7 +108,7 @@ FosterMcNabbTrapAction::validParams()
     params.addParam<std::vector<SubdomainName>>("block", "optional list of subdomain IDs this action applies to");
     params.addParam<MooseEnum>("variable_order",
                                   FosterMcNabbTrapAction::VariableOrders(),
-                                  "Order of the variables which will be generated");
+                                  "Order of the variables which will be generated. Defaults to first if not otherwise specified. ");
     MooseEnum interface_type("CHEMICAL_POTENTIAL CONCENTRATION", "CHEMICAL_POTENTIAL");
     params.addParam<MooseEnum>("interface_type", interface_type, "Whether to implement continuity of mobile concentration"
                                     " or continuity of chemical potential at material interfaces");
@@ -114,7 +116,9 @@ FosterMcNabbTrapAction::validParams()
     params.addParam<bool>("generate_interface_kernels", false, "Wether to generate interface kernels between different subdomains");
     params.addParam<std::vector<std::string>>("aux_variables", "List of summary quantities which are continuous across subdomained "
                                             "and converted to SI units. Available options are mobile, trapped, and retention");
-    
+    MooseEnum energy_units("eV J/molK", "eV");
+    params.addParam<MooseEnum>("energy_units", energy_units, "The units of any energy values specified, options are eV or J/molK. " 
+                                "This is used to select the correct constant in Arhhenius expressions, either kB or R");
     // enum for order of variables
     // enum for molar or eV formulation
     // handle variable trap densities 
@@ -131,7 +135,7 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     _v0(getParam<std::vector<Real>>("v0")),
     _E(getParam<std::vector<Real>>("E")),
     _temperature_variable(getParam<std::string>("Temperature")),
-    _k(getParam<Real>("k")),
+    // _k(getParam<Real>("k")),
     _D0(getParam<Real>("D0")),
     _Ed(getParam<Real>("Ed")),
     _S0(getParam<Real>("S0")),
@@ -150,7 +154,8 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     _solubility_material_base(getParam<std::string>("solubility_material_base")),
     _blocks(getParam<std::vector<SubdomainName>>("block")),
     _interface_type(getParam<MooseEnum>("interface_type").getEnum<InterfaceType>()),
-    _variable_order(getParam<MooseEnum>("variable_order"))
+    _variable_order(getParam<MooseEnum>("variable_order")),
+    _energy_units(getParam<MooseEnum>("energy_units").getEnum<EnergyUnits>())
     
 {
     //   determine order of variables to be created 
@@ -251,6 +256,9 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     {
         _solid_boundaries = getParam<std::vector<std::string>>("solid_boundaries");
     }
+ 
+    _k = (_energy_units == EnergyUnits::eV) ? AchlysConstants::Boltzmann : AchlysConstants::UiversalGas;
+
 }
 
 
@@ -395,6 +403,19 @@ void FosterMcNabbTrapAction::addGenericConstantMaterial(std::vector<std::string>
     _problem->addMaterial(type, material_block_name, params);
 }
 
+void FosterMcNabbTrapAction::addParsedMaterial(std::string name, std::vector<std::string> args, std::string function)
+{
+    std::string type = "ADParsedMaterial";
+    auto params = _factory.getValidParams(type);
+    std::string f_name = name;
+    params.set<std::string>("f_name") = f_name;
+    // params.set<std::vector<std::string>>("args") = args;
+    params.set<std::string>("function") = function;
+    std::string material_block_name = name + "parsed_material" + _block_prepend;
+    _problem->addMaterial(type, material_block_name, params);
+
+}
+
 void FosterMcNabbTrapAction::addKernels()
 {
     addTrappingReactionKernels();
@@ -467,7 +488,6 @@ void FosterMcNabbTrapAction::addAuxVariables()
     }
 }
 
-
 void FosterMcNabbTrapAction::addAuxKernels()
 {   
     // could add map of input names to outputs e.g. continuous_mobile, total_trapped, and retention
@@ -484,7 +504,6 @@ void FosterMcNabbTrapAction::addAuxKernels()
         add_total_retention_aux();
     }
 }
-
 
 void FosterMcNabbTrapAction::add_aux_variable(std::string name)
 {
@@ -539,7 +558,6 @@ void FosterMcNabbTrapAction::add_total_retention_aux()
     function += ") * " + std::to_string(_rho);
     add_parsed_aux("retention", args, function);
 }
-
 
 void FosterMcNabbTrapAction::add_parsed_aux(std::string name, std::vector<std::string> args, std::string function)
 {
@@ -646,9 +664,7 @@ SubdomainName FosterMcNabbTrapAction::get_neighbour_block_name(std::string bound
         }
     }
     // error: nothing found
-    return "";
-
-    
+    return ""; 
 }
 
 /*
@@ -743,7 +759,6 @@ void FosterMcNabbTrapAction::add_chemical_potential_interface(std::string variab
         std::cout<<"Error intialising auxkernel for cehmpot continuity, block" << _blocks[0] << "\n";
     }
     // _problem->addAuxKernel(type, block_name, params);
-    
 }
 
 void FosterMcNabbTrapAction::add_mass_continuity_interface(std::string variable_1_name, std::string variable_2_name, 
