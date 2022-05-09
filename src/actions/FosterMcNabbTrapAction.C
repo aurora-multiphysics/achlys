@@ -70,12 +70,17 @@ registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_kernels");
       - add aux kernel summary
 
       - option for function input for trap density instead of domain constant value
+        i) using parsed material could have a list input where entries are either constant values
+           or functions names. or 2 lists, constants and variable
+        ii) accept list of aux variable names for trap densities controlled by other functions
 
       - option for constant temperature instead of aux variable
 
       - handle options for accepting existing variable rather than creating new obes
 
       - solubility can be an interface material?
+
+      - full-coverage tests
 
 */
 
@@ -520,7 +525,7 @@ void FosterMcNabbTrapAction::add_continuous_mobile_aux()
     // std::vector<std::string> const_vars = {"rho"};
     // std::vector<std::string> const_vals = {std::to_string(_rho)};
     std::string function = _mobile_variable_name + " * " + std::to_string(_rho);
-    std::cout << "parsed aux function: \n" << function << "\n";
+    // std::cout << "parsed aux function: \n" << function << "\n";
     add_parsed_aux("mobile", args, function);
 }
 
@@ -615,6 +620,8 @@ void FosterMcNabbTrapAction::add_chemical_potential_based_interface()
 {
     for (auto boundary_name: _solid_boundaries)
     {
+        // seems to only return primary block when called from secondary block
+        // i.e. block_1 is visible from block_2 but not vice-versa
         std::string neighbour_block = get_neighbour_block_name(boundary_name);
         if (!neighbour_block.empty())
         {

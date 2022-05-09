@@ -37,16 +37,16 @@ ADMatInterfaceDiffusion::computeQpResidual(Moose::DGResidualType type)
 {
   // equal gradients means difference is zero
   ADReal res =
-      (_rho[_qp] * _D[_qp] * _grad_u[_qp] * _normals[_qp])
-       - (_rho_neighbor[_qp] * _D_neighbor[_qp] * _grad_neighbor_value[_qp] * _normals[_qp]);
+      ( _D[_qp] * _grad_u[_qp] * _normals[_qp])
+       - ((_rho_neighbor[_qp]/_rho[_qp]) * _D_neighbor[_qp] * _grad_neighbor_value[_qp] * _normals[_qp]);
 
   switch (type)
   {
     case Moose::Element:
-      return (res / _rho[_qp]) * _test[_i][_qp]; // * -1?
+      return res * _test[_i][_qp]; // * -1?
 
     case Moose::Neighbor:
-      return (res / _rho_neighbor[_qp]) * _test_neighbor[_i][_qp];
+      return res * (_rho[_qp] / _rho_neighbor[_qp]) * _test_neighbor[_i][_qp];
   }
 
   mooseError("Internal error.");
