@@ -29,6 +29,7 @@ associateSyntaxInner(Syntax & syntax, ActionFactory & /*action_factory*/)
 //   registerSyntax("SimpleTrapAction", "Modules/AchlysTrap");
   // registerSyntax("FosterMcNabbTrapAction", "Modules/Achlys/FosterMcNabb");
    registerSyntax("FosterMcNabbTrapAction", "Modules/Achlys/FosterMcNabb/*");
+   registerSyntax("DiffusiveMaterialAction", "Modules/Achlys/DiffusiveMaterial/*");
 
   // add variables action
   registerTask("add_variables", /*is_required=*/false);
