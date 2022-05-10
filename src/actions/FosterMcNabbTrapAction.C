@@ -100,6 +100,7 @@ FosterMcNabbTrapAction::validParams()
     params.addParam<std::string>("detrap_material_base", "detrapping_rate", "the base name for the de-trapping rate material property");
     params.addParam<std::string>("trapping_material_base", "trapping_rate", "the base name for the trapping rate material property");
     params.addParam<std::string>("trap_density_material_base", "trap_density", "the base name for trap density material property");
+    params.addParam<std::string>("jsonify", "", "path to write json data to");
     // enum for order of variables
     // enum for molar or eV formulation
     // handle variable trap densities 
@@ -211,6 +212,10 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
             {
                 _aux_variable_names.push_back("trapped");
             }
+
+    if(params.isParamSetByUser("jsonify")){
+        jsonify(getParam<std::string>("jsonify"));
+    }
 
 }
 
@@ -356,18 +361,18 @@ void FosterMcNabbTrapAction::addDetrappingRateMaterials()
 //     _problem->addMaterial(type, material_block_name, params);
 // }
 
-// void FosterMcNabbTrapAction::addParsedMaterial(std::string name, std::vector<std::string> args, std::string function)
-// {
-//     std::string type = "ADParsedMaterial";
-//     auto params = _factory.getValidParams(type);
-//     std::string f_name = name;
-//     params.set<std::string>("f_name") = f_name;
-//     // params.set<std::vector<std::string>>("args") = args;
-//     params.set<std::string>("function") = function;
-//     std::string material_block_name = name + "parsed_material" + _block_prepend;
-//     _problem->addMaterial(type, material_block_name, params);
+void FosterMcNabbTrapAction::addParsedMaterial(std::string name, std::vector<std::string> args, std::string function)
+{
+    std::string type = "ADParsedMaterial";
+    auto params = _factory.getValidParams(type);
+    std::string f_name = name;
+    params.set<std::string>("f_name") = f_name;
+    // params.set<std::vector<std::string>>("args") = args;
+    params.set<std::string>("function") = function;
+    std::string material_block_name = name + "parsed_material" + _block_prepend;
+    _problem->addMaterial(type, material_block_name, params);
 
-// }
+}
 
 void FosterMcNabbTrapAction::addKernels()
 {

@@ -10,8 +10,13 @@
 #include "NonlinearSystem.h"
 #include "KernelBase.h"
 
+#include "libmesh/string_to_enum.h"
+
 #include<vector>
 #include<string>
+
+#include "nlohmann/json.h"
+using json = nlohmann::json;
 
 namespace AchlysConstants
 {
@@ -37,7 +42,7 @@ protected:
 
     void addArrheniusMaterial(std::string name, Real V0, Real E);
     void addGenericConstantMaterial(std::vector<std::string> names, std::vector<Real> values);
-    void addParsedMaterial(std::string name, std::vector<std::string> args, std::string function);
+    // void addParsedMaterial(std::string name, std::vector<std::string> args, std::string function);
 
 
     void addTimeKernels();
@@ -133,6 +138,57 @@ protected:
         atoms_per_m3
     };
     ConcentrationUnits _concentration_units;
+
+    public:
+    inline void serialise_to_json(json & j) const
+    {
+      json & k = _blocks.empty() ? j : j[_blocks[0]];
+      k["temperature_variable"] = _temperature_variable;
+      k["k"] = _k;
+      k["D0"] = _D0;
+      k["Ed"] = _Ed;
+      k["S0"] = _S0;
+      k["Es"] = _Es;
+      k["rho"] = _rho;
+
+      k["mobile_variable_base"] = _mobile_variable_base;
+      k["diffusivity_material_base"] = _diffusivity_material_base;
+      k["solubility_material_base"] = _solubility_material_base;
+      k["blocks"] = _blocks;
+      k["requested_aux_variables"] = _requested_aux_variables;
+
+      k["mobile_variable_name"] = _mobile_variable_name;
+      k["all_variable_names"] = _all_variable_names;
+      k["diffusivity_material_name"] = _diffusivity_material_name;
+      k["solubility_material_name"] = _solubility_material_name;
+      k["block_prepend"] = _block_prepend;
+
+      k["aux_variable_names"] = _aux_variable_names;
+      k["solid_boundaries"] = _solid_boundaries;
+      k["solubility_specified"] = _solubility_specified;
+      k["variable_order_specified"] = _variable_order_specified;
+      k["energy_units"] = _energy_units == EnergyUnits::eV ? "eV" : "kJ/mol";
+
+      std::stringstream ss;
+      ss << _variable_order;
+      k["variable_order"] = ss.str();
+    }
+
+    inline void jsonify(std::string file_path)
+    {
+        json j;
+        serialise_to_json(j);
+        std::ifstream ifs(file_path.c_str());
+        if (ifs.good()) 
+        {
+            json jf = json::parse(ifs);
+            j.update(jf);
+            ifs.close();
+        }
+        std::ofstream file (file_path);
+        file << std::setw(4) << j << "\n";
+        file.close();
+    }
 
 };
 

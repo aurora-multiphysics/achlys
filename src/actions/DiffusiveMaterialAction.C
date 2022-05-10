@@ -299,18 +299,18 @@ void DiffusiveMaterialAction::addGenericConstantMaterial(std::vector<std::string
     _problem->addMaterial(type, material_block_name, params);
 }
 
-void DiffusiveMaterialAction::addParsedMaterial(std::string name, std::vector<std::string> args, std::string function)
-{
-    std::string type = "ADParsedMaterial";
-    auto params = _factory.getValidParams(type);
-    std::string f_name = name;
-    params.set<std::string>("f_name") = f_name;
-    // params.set<std::vector<std::string>>("args") = args;
-    params.set<std::string>("function") = function;
-    std::string material_block_name = name + "parsed_material" + _block_prepend;
-    _problem->addMaterial(type, material_block_name, params);
+// void DiffusiveMaterialAction::addParsedMaterial(std::string name, std::vector<std::string> args, std::string function)
+// {
+//     std::string type = "ADParsedMaterial";
+//     auto params = _factory.getValidParams(type);
+//     std::string f_name = name;
+//     params.set<std::string>("f_name") = f_name;
+//     // params.set<std::vector<std::string>>("args") = args;
+//     params.set<std::string>("function") = function;
+//     std::string material_block_name = name + "parsed_material" + _block_prepend;
+//     _problem->addMaterial(type, material_block_name, params);
 
-}
+// }
 
 void DiffusiveMaterialAction::addKernels()
 {
