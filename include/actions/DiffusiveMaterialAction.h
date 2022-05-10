@@ -121,8 +121,8 @@ protected:
 
     enum class EnergyUnits
     {
-        kJ,
-        eV
+        eV,
+        kJ
     };
     EnergyUnits _energy_units;
 

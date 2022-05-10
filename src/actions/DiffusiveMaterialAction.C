@@ -138,7 +138,9 @@ DiffusiveMaterialAction::DiffusiveMaterialAction(const InputParameters & params)
     _energy_units(getParam<MooseEnum>("energy_units").getEnum<EnergyUnits>())
     
 {
-    _solubility_specified = params.isParamSetByUser("S0") &&params.isParamSetByUser("Es");
+    _solubility_specified = params.isParamSetByUser("S0") && params.isParamSetByUser("Es");
+    // std::cout << "solubility set: " << _solubility_specified << "\n";
+    // std::cout << "Es: " << _Es << "\n";
 
     /*
         construct unique lists of variable names
@@ -193,6 +195,11 @@ DiffusiveMaterialAction::DiffusiveMaterialAction(const InputParameters & params)
     }
  
     _k = (_energy_units == EnergyUnits::eV) ? AchlysConstants::Boltzmann : AchlysConstants::UiversalGas;
+    // std::cout << "energy units is ev:  " << (_energy_units ==  EnergyUnits::eV) << "\n";
+    // std::cout << "energy units is kJ:  " << (_energy_units ==  EnergyUnits::kJ) << "\n";
+    // std::cout << "k:  " << _k << "\n";
+    // std::cout << "boltzmann:  " << AchlysConstants::Boltzmann << "\n";
+    // std::cout << "universal gas:  " << AchlysConstants::UiversalGas << "\n";
 
 }
 

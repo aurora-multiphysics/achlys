@@ -1,4 +1,5 @@
 #include "ArrheniusMaterial.h"
+#include <iostream>
 
 registerMooseObject("achlysApp", ArrheniusMaterial);
 
@@ -27,6 +28,10 @@ ArrheniusMaterial::ArrheniusMaterial(const InputParameters & parameters)
     // _property(declareADProperty<Real>(_name));
 {
   // _property = declareADProperty<Real>(_name);
+  // std::cout << "name " << _name << "\n";
+  // std::cout << "v0 " << _v0 << "\n";
+  // std::cout << "E " << _E << "\n";
+  // std::cout << "k " << _k << "\n";
 }
 
 void
