@@ -1,0 +1,11 @@
+[Tests]
+[ParseInputsUnitTests]
+    type = PythonUnitTest
+    input = test.py
+    test_case = TestArgumentParsing
+    # ad_indexing_type = 'global'
+    required_python_packages = 'yaml' # pandas matplotlib'
+    # requirement = 'The system shall display second order convergence with a central-differencing limiter.'
+    # method = '!dbg'
+  []
+  []

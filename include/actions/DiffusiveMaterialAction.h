@@ -139,6 +139,8 @@ protected:
     };
     ConcentrationUnits _concentration_units;
 
+    bool _exodus;
+
     public:
     inline void serialise_to_json(json & j) const
     {
@@ -172,6 +174,7 @@ protected:
       std::stringstream ss;
       ss << _variable_order;
       k["variable_order"] = ss.str();
+      k["materials_to_exodus"] = _exodus;
     }
 
     inline void jsonify(std::string file_path)

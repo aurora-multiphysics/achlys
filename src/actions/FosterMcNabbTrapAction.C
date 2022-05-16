@@ -100,7 +100,7 @@ FosterMcNabbTrapAction::validParams()
     params.addParam<std::string>("detrap_material_base", "detrapping_rate", "the base name for the de-trapping rate material property");
     params.addParam<std::string>("trapping_material_base", "trapping_rate", "the base name for the trapping rate material property");
     params.addParam<std::string>("trap_density_material_base", "trap_density", "the base name for trap density material property");
-    params.addParam<std::string>("jsonify", "", "path to write json data to");
+    // params.addParam<std::string>("jsonify", "", "path to write json data to");
     // enum for order of variables
     // enum for molar or eV formulation
     // handle variable trap densities 
@@ -320,7 +320,7 @@ void FosterMcNabbTrapAction::addDetrappingRateMaterials()
         {
             params.set<std::vector<SubdomainName>>("block") = _blocks; 
         }
-        params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
+        if (_exodus) params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
         _problem->addMaterial(type, material_block_name, params);
     }
 }

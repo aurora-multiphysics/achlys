@@ -113,6 +113,8 @@ DiffusiveMaterialAction::validParams()
     MooseEnum energy_units("eV J/molK", "eV");
     params.addParam<MooseEnum>("energy_units", energy_units, "The units of any energy values specified, options are eV or J/molK. " 
                                 "This is used to select the correct constant in Arhhenius expressions, either kB or R");
+    params.addParam<std::string>("jsonify", "", "path to write json data to");
+    params.addParam<bool>("materials_to_exodus", false, "Output generated material properties to exodus");
     // enum for order of variables
     // enum for molar or eV formulation
     // handle variable trap densities 
@@ -135,7 +137,8 @@ DiffusiveMaterialAction::DiffusiveMaterialAction(const InputParameters & params)
     _blocks(getParam<std::vector<SubdomainName>>("block")),
     _interface_type(getParam<MooseEnum>("interface_type").getEnum<InterfaceType>()),
     _variable_order(getParam<MooseEnum>("variable_order")),
-    _energy_units(getParam<MooseEnum>("energy_units").getEnum<EnergyUnits>())
+    _energy_units(getParam<MooseEnum>("energy_units").getEnum<EnergyUnits>()),
+    _exodus(getParam<bool>("materials_to_exodus"))
     
 {
     _solubility_specified = params.isParamSetByUser("S0") && params.isParamSetByUser("Es");
@@ -200,7 +203,10 @@ DiffusiveMaterialAction::DiffusiveMaterialAction(const InputParameters & params)
     // std::cout << "k:  " << _k << "\n";
     // std::cout << "boltzmann:  " << AchlysConstants::Boltzmann << "\n";
     // std::cout << "universal gas:  " << AchlysConstants::UiversalGas << "\n";
-
+    if(params.isParamSetByUser("jsonify"))
+    {
+        jsonify(getParam<std::string>("jsonify"));
+    }
 }
 
 
@@ -278,7 +284,7 @@ void DiffusiveMaterialAction::addArrheniusMaterial(std::string name, Real V0, Re
     params.set<Real>("k") = _k; 
     params.set<std::vector<VariableName>>("Temperature") = {_temperature_variable};
     // params.set<std::string>("Temperature") = _temperature_variable;
-    params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
+    if (_exodus) params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
     std::string material_block_name = name + "_material" + _block_prepend;
     _problem->addMaterial(type, material_block_name, params);
 
@@ -295,7 +301,7 @@ void DiffusiveMaterialAction::addGenericConstantMaterial(std::vector<std::string
     {
         params.set<std::vector<SubdomainName>>("block") = _blocks; 
     }
-    params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
+    if (_exodus) params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
     _problem->addMaterial(type, material_block_name, params);
 }
 
