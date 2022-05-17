@@ -13,7 +13,6 @@
     block_id = 1
     bottom_left = '0 0 0'
     top_right = '2e-3 0 0'
-    block_name = W
   []
   [block2]
     type = SubdomainBoundingBoxGenerator
@@ -21,7 +20,6 @@
     block_id = 2
     bottom_left = '2e-3 0 0'
     top_right = '4e-3 0 0'
-    block_name = Cu
   []
   [interface]
     type = SideSetsBetweenSubdomainsGenerator
@@ -38,9 +36,10 @@
 
 [Modules/Achlys/FosterMcNabb]
   [W]
-    n = '0'
+    n = '1e-4'
     v0 = '1.0E13'
-    E = '0'
+    E = '1.0'
+    k = 8.6E-5
     D0 = 2.4e-7
     Ed = 0.39
     S0 = 1.87e24
@@ -49,32 +48,28 @@
     n_sol = 2
     atomic_density = 6.3e28
     Temperature = "Temperature"
-    block = W
-    aux_variables = 'mobile retention'
+    block = 1
+    aux_variables = 'mobile'
     solid_boundaries = 'interface'
     generate_interface_kernels = true
-    jsonify = test1_out.json
   []
   [Cu]
-    #n = '1e-4'
-    #v0 = '1.0E13'
-    #E = '1.0'
-    n = '0'
+    n = '1e-4'
     v0 = '1.0E13'
-    E = '0'
+    E = '1.0'
+    k = 8.6E-5
     D0 = 6.6e-7
     Ed = 0.39
     S0 = 3.14e24
-    Es = 0.57
+    Es = 0.54
     lambda = 1.1e-10
     n_sol = 2
     Temperature = "Temperature"
-    block = Cu
+    block = 2
     atomic_density = 6.3e28
-    aux_variables = 'mobile retention'
+    aux_variables = 'mobile'
     solid_boundaries = 'interface'
     generate_interface_kernels = true
-    jsonify = test1_out.json
   []
 []
 
@@ -86,28 +81,28 @@
   []
 []
 
-#[AuxKernels]
+[AuxKernels]
  # [total_solute]
  #   type = ParsedAux
  #   variable = Solute
  #   args= 'm2 Mobile'
  #   function = '(m2 + Mobile) * 6.3e28'
  # []
- # [total_solute1]
- #   type = ParsedAux
- #   variable = Solute
- #   args= 'mobile_1'
- #   function = '(mobile_1) * 6.3e28'
- #   block = 1
- # []
- # [total_solute2]
- #   type = ParsedAux
- #   variable = Solute
- #   args= 'mobile_2'
- #   function = '(mobile_2 ) * 6.3e28'
- #   block = 2
- # []
-#[]
+  [total_solute1]
+    type = ParsedAux
+    variable = Solute
+    args= 'mobile_1'
+    function = '(mobile_1) * 6.3e28'
+    block = 1
+  []
+  [total_solute2]
+    type = ParsedAux
+    variable = Solute
+    args= 'mobile_2'
+    function = '(mobile_2 ) * 6.3e28'
+    block = 2
+  []
+[]
 
 
 
@@ -135,13 +130,13 @@
 [BCs]
   [left]
     type = ADDirichletBC
-    variable = mobile_W
+    variable = mobile_1
     value = 1.587e-9
     boundary = 'left'
   []
   [right]
     type = ADDirichletBC
-    variable = mobile_Cu
+    variable = mobile_2
     value = 0
     boundary = 'right'
   []
@@ -160,5 +155,4 @@
 
 [Outputs]
   exodus = true
-  console = true
 []

@@ -38,9 +38,9 @@
 
 [Modules/Achlys/FosterMcNabb]
   [W]
-    n = '0'
-    v0 = '1.0E13'
-    E = '0'
+    n = '1e-3 1e-4 5e-2 7e-4'
+    v0 = '1.0E13 1e13 1e13 1e13'
+    E = '0.5 0.6 0.7 0.8'
     D0 = 2.4e-7
     Ed = 0.39
     S0 = 1.87e24
@@ -53,7 +53,7 @@
     aux_variables = 'mobile retention'
     solid_boundaries = 'interface'
     generate_interface_kernels = true
-    jsonify = test1_out.json
+    jsonify = test_1_out.json
   []
   [Cu]
     #n = '1e-4'
@@ -74,7 +74,7 @@
     aux_variables = 'mobile retention'
     solid_boundaries = 'interface'
     generate_interface_kernels = true
-    jsonify = test1_out.json
+    jsonify = test_1_out.json
   []
 []
 

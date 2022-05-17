@@ -1,0 +1,29 @@
+---
+test_1.i:
+  W:
+    variable_order: FIRST
+    energy_units: eV
+    k: 8.617e-5
+    aux_variable_names: [mobile, retention]
+    solubility_specified: True
+    S0: 1.87e+24
+    Es: 1.04
+    rho: 6.3e+28
+    mobile_variable_base: mobile
+    all_variable_names: [mobile_W]
+    solid_boundaries: [interface]
+    requested_aux_variables: [mobile, retention]
+  Cu:
+    variable_order: FIRST
+    energy_units: eV
+    k: 8.617e-5
+    aux_variable_names: [mobile, retention]
+    solubility_specified: True
+    S0: 3.14e+24
+    Es: 0.57
+    rho: 6.3e+28
+    mobile_variable_base: mobile
+    all_variable_names: [mobile_Cu]
+    solid_boundaries: [interface]
+    requested_aux_variables: [mobile, retention]
+  objects: ['ADChemicalPotentialInterface', 'ADDirichletBC', 'ADGenericConstantMaterial', 'ADMatDiffusion', 'ADMatInterfaceDiffusion', 'ArrheniusMaterial']
