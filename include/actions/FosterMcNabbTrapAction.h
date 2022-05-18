@@ -87,7 +87,7 @@ protected:
 
     public:
     // used for unit testing
-    inline void serialise_to_json(json & j) const
+    inline virtual void serialise_to_json(json & j) const
     {
         DiffusiveMaterialAction::serialise_to_json(j);
         json & k = _blocks.empty() ? j : j[_blocks[0]];
@@ -98,7 +98,7 @@ protected:
         k["Ep"] = _Ep;
         k["lambda"] = _lambda;
         k["n_sol"] = _n_sol;
-        k["rho"] = _rho;
+        // k["rho"] = _rho;
         k["n_traps"] = _n_traps;
         k["trap_variable_base"] = _trap_variable_base;
         k["detrap_material_base"] =  _detrap_material_base;

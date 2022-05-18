@@ -142,7 +142,7 @@ protected:
     bool _exodus;
 
     public:
-    inline void serialise_to_json(json & j) const
+    inline virtual void serialise_to_json(json & j) const
     {
       json & k = _blocks.empty() ? j : j[_blocks[0]];
       k["temperature_variable"] = _temperature_variable;
@@ -185,9 +185,11 @@ protected:
         if (ifs.good()) 
         {
             json jf = json::parse(ifs);
-            j.update(jf);
+            jf.update(j);
+            j = jf;
             ifs.close();
         }
+        
         std::ofstream file (file_path);
         file << std::setw(4) << j << "\n";
         file.close();

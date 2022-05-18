@@ -1,4 +1,5 @@
 # import mms
+from distutils.log import warn
 from ftplib import error_reply
 import unittest
 from mooseutils import fuzzyAbsoluteEqual, find_moose_executable_recursive
@@ -12,6 +13,7 @@ achlys_exe = find_moose_executable_recursive(os.getcwd())
 
 def run_executable(app_path, *args, mpi=None, suppress_output=False):
     """
+    Ammended from the moose utils package to retrieve stdout. 
     A function for running an application.
     """
     import subprocess
@@ -46,6 +48,20 @@ def run_achlys(input_file, *args, **kwargs):
 #         config = yaml.safe_load(file)
 
 class TestArgumentParsing(unittest.TestCase):
+    """
+    Use the 'serialise_to_json' method in achlys action classes to compare
+    internal state of the instantiated action object to what was intended
+    particularly:
+      - variables are created with the names expected
+      - optional switches for variable-order and energy units etc. are correctly determined
+      - automated logic behaves as desired (steady/transient, aux/no-aux, interface/no-interface, de-trap rate formulation)
+
+    The expected action object state for each test-input file is listed in a yaml file (test_input_parsing.yml).
+    On running this test a json file is produced (input_out.json). 
+
+    This class loops through the yaml file and compares to results produced in each 
+    json output for the different fields of interest. 
+    """
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -55,6 +71,9 @@ class TestArgumentParsing(unittest.TestCase):
         cls.object_lists = {}
         for input in cls.config:
             # run_achlys(input, suppress_output=True)
+
+            # doesn't run simulation, but instantiates the user action object 
+            # and runs the tasks to creat all materials and kernels etc.
             objects = run_achlys(input, "--list-constructed-objects")
             cls.object_lists[input] = objects
 
@@ -64,7 +83,29 @@ class TestArgumentParsing(unittest.TestCase):
             with open(json_file) as file:
                 output = json.load(file)
             for block in output:
-                assert output[block][key] == self.config[input][block][key]
+                try:
+                    output_field = output[block][key]
+                    if type(output_field).__name__ == 'list':
+                        assert set(output_field) == set(self.config[input][block][key])
+                    else:
+                        assert output_field == self.config[input][block][key]
+                except AssertionError as e:
+                    print("ASSERTION ERROR")
+                    print("input: %s, block: %s, key: %s, type: %s" % (input, block, key))
+                    print("(actual != expected)")
+                    print(output[block][key], end='')
+                    print(" != ", end ='')
+                    print (self.config[input][block][key])
+                    raise AssertionError(e)
+                except KeyError:
+                    output_err = not hasattr(output[block], key)
+                    input_err = not hasattr(self.config[input][block], key)
+                    if output_err:
+                        warn('field "%s" not specified in output file. input: %s, block: %s'
+                         % (key, input, block))
+                    if input_err:
+                        warn('field "%s" not specified in input file. input: %s, block: %s'
+                         % (key, input, block))
         
     def test_variable_order(self):
         self.compare_results("variable_order")
@@ -89,6 +130,9 @@ class TestArgumentParsing(unittest.TestCase):
         self.compare_results("mobile_variable_base")
         # self.compare_results("mobile_variable_base")
 
+    def test_trap_number(self):
+        self.compare_results("n_traps")
+
     def test_all_variable_names(self):
         self.compare_results("all_variable_names")
 
@@ -96,6 +140,11 @@ class TestArgumentParsing(unittest.TestCase):
         self.compare_results("solid_boundaries")
 
     def test_all_objects_created(self):
+        """
+        Test all expected objects (kernels, materials, etc) are created.
+        Note this just says if any instance exists, not all expected instances. 
+        e.g. that the trapping kernel exists, but not necessarily for each trap variable in each block.
+        """
         for input in self.config:
             for obj in self.config[input]["objects"]:
                 assert obj in self.object_lists[input]

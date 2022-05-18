@@ -1,5 +1,5 @@
 ---
-test_1.i:
+steady.i:
   W:
     variable_order: FIRST
     energy_units: eV
@@ -10,9 +10,23 @@ test_1.i:
     Es: 1.04
     rho: 6.3e+28
     mobile_variable_base: mobile
-    all_variable_names: [mobile_W]
+    all_variable_names: [mobile_W, trap_W_1, trap_W_2, trap_W_3, trap_W_4]
     solid_boundaries: [interface]
     requested_aux_variables: [mobile, retention]
+    n: [1.0e-3, 1.0e-4, 5.0e-2, 7.0e-4]
+    v0: [1.0E+13,1.0E+13,1.0E+13,1.0E+13]
+    E: [0.5, 0.6, 0.7, 0.8]
+    p0: -1
+    Ep: -1
+    lambda: 1.1e-10
+    n_sol: 2
+    n_traps: 4
+    trap_variable_names: [trap_W_1, trap_W_2, trap_W_3, trap_W_4]
+    trap_density_variable_names: [trap_density_W_1, trap_density_W_2, trap_density_W_3, trap_density_W_4]
+    trapping_rate_names: [trapping_rate_W_1, trapping_rate_W_2, trapping_rate_W_3, trapping_rate_W_4]
+    detrapping_rate_names: [detrapping_rate_W_1, detrapping_rate_W_2, detrapping_rate_W_3, detrapping_rate_W_4]
+    trapping_rate_specified: false
+    trapping_energy_specified: false
   Cu:
     variable_order: FIRST
     energy_units: eV
@@ -22,8 +36,10 @@ test_1.i:
     S0: 3.14e+24
     Es: 0.57
     rho: 6.3e+28
+    n_traps: 1
     mobile_variable_base: mobile
-    all_variable_names: [mobile_Cu]
+    all_variable_names: [mobile_Cu, trap_Cu_1]
     solid_boundaries: [interface]
     requested_aux_variables: [mobile, retention]
-  objects: ['ADChemicalPotentialInterface', 'ADDirichletBC', 'ADGenericConstantMaterial', 'ADMatDiffusion', 'ADMatInterfaceDiffusion', 'ArrheniusMaterial']
+  objects: ['ADChemicalPotentialInterface', 'ADDirichletBC', 'ADGenericConstantMaterial', 
+  'ADMatDiffusion', 'ADMatInterfaceDiffusion', 'ArrheniusMaterial', ADTrappingEquilibriumEquation, Steady, ParsedAux]
