@@ -14,12 +14,13 @@
 
 class ADAdsorbingMaterial;
 
-template <>
-InputParameters validParams<ADAdsorbingMaterial>();
+// template <>
+// InputParameters validParams<ADAdsorbingMaterial>();
 
 class ADAdsorbingMaterial : public ADMaterial
 {
 public:
+  static InputParameters validParams();
   ADAdsorbingMaterial(const InputParameters & parameters);
 
 protected:

@@ -14,12 +14,13 @@
 
 class ExtrinsicStaticTrappingMaterial;
 
-template <>
-InputParameters validParams<ExtrinsicStaticTrappingMaterial>();
+// template <>
+// InputParameters validParams<ExtrinsicStaticTrappingMaterial>();
 
 class ExtrinsicStaticTrappingMaterial : public ADMaterial
 {
 public:
+  static InputParameters validParams();
   ExtrinsicStaticTrappingMaterial(const InputParameters & parameters);
 
 protected:
