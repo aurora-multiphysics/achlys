@@ -1,16 +1,12 @@
-name: BuildTest
+name: DeployNightly
 on:
-  push:
-    branches:
-       - master
-  pull_request:
-    branches:
-       - master
+  schedule:
+    - cron: '0 18 * * 0' # run at 6 PM UTC every Sunday
 
 jobs:
   docker-build-test-ubuntu:
     runs-on: ubuntu-latest
-    name: BuildTestUbuntu
+    name: WeeklyUbuntu
     env:
       PRCOMMITSHA : ${{ github.event.pull_request.head.sha }}
       COVERALLS_TOKEN : ${{ secrets.COVERALLS_TOKEN }}
