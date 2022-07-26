@@ -20,6 +20,7 @@ class TrappingMaterialAuxT;
 class TrappingMaterialAuxT : public ADMaterial
 {
 public:
+  static InputParameters validParams();
   TrappingMaterialAuxT(const InputParameters & parameters);
 
 protected:

@@ -7,12 +7,13 @@
 
 class VectorTrappingMaterial;
 
-template <>
-InputParameters validParams<VectorTrappingMaterial>();
+// template <>
+// InputParameters validParams<VectorTrappingMaterial>();
 
 class VectorTrappingMaterial : public ADMaterial
 {
 public:
+  static InputParameters validParams();
   VectorTrappingMaterial(const InputParameters & parameters);
 
 protected:

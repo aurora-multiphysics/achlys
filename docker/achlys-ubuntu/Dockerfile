@@ -5,7 +5,8 @@
 # To compile a particular git sha use
 # docker build -t achlys-ubuntu --build-arg build_git_sha=${GITHUB_SHA} .
 
-FROM helenbrooks/moose-ubuntu
+#FROM helenbrooks/moose-ubuntu
+FROM idaholab/moose:latest
 ARG compile_cores=1
 ARG build_git_sha="master"
 
@@ -33,7 +34,7 @@ RUN if "$test_coverage" ; then \
        export CFLAGS="-fprofile-arcs -ftest-coverage"; \
        echo "Generating test coverage"; \
     fi && \
-    cd /home && \
+    cd /opt && \
     git clone https://github.com/aurora-multiphysics/achlys.git && \
     cd achlys && \
     git checkout "$build_git_sha" && \
@@ -44,7 +45,7 @@ RUN if "$test_coverage" ; then \
 RUN if "$test_coverage" ; then \
        export COVERALLS_REPO_TOKEN="$coveralls_token" && \
        export CI_BRANCH="$coveralls_branch" && \
-       cd /home/achlys && \
+       cd /opt/achlys && \
        cpp-coveralls -i src/ -i include/ --exclude-pattern "/usr/*" --dump cpp_cov.json && \
        coveralls --merge=cpp_cov.json; \
     fi

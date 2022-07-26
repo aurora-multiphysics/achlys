@@ -13,11 +13,9 @@
 
 registerMooseObject("achlysApp", ADAdsorbingMaterial);
 
-template <>
-InputParameters
-validParams<ADAdsorbingMaterial>()
+InputParameters ADAdsorbingMaterial::validParams()
 {
-  InputParameters params = validParams<ADMaterial>();
+  InputParameters params = ADMaterial::validParams();
   params.addRequiredParam<Real>("v0_d", "pre-exponential detrapping factor in Arrhenious eq.");
   params.addRequiredParam<Real>("v0_sb", "pre-exponential detrapping factor in Arrhenious eq.");
   params.addRequiredParam<Real>("v0_bs", "pre-exponential detrapping factor in Arrhenious eq.");

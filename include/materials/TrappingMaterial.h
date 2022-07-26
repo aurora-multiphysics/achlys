@@ -14,12 +14,13 @@
 
 class TrappingMaterial;
 
-template <>
-InputParameters validParams<TrappingMaterial>();
+// template <>
+// InputParameters validParams<TrappingMaterial>();
 
 class TrappingMaterial : public ADMaterial
 {
 public:
+  static InputParameters validParams();
   TrappingMaterial(const InputParameters & parameters);
 
 protected:

@@ -5,12 +5,13 @@
 
 class BinaryDiffusiveMaterial;
 
-template <>
-InputParameters validParams<BinaryDiffusiveMaterial>();
+// template <>
+// InputParameters validParams<BinaryDiffusiveMaterial>();
 
 class BinaryDiffusiveMaterial : public ADMaterial
 {
 public:
+  static InputParameters validParams();
   BinaryDiffusiveMaterial(const InputParameters & parameters);
 
 protected:

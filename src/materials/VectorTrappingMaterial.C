@@ -5,11 +5,10 @@
 
 registerMooseObject("achlysApp", VectorTrappingMaterial);
 
-template <>
-InputParameters
-validParams<VectorTrappingMaterial>()
+
+InputParameters VectorTrappingMaterial::validParams()
 {
-  InputParameters params = validParams<ADMaterial>();
+  InputParameters params = ADMaterial::validParams();
   params.addRequiredParam<std::vector<Real>>("v0", "pre-exponential detrapping factor in Arrhenious eq.");
   params.addRequiredParam<std::vector<Real>>("Ei", "Trap detrapping energy in eV");
   params.addRequiredParam<Real>("k_boltz", "Boltzman constant");
