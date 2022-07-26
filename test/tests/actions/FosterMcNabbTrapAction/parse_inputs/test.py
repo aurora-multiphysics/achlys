@@ -8,6 +8,7 @@ import yaml
 import json
 from subprocess import Popen, PIPE, DEVNULL
 
+
 achlys_exe = find_moose_executable_recursive(os.getcwd())
 
 
@@ -98,6 +99,9 @@ class TestArgumentParsing(unittest.TestCase):
                     print (self.config[input][block][key])
                     raise AssertionError(e)
                 except KeyError:
+                    # key error implies a general test function exists, but either:
+                    # (i) the field wasn't specified for testing for this specific input file (input_err: possibly intentional)
+                    # (ii) the field hasn't been output by the object jsonify function (output_err: probably a c++ error)
                     output_err = not hasattr(output[block], key)
                     input_err = not hasattr(self.config[input][block], key)
                     if output_err:
