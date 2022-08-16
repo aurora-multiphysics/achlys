@@ -3,7 +3,7 @@
 
 registerMooseObject("achlysApp", KPTrappingMaterial);
 
-KPTrappingMaterial::validParams()
+InputParameters KPTrappingMaterial::validParams()
 {
   InputParameters params = ADMaterial::validParams();
   params.addRequiredParam<Real>("v1", "pre-exponential detrapping factor in Arrhenious eq.");
@@ -31,7 +31,7 @@ KPTrappingMaterial::validParams()
   return params;
 }
 
-InputParameters KPTrappingMaterial::KPTrappingMaterial(const InputParameters & parameters)
+KPTrappingMaterial::KPTrappingMaterial(const InputParameters & parameters)
   : ADMaterial(parameters),
     //_simulation_temperature(coupledValues("Temperature")),
     _v1(getParam<Real>("v1")),
