@@ -5,9 +5,6 @@
 
 class BinaryDiffusiveMaterial;
 
-// template <>
-// InputParameters validParams<BinaryDiffusiveMaterial>();
-
 class BinaryDiffusiveMaterial : public ADMaterial
 {
 public:

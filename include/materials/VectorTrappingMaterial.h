@@ -1,14 +1,9 @@
-// This file is part of the MOOSE framework
-// https://www.mooseframework.org
 #pragma once
 
 #include "ADMaterial.h"
 #include "LinearInterpolation.h"
 
 class VectorTrappingMaterial;
-
-// template <>
-// InputParameters validParams<VectorTrappingMaterial>();
 
 class VectorTrappingMaterial : public ADMaterial
 {

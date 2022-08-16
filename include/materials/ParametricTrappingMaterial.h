@@ -14,8 +14,6 @@
 
 class ParametricTrappingMaterial;
 
-// template <>
-// InputParameters validParams<ParametricTrappingMaterial>();
 
 class ParametricTrappingMaterial : public ADMaterial
 {

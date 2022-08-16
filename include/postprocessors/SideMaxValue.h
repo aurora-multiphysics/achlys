@@ -1,12 +1,3 @@
-//* This file is part of the MOOSE framework
-//* https://www.mooseframework.org
-//*
-//* All rights reserved, see COPYRIGHT for full restrictions
-//* https://github.com/idaholab/moose/blob/master/COPYRIGHT
-//*
-//* Licensed under LGPL 2.1, please see LICENSE for details
-//* https://www.gnu.org/licenses/lgpl-2.1.html
-
 #pragma once
 
 #include "GeneralPostprocessor.h"
@@ -14,16 +5,6 @@
 
 class SideMaxValue;
 
-// template <>
-// InputParameters validParams<FindValueOnLine>();
-
-/**
- * Find a specific target value along a sampling line. The variable values along
- * the line should change monotonically. The target value is searched using a
- * bisection algorithm.
- * The Postprocessor reports the distance from the start_point along the line
- * between start_point and end_point.
- */
 class SideMaxValue : public GeneralPostprocessor, public Coupleable
 {
 public:

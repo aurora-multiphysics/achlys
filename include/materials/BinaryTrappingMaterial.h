@@ -5,9 +5,6 @@
 
 class BinaryTrappingMaterial;
 
-// template <>
-// InputParameters validParams<BinaryTrappingMaterial>();
-
 class BinaryTrappingMaterial : public ADMaterial
 {
 public:
