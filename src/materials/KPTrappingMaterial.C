@@ -31,7 +31,7 @@ KPTrappingMaterial::validParams()
   return params;
 }
 
-KPTrappingMaterial::KPTrappingMaterial(const InputParameters & parameters)
+InputParameters KPTrappingMaterial::KPTrappingMaterial(const InputParameters & parameters)
   : ADMaterial(parameters),
     //_simulation_temperature(coupledValues("Temperature")),
     _v1(getParam<Real>("v1")),
