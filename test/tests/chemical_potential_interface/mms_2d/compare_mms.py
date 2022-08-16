@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import sys
-sys.path.append("/Users/sdixon/projects/moose/python")
 # import chigger
+# MAKE SURE MOOSE_DIR/python is in PYTHONPATH
 from vtk.util.numpy_support import vtk_to_numpy
 from chigger.exodus import ExodusReader, ExodusSource, ExodusSourceLineSampler
 
