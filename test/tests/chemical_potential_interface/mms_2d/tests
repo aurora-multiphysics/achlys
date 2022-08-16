@@ -1,0 +1,8 @@
+[Tests]
+  [mms]
+    type = 'Exodiff'
+    input = 'mms.i'
+    exodiff = 'mms_out.e'
+    rel_err = 1e-8
+  []
+[]
