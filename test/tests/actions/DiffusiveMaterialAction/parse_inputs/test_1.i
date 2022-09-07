@@ -105,8 +105,8 @@
 #    neighbor_var = mobile_2
 #    boundary = interface
 #    s = S
-#    s_neighbour = S
-#    rho_neighbour = rho
+#    s_neighbor = S
+#    rho_neighbor = rho
 #  []
 #  [diffusion]
 #    type = ADMatInterfaceDiffusion
@@ -115,7 +115,7 @@
 #    boundary = interface
 #    D = 'D'
 #    D_neighbor = 'D'
-#    rho_neighbour = rho
+#    rho_neighbor = rho
 #  []
 #[]
 

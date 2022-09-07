@@ -98,7 +98,7 @@
     neighbor_var = m2
     boundary = interface
     s = S1
-    s_neighbour = S2
+    s_neighbor = S2
   []
   [diffusion]
     type = ADMatInterfaceDiffusion
@@ -358,13 +358,13 @@
   []
   [left]
     type = ADGenericConstantMaterial
-    prop_names = 'rho rho_neighbour'
+    prop_names = 'rho rho_neighbor'
     prop_values = '1 1'
     block = 1
   []
   [right]
     type = ADGenericConstantMaterial
-    prop_names = 'rho rho_neighbour'
+    prop_names = 'rho rho_neighbor'
     prop_values = '1 1'
     block = 2
   []
