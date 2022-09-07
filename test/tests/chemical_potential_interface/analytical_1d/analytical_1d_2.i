@@ -81,9 +81,9 @@
     neighbor_var = m2
     boundary = interface
     s = S
-    s_neighbor = S2
+    s_neighbour = S2
     rho = 1
-    rho_neighbor =1
+    rho_neighbour =1
   []
 [./diffusion]
   type = ADMatInterfaceDiffusion
@@ -93,7 +93,7 @@
   D = 'D'
   D_neighbor = 'D2'
     rho = 1
-    rho_neighbor =1
+    rho_neighbour =1
 [../]
 []
 

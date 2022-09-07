@@ -572,11 +572,11 @@ void DiffusiveMaterialAction::add_chemical_potential_interface(std::string varia
     params.set<NonlinearVariableName>("variable") = variable_1_name;
     params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("s") = "S";
-    params.set<MaterialPropertyName>("s_neighbor") = "S";
+    params.set<MaterialPropertyName>("s_neighbour") = "S";
     // params.set<MaterialPropertyName>("D") = "D";
-    // params.set<MaterialPropertyName>("D_neighbor") = "D";
+    // params.set<MaterialPropertyName>("D_neighbour") = "D";
     params.set<MaterialPropertyName>("rho") = "rho";
-    params.set<MaterialPropertyName>("rho_neighbor") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
 
     // or just be lazy and shove this in a try/except block?
@@ -610,9 +610,9 @@ void DiffusiveMaterialAction::add_mass_continuity_interface(std::string variable
     params.set<NonlinearVariableName>("variable") = variable_1_name;
     params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("D") = "D";
-    params.set<MaterialPropertyName>("D_neighbor") = "D";
+    params.set<MaterialPropertyName>("D_neighbour") = "D";
     params.set<MaterialPropertyName>("rho") = "rho";
-    params.set<MaterialPropertyName>("rho_neighbor") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
     // _problem->addAuxKernel(type, block_name, params);
     try
@@ -644,7 +644,7 @@ void DiffusiveMaterialAction::add_mobile_concentration_interface(std::string var
     params.set<NonlinearVariableName>("variable") = variable_1_name;
     params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("rho") = "rho";
-    params.set<MaterialPropertyName>("rho_neighbor") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
 
     // std::string block_name = std::string(boundary) + "_mobile_concentration_interface";
