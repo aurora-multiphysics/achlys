@@ -2,8 +2,8 @@
   [generated]
     type = GeneratedMeshGenerator
     dim = 2
-    nx = 50
-    ny = 50
+    nx = 10
+    ny = 5
     xmax = 1
     ymax = 1
     elem_type = QUAD9
@@ -356,6 +356,18 @@
     prop_values = S2
     block = 2
   []
+  [left]
+    type = ADGenericConstantMaterial
+    prop_names = 'rho rho_neighbour'
+    prop_values = '1 1'
+    block = 1
+  []
+  [right]
+    type = ADGenericConstantMaterial
+    prop_names = 'rho rho_neighbour'
+    prop_values = '1 1'
+    block = 2
+  []
 []
 
 [Executioner]
@@ -365,8 +377,8 @@
   petsc_options_iname = '-ksp_type -pc_type -pc_factor_shift_type'
   petsc_options_value = 'bcgs lu NONZERO'
   #nl_rel_tol = 1e-13
-  dt = 5e-4
-  end_time = 0.1
+  dt = 5e-3
+  end_time = 0.04
 []
 
 [Outputs]

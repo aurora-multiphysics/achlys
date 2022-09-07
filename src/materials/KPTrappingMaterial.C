@@ -1,22 +1,11 @@
-// This file is part of the MOOSE framework
-// https://www.mooseframework.org
-//
-// All rights reserved, see COPYRIGHT for full restrictions
-// https://github.com/idaholab/moose/blob/master/COPYRIGHT
-//
-// Licensed under LGPL 2.1, please see LICENSE for details
-// https://www.gnu.org/licenses/lgpl-2.1.html
-
 #include "KPTrappingMaterial.h"
 #include <cstdio>
 
 registerMooseObject("achlysApp", KPTrappingMaterial);
 
-template <>
-InputParameters
-validParams<KPTrappingMaterial>()
+InputParameters KPTrappingMaterial::validParams()
 {
-  InputParameters params = validParams<ADMaterial>();
+  InputParameters params = ADMaterial::validParams();
   params.addRequiredParam<Real>("v1", "pre-exponential detrapping factor in Arrhenious eq.");
   params.addRequiredParam<Real>("v2", "pre-exponential detrapping factor in Arrhenious eq.");
   params.addRequiredParam<Real>("v3", "pre-exponential detrapping factor in Arrhenious eq.");

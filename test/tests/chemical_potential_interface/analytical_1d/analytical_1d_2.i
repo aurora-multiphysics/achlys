@@ -2,8 +2,9 @@
   [generated]
     type = GeneratedMeshGenerator
     dim = 1
-    nx = 50000
+    nx = 100
     xmax = 1
+    elem_type = EDGE3
   []
 
   # assign two subdomains
@@ -12,13 +13,13 @@
     input = generated
     block_id = 1
     bottom_left = '0 0 0'
-    top_right = '0.6 0 0'
+    top_right = '0.4 0 0'
   []
   [block2]
     type = SubdomainBoundingBoxGenerator
     input = block1
     block_id = 2
-    bottom_left = '0.6 0 0'
+    bottom_left = '0.4 0 0'
     top_right = '1 0 0'
   []
   [interface]
@@ -37,9 +38,11 @@
 [Variables]
   [Mobile]
    block = 1
+   order = SECOND
    []
   [m2]
     block = 2
+    order = SECOND
   []
 []
 
@@ -61,12 +64,12 @@
   [source1]
     type = ADBodyForce
     variable = Mobile
-    value = 1.414
+    value = 2.449
   []
   [source2]
     type = ADBodyForce
     variable = m2
-    value = 1.414
+    value = 2.449
   []
 
 []
@@ -79,6 +82,8 @@
     boundary = interface
     s = S
     s_neighbour = S2
+    rho = 1
+    rho_neighbour =1
   []
 [./diffusion]
   type = ADMatInterfaceDiffusion
@@ -86,7 +91,9 @@
   neighbor_var = m2
   boundary = interface
   D = 'D'
-  D_neigh = 'D2'
+  D_neighbor = 'D2'
+    rho = 1
+    rho_neighbour =1
 [../]
 []
 
@@ -100,7 +107,7 @@
   [right]
     type = ADDirichletBC
     variable = m2
-    value = 2
+    value = 0.25
     boundary = 'right'
   []
 []
@@ -115,7 +122,7 @@
   [right]
     type = ADGenericConstantMaterial
     prop_names = 'D2 S2'
-    prop_values = '2 3'
+    prop_values = '1.5 1'
     block = 2
   []
 []

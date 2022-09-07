@@ -1,6 +1,6 @@
 [Mesh]
  [./unlabelled]
-    file = /Users/sdixon/projects/blue_kite/problems/thermal_desorption/optimisation/ogorodnikova_1k.msh
+    file = ogorodnikova_1k.msh
     type = FileMeshGenerator
     construct_side_list_from_node_list=true
   [../]

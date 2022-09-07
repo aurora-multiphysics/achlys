@@ -12,11 +12,9 @@
 
 registerMooseObject("achlysApp", ExtrinsicTransientTrappingMaterial);
 
-template <>
-InputParameters
-validParams<ExtrinsicTransientTrappingMaterial>()
+InputParameters ExtrinsicTransientTrappingMaterial::validParams()
 {
-  InputParameters params = validParams<ADMaterial>();
+  InputParameters params = ADMaterial::validParams();
   params.addRequiredParam<Real>("v0", "pre-exponential detrapping factor in Arrhenious eq.");
   params.addRequiredParam<Real>("E1", "Trap detrapping energy in eV");
   params.addRequiredParam<Real>("E2", "Trap detrapping energy in eV");

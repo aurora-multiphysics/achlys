@@ -5,12 +5,10 @@
 
 class BinaryTrappingMaterial;
 
-template <>
-InputParameters validParams<BinaryTrappingMaterial>();
-
 class BinaryTrappingMaterial : public ADMaterial
 {
 public:
+  static InputParameters validParams();
   BinaryTrappingMaterial(const InputParameters & parameters);
 
 protected:

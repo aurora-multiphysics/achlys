@@ -2,8 +2,9 @@
   [generated]
     type = GeneratedMeshGenerator
     dim = 1
-    nx = 200
-    xmax = 4e-3
+    nx = 100
+    xmax = 1
+    elem_type = EDGE3    
   []
 
   # assign two subdomains
@@ -12,14 +13,14 @@
     input = generated
     block_id = 1
     bottom_left = '0 0 0'
-    top_right = '2e-3 0 0'
+    top_right = '0.6 0 0'
   []
   [block2]
     type = SubdomainBoundingBoxGenerator
     input = block1
     block_id = 2
-    bottom_left = '2e-3 0 0'
-    top_right = '4e-3 0 0'
+    bottom_left = '0.6 0 0'
+    top_right = '1 0 0'
   []
   [interface]
     type = SideSetsBetweenSubdomainsGenerator
@@ -37,37 +38,11 @@
 [Variables]
   [Mobile]
    block = 1
+   order = SECOND
    []
   [m2]
     block = 2
-  []
-[]
-
-[AuxVariables]
-  [Solute]
-  []
-[]
-
-[AuxKernels]
- # [total_solute]
- #   type = ParsedAux
- #   variable = Solute
- #   args= 'm2 Mobile'
- #   function = '(m2 + Mobile) * 6.3e28'
- # []
-  [total_solute1]
-    type = ParsedAux
-    variable = Solute
-    args= 'Mobile'
-    function = '(Mobile) * 6.3e28'
-    block = 1
-  []
-  [total_solute2]
-    type = ParsedAux
-    variable = Solute
-    args= 'm2'
-    function = '(m2 ) * 6.3e28'
-    block = 2
+    order = SECOND
   []
 []
 
@@ -79,75 +54,75 @@
   [diffusion]
     type = ADMatDiffusion
     variable = Mobile
-    diffusivity = D1
+    diffusivity = D
   []
     [diffusion2]
     type = ADMatDiffusion
     variable = m2
     diffusivity = D2
   []
+  [source1]
+    type = ADBodyForce
+    variable = Mobile
+    value = 1.414
+  []
+  [source2]
+    type = ADBodyForce
+    variable = m2
+    value = 1.414
+  []
 
 []
 
 [InterfaceKernels]
   [chemical]
-    type = ADVariableMatch
+    type = ADChemicalPotentialInterface
     variable = Mobile
     neighbor_var = m2
     boundary = interface
+    s = S
+    s_neighbour = S2
+    rho = 1
+    rho_neighbour = 1
   []
-  [diffusion]
+  [./diffusion]
     type = ADMatInterfaceDiffusion
     variable = Mobile
     neighbor_var = m2
     boundary = interface
-    D = 'D1'
+    D = 'D'
     D_neighbor = 'D2'
-  []
+    rho = 1
+    rho_neighbour = 1
+[../]
 []
 
 [BCs]
   [left]
     type = ADDirichletBC
     variable = Mobile
-    value = 1.587e-9
+    value = 1
     boundary = 'left'
   []
   [right]
     type = ADDirichletBC
     variable = m2
-    value = 0
+    value = 2
     boundary = 'right'
   []
 []
 
-[Functions]
-
-  [D1] 
-    type = ParsedFunction
-    vars = 'D0 E kb T'
-    vals = '6.6e-7 0.39 8.617e-5 600'
-    value = 'D0 * exp( -E / (kb * T) )'
-  []
-  [D2] 
-    type = ParsedFunction
-    vars = 'D0 E kb T'
-    vals = '1.5e-7 0.15 8.617e-5 600'
-    value = 'D0 * exp( -E / (kb * T) )'
-  []
-[]
-
 [Materials]
-  [D1]
-    type = ADGenericFunctionMaterial
-    prop_names = D1
-    prop_values = D1
+  [left]
+    type = ADGenericConstantMaterial
+    prop_names = 'D S'
+    prop_values = '1 2'
     block = 1
   []
-  [D2]
-    type = ADGenericFunctionMaterial
-    prop_names = D2
-    prop_values = D2
+  [right]
+    type = ADGenericConstantMaterial
+    prop_names = 'D2 S2'
+    prop_values = '2 3'
     block = 2
   []
 []
@@ -156,7 +131,7 @@
   type = Steady
   petsc_options_iname = '-ksp_type -pc_type -pc_factor_shift_type'
   petsc_options_value = 'bcgs lu NONZERO'
-  #nl_rel_tol = 1e-13
+  nl_rel_tol = 1e-13
 []
 
 [Outputs]

@@ -4,11 +4,9 @@
 
 registerMooseObject("achlysApp", BinaryDiffusiveMaterialRampingT);
 
-template <>
-InputParameters
-validParams<BinaryDiffusiveMaterialRampingT>()
+InputParameters BinaryDiffusiveMaterialRampingT::validParams()
 {
-  InputParameters params = validParams<ADMaterial>();
+  InputParameters params = ADMaterial::validParams();
   params.addRequiredParam<Real>("k_boltz", "Boltzman constant");
   params.addRequiredParam<Real>("D0_1", "The diffusion pre-exponential factor");
   params.addRequiredParam<Real>("E_diff_1", "diffusion energy in eV");

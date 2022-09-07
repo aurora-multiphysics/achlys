@@ -4,11 +4,10 @@
 
 registerMooseObject("achlysApp", BinaryTrappingMaterial);
 
-template <>
-InputParameters
-validParams<BinaryTrappingMaterial>()
+
+InputParameters BinaryTrappingMaterial::validParams()
 {
-  InputParameters params = validParams<ADMaterial>();
+  InputParameters params = ADMaterial::validParams();
   params.addRequiredParam<Real>("v1", "pre-exponential detrapping factor in Arrhenious eq.");
   params.addRequiredParam<Real>("v2", "pre-exponential detrapping factor in Arrhenious eq.");
   params.addRequiredParam<Real>("v3", "pre-exponential detrapping factor in Arrhenious eq.");
