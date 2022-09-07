@@ -58,7 +58,7 @@ protected:
         BoundaryName boundary);
     void add_chemical_potential_based_interface();
     void add_concentration_based_interface();
-    SubdomainName get_neighbour_block_name(std::string boundary_name);
+    SubdomainName get_neighbor_block_name(std::string boundary_name);
 
     void addAuxVariables();
     void addAuxKernels();

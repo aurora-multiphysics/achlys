@@ -433,7 +433,7 @@ void DiffusiveMaterialAction::addInterfaceKernels()
 
     // 2. get blocks on other side of boundary
 
-    // 3. infer (or accept input for) neighbour mobile variable name
+    // 3. infer (or accept input for) neighbor mobile variable name
 
     if (_interface_type == InterfaceType::chemical_potential)
     {
@@ -451,10 +451,10 @@ void DiffusiveMaterialAction::add_chemical_potential_based_interface()
     {
         // seems to only return primary block when called from secondary block
         // i.e. block_1 is visible from block_2 but not vice-versa
-        std::string neighbour_block = get_neighbour_block_name(boundary_name);
-        if (!neighbour_block.empty())
+        std::string neighbor_block = get_neighbor_block_name(boundary_name);
+        if (!neighbor_block.empty())
         {
-            std::string var2 = _mobile_variable_base + "_" + neighbour_block;
+            std::string var2 = _mobile_variable_base + "_" + neighbor_block;
             std::cout << "chemical_potential_based block " << _blocks[0] << ": " << var2 << "\n";
             add_chemical_potential_interface(var2, _mobile_variable_name, boundary_name);
             add_mass_continuity_interface(var2, _mobile_variable_name, boundary_name);
@@ -467,10 +467,10 @@ void DiffusiveMaterialAction::add_concentration_based_interface()
     for (auto boundary_name: _solid_boundaries)
     {
 
-        std::string neighbour_block = get_neighbour_block_name(boundary_name);
-        if (!neighbour_block.empty())
+        std::string neighbor_block = get_neighbor_block_name(boundary_name);
+        if (!neighbor_block.empty())
         {
-            std::string var2 = _mobile_variable_base + "_" + get_neighbour_block_name(boundary_name);
+            std::string var2 = _mobile_variable_base + "_" + get_neighbor_block_name(boundary_name);
             std::cout << "concentration_based block " << _blocks[0] << ": " << var2 << "\n";
             add_mobile_concentration_interface(_mobile_variable_name, var2, boundary_name);
             add_mass_continuity_interface(_mobile_variable_name, var2, boundary_name);
@@ -478,7 +478,7 @@ void DiffusiveMaterialAction::add_concentration_based_interface()
     }
 }
 
-SubdomainName DiffusiveMaterialAction::get_neighbour_block_name(std::string boundary_name)
+SubdomainName DiffusiveMaterialAction::get_neighbor_block_name(std::string boundary_name)
 {
     
     // 1. get list of blocks associated with boundary
@@ -572,11 +572,11 @@ void DiffusiveMaterialAction::add_chemical_potential_interface(std::string varia
     params.set<NonlinearVariableName>("variable") = variable_1_name;
     params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("s") = "S";
-    params.set<MaterialPropertyName>("s_neighbour") = "S";
+    params.set<MaterialPropertyName>("s_neighbor") = "S";
     // params.set<MaterialPropertyName>("D") = "D";
-    // params.set<MaterialPropertyName>("D_neighbour") = "D";
+    // params.set<MaterialPropertyName>("D_neighbor") = "D";
     params.set<MaterialPropertyName>("rho") = "rho";
-    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbor") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
 
     // or just be lazy and shove this in a try/except block?
@@ -610,9 +610,9 @@ void DiffusiveMaterialAction::add_mass_continuity_interface(std::string variable
     params.set<NonlinearVariableName>("variable") = variable_1_name;
     params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("D") = "D";
-    params.set<MaterialPropertyName>("D_neighbour") = "D";
+    params.set<MaterialPropertyName>("D_neighbor") = "D";
     params.set<MaterialPropertyName>("rho") = "rho";
-    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbor") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
     // _problem->addAuxKernel(type, block_name, params);
     try
@@ -644,7 +644,7 @@ void DiffusiveMaterialAction::add_mobile_concentration_interface(std::string var
     params.set<NonlinearVariableName>("variable") = variable_1_name;
     params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("rho") = "rho";
-    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbor") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
 
     // std::string block_name = std::string(boundary) + "_mobile_concentration_interface";
