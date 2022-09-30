@@ -7,7 +7,7 @@
 
 #FROM helenbrooks/moose-ubuntu
 ARG moose_stable=true
-if "$moose_stable" ; then \
+RUN if "$moose_stable" ; then \
     moose-ver=585603bc636b1c990c4b2aa31eb1b3c12b79058d; \
 else \
     moose-ver=latest; \
