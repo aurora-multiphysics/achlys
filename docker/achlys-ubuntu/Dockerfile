@@ -6,7 +6,14 @@
 # docker build -t achlys-ubuntu --build-arg build_git_sha=${GITHUB_SHA} .
 
 #FROM helenbrooks/moose-ubuntu
-FROM idaholab/moose:latest
+ARG moose_stable=true
+if "$moose_stable" ; then \
+    moose-ver=585603bc636b1c990c4b2aa31eb1b3c12b79058d; \
+else \
+    moose-ver=latest; \
+fi
+
+FROM idaholab/moose:$moose-ver
 ARG compile_cores=1
 ARG build_git_sha="master"
 
