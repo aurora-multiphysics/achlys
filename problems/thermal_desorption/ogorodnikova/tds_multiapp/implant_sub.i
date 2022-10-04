@@ -2,7 +2,6 @@
  [./unlabelled] 
     file = ogorodnikova_1k.msh
     type = FileMeshGenerator
-    construct_side_list_from_node_list=true
   [../]
   [./block_1]
     type= AllSideSetsByNormalsGenerator
@@ -21,7 +20,7 @@
     initial_condition = 0.0
   [../]
   [./Trapped_1]
-    initial_comdition = 0.0
+    initial_condition = 0.0
     scaling = 1e2
   [../]
   [./Trapped_2]
@@ -65,7 +64,7 @@
   [./H3_diffusion_eq1]
     type = ADMatDiffusion
     variable = Mobile
-    Diffusivity = D
+    diffusivity = D
   [../]
   [./mobile_time_deriv]
     type = ADTimeDerivative 
@@ -144,7 +143,7 @@
     D0 = 4.1e-7
     lambda = 1.1E-10
 # unused    
-    rho = 1 # unecessary scaling factor, do not use
+    #rho = 1 # unecessary scaling factor, do not use
 # site densities    
     n_sol = 6
     n1 = 1e-3
