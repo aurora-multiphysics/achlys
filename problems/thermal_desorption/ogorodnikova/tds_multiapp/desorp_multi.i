@@ -2,7 +2,6 @@
  [./unlabelled]
     file = ogorodnikova_1k.msh
     type = FileMeshGenerator
-    construct_side_list_from_node_list=true
   [../]
   [./block_1]
     type= AllSideSetsByNormalsGenerator
@@ -103,7 +102,7 @@
   [./H3_diffusion_eq1]
     type = ADMatDiffusion
     variable = Mobile
-    Diffusivity = D
+    diffusivity = D
   [../]
   [./mobile_time_deriv]
     type = ADTimeDerivative
@@ -161,13 +160,13 @@
 
 [Postprocessors]
   [/pfc_flux]
-    type = ADSideFluxIntegral
+    type = ADSideDiffusiveFluxIntegral
     variable = Mobile
     boundary = 1
     diffusivity = D
   [../]
   [/back_flux]
-    type = ADSideFluxIntegral
+    type = ADSideDiffusiveFluxIntegral
     variable = Mobile
     boundary = 2
     diffusivity = D
