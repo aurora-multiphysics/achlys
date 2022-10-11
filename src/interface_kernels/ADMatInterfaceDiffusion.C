@@ -11,13 +11,13 @@ ADMatInterfaceDiffusion::validParams()
   params.addParam<MaterialPropertyName>("D",
                     "D",
                     "the name of the diffusion constant material property");
-  params.addParam<MaterialPropertyName>("neighbor_D",
+  params.addParam<MaterialPropertyName>("D_neighbor",
                     "D",
                     "the name of the neighbouring diffusion constant material property");
   params.addParam<MaterialPropertyName>("rho",
                     "rho",
                     "the name of the lattice density material property");
-  params.addParam<MaterialPropertyName>("neighbor_rho",
+  params.addParam<MaterialPropertyName>("rho_neighbor",
                     "rho",
                     "the name of the lattice density material property");
   return params;
@@ -26,9 +26,9 @@ ADMatInterfaceDiffusion::validParams()
 ADMatInterfaceDiffusion::ADMatInterfaceDiffusion(const InputParameters & parameters)
   : ADInterfaceKernel(parameters),
   _D(getADMaterialProperty<Real>("D")),
-  _D2(getNeighborADMaterialProperty<Real>("neighbor_D")),
+  _D2(getNeighborADMaterialProperty<Real>("D_neighbor")),
   _rho(getADMaterialProperty<Real>("rho")),
-  _rho2(getNeighborADMaterialProperty<Real>("neighbor_rho"))
+  _rho2(getNeighborADMaterialProperty<Real>("rho_neighbor"))
 {
 }
 

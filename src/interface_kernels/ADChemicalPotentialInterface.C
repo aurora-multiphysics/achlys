@@ -7,13 +7,13 @@ ADChemicalPotentialInterface::validParams()
 {
   InputParameters params = ADInterfaceKernel::validParams();
   params.addParam<MaterialPropertyName>("s", "s", "The Solubility of primary variable concentration in this material");
-  params.addParam<MaterialPropertyName>("neighbor_s", "s", "The Solubility of primary variable concentration in the neighbouring material");
+  params.addParam<MaterialPropertyName>("s_neighbor", "s", "The Solubility of primary variable concentration in the neighbouring material");
   params.addClassDescription(
       "The kernel is utilized to establish equivalence of chemical potential on an interface for variables.");
   params.addParam<MaterialPropertyName>("rho",
                     "rho",
                     "the name of the lattice density material property");
-  params.addParam<MaterialPropertyName>("neighbor_rho",
+  params.addParam<MaterialPropertyName>("rho_neighbor",
                     "rho",
                     "the name of the lattice density material property");
   return params;
@@ -22,9 +22,9 @@ ADChemicalPotentialInterface::validParams()
 ADChemicalPotentialInterface::ADChemicalPotentialInterface(const InputParameters & parameters)
   : ADInterfaceKernel(parameters),
   _s(getADMaterialProperty<Real>("s")),
-  _s2(getNeighborADMaterialProperty<Real>("neighbor_s")),
+  _s2(getNeighborADMaterialProperty<Real>("s_neighbor")),
   _rho(getADMaterialProperty<Real>("rho")),
-  _rho2(getNeighborADMaterialProperty<Real>("neighbor_rho"))
+  _rho2(getNeighborADMaterialProperty<Real>("rho_neighbor"))
 {
 }
 
