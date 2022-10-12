@@ -1,0 +1,22 @@
+[Tests]
+  [run_1]
+    type = CSVDiff
+    input = 'chempot_CuEurofer_transient.i'
+    csvdiff = 'chempot_CuEurofer_transient_out.csv'
+  []
+  [run_2]
+    type = CSVDiff
+    input = 'fluxcont_CuEurofer_transient.i'
+    csvdiff = 'fluxcont_CuEurofer_transient_out.csv'
+  []
+  [run_3]
+    type = CSVDiff
+    input = 'chempot_WCu_transient.i'
+    csvdiff = 'chempot_WCu_transient_out.csv'
+  []
+  [run_4]
+    type = CSVDiff
+    input = 'fluxcont_WCu_transient.i'
+    csvdiff = 'fluxcont_WCu_transient_out.csv'
+  []
+[]

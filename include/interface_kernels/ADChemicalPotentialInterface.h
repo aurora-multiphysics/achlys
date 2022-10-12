@@ -16,7 +16,7 @@ protected:
   virtual ADReal computeQpResidual(Moose::DGResidualType type) override;
 
   const ADMaterialProperty<Real> & _s;
-  const ADMaterialProperty<Real> & _s_neighbour;
+  const ADMaterialProperty<Real> & _s2;
   const ADMaterialProperty<Real> & _rho;
-  const ADMaterialProperty<Real> & _rho_neighbor;
+  const ADMaterialProperty<Real> & _rho2;
 };

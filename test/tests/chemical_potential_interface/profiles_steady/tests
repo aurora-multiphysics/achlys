@@ -1,0 +1,26 @@
+[Tests]
+  [run_1]
+    type = 'Exodiff'
+    input = 'chempot_CuEurofer.i'
+    exodiff = 'chempot_CuEurofer_out.e'
+    rel_err = 1e-8
+  []
+  [run_2]
+    type = 'Exodiff'
+    input = 'fluxcont_CuEurofer.i'
+    exodiff = 'fluxcont_CuEurofer_out.e'
+    rel_err = 1e-8
+  []
+  [run_3]
+    type = 'Exodiff'
+    input = 'chempot_WCu.i'
+    exodiff = 'chempot_WCu_out.e'
+    rel_err = 1e-8
+  []
+  [run_4]
+    type = 'Exodiff'
+    input = 'fluxcont_WCu.i'
+    exodiff = 'fluxcont_WCu_out.e'
+    rel_err = 1e-8
+  []
+[]

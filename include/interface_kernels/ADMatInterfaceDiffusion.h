@@ -18,9 +18,9 @@ protected:
 
 private:
     const ADMaterialProperty<Real> & _D;
-    const ADMaterialProperty<Real> & _D_neighbor;
+    const ADMaterialProperty<Real> & _D2;
     const ADMaterialProperty<Real> & _rho;
-    const ADMaterialProperty<Real> & _rho_neighbor;
+    const ADMaterialProperty<Real> & _rho2;
     // const MooseArray<Point> & _qp_neighbor;
     // const QBase* _qrule_neighbour;
     // const VariableValue & _T;
