@@ -11,7 +11,7 @@ ADMatInterfaceDiffusion::validParams()
   params.addParam<MaterialPropertyName>("D",
                     "D",
                     "the name of the diffusion constant material property");
-  params.addParam<MaterialPropertyName>("D_neighbour",
+  params.addParam<MaterialPropertyName>("D_neighbor",
                     "D",
                     "the name of the neighbouring diffusion constant material property");
   params.addParam<MaterialPropertyName>("rho",

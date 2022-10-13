@@ -3,6 +3,7 @@
 #include "AppFactory.h"
 #include "ModulesApp.h"
 #include "MooseSyntax.h"
+#include "ActionFactory.h"
 
 InputParameters
 achlysApp::validParams()
@@ -31,33 +32,33 @@ associateSyntaxInner(Syntax & syntax, ActionFactory & /*action_factory*/)
    registerSyntax("FosterMcNabbTrapAction", "Modules/Achlys/FosterMcNabb/*");
    registerSyntax("DiffusiveMaterialAction", "Modules/Achlys/DiffusiveMaterial/*");
 
-  // add variables action
-  registerTask("add_variables", /*is_required=*/false);
-  addTaskDependency("add_variables", "add_variable");
+//   // add variables action
+//   registerTask("add_fm_variables", /*is_required=*/false);
+//   addTaskDependency("add_fm_variables", "add_variable");
 
-//   // add ICs action
-//   registerTask("add_trap_ics", /*is_required=*/false);
-//   addTaskDependency("add_trap_ics", "add_ic");
+// //   // add ICs action
+// //   registerTask("add_trap_ics", /*is_required=*/false);
+// //   addTaskDependency("add_trap_ics", "add_ic");
 
-  // add Materials action
-  registerTask("add_materials", /*is_required=*/false);
-  addTaskDependency("add_materials", "add_material");
+//   // add Materials action
+//   registerTask("add_fm_materials", /*is_required=*/false);
+//   addTaskDependency("add_fm_materials", "add_material");
 
-  // add Kernels action
-  registerTask("add_kernels", /*is_required=*/false);
-  addTaskDependency("add_kernels", "add_kernel");
+//   // add Kernels action
+//   registerTask("add_fm_kernels", /*is_required=*/false);
+//   addTaskDependency("add_fm_kernels", "add_kernel");
 
-  // add interface  Kernels action
-  registerTask("add_interface_kernels", /*is_required=*/false);
-  addTaskDependency("add_interface_kernels", "add_interface_kernel");
+//   // add interface  Kernels action
+//   registerTask("add_fm_interface_kernels", /*is_required=*/false);
+//   addTaskDependency("add_fm_interface_kernels", "add_interface_kernel");
 
-  // add aux variable action
-  registerTask("add_aux_variables", /*is_required=*/false);
-  addTaskDependency("add_aux_variables", "add_aux_variable");
+//   // add aux variable action
+//   registerTask("add_fm_aux_variables", /*is_required=*/false);
+//   addTaskDependency("add_fm_aux_variables", "add_aux_variable");
 
-  // add aux kernel action
-  registerTask("add_aux_kernels", /*is_required=*/false);
-  addTaskDependency("add_aux_kernels", "add_aux_kernel");
+//   // add aux kernel action
+//   registerTask("add_fm_aux_kernels", /*is_required=*/false);
+//   addTaskDependency("add_fm_aux_kernels", "add_aux_kernel");
 
 //   // add BCs actions
 //   registerTask("add_trap_bcs", /*is_required=*/false);

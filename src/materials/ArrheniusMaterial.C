@@ -3,11 +3,12 @@
 
 registerMooseObject("achlysApp", ArrheniusMaterial);
 
-template <>
-InputParameters
-validParams<ArrheniusMaterial>()
+// template <>
+// InputParameters
+// validParams<ArrheniusMaterial>()
+InputParameters ArrheniusMaterial::validParams()
 {
-  InputParameters params = validParams<ADMaterial>();
+  InputParameters params = ADMaterial::validParams();
   params.addRequiredParam<std::string>("name", "The name for this material property");
   params.addRequiredParam<Real>("v0", "pre-exponential detrapping factor in Arrhenious eq.");
   params.addRequiredParam<Real>("E", "Trap detrapping energy in eV");

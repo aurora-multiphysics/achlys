@@ -18,12 +18,12 @@
 #include <iostream>
 
 
-registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_variables");
-registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_kernels");
-registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_materials");
-registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_interface_kernels");
-registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_variables");
-registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_kernels");
+registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_variable");
+registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_kernel");
+registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_material");
+registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_interface_kernel");
+registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_variable");
+registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_kernel");
 
 
 /*
@@ -231,28 +231,27 @@ FosterMcNabbTrapAction::act()
     //         _variable_order = second_order ? "SECOND" : "FIRST";
     //     }
     // }
-
-    if (_current_task == "add_variables")
+    if (_current_task == "add_fm_variables")
     {
         addVariables();
     }
-    if (_current_task == "add_materials")
+    if (_current_task == "add_fm_materials")
     {
         addMaterials();
     }
-    if (_current_task == "add_kernels")
+    if (_current_task == "add_fm_kernels")
     {
         addKernels();
     }
-    if (_current_task == "add_aux_variables" && !_aux_variable_names.empty())
+    if (_current_task == "add_fm_aux_variables" && !_aux_variable_names.empty())
     {
         addAuxVariables();
     }
-    if (_current_task == "add_aux_kernels" && !_aux_variable_names.empty())
+    if (_current_task == "add_fm_aux_kernels" && !_aux_variable_names.empty())
     {
         addAuxKernels();
     }
-    if (_current_task == "add_interface_kernels" && !_solid_boundaries.empty())
+    if (_current_task == "add_fm_interface_kernels" && !_solid_boundaries.empty())
     {
         addInterfaceKernels();
     }

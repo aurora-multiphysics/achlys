@@ -146,6 +146,6 @@
 []
 
 [Outputs]
-  exodus = false
-  console = false
+  exodus = true
+  console = true
 []

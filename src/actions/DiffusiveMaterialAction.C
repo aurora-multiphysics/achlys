@@ -19,12 +19,12 @@
 #include <iostream>
 
 
-registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_variables");
-registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_kernels");
-registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_materials");
-registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_interface_kernels");
-registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_aux_variables");
-registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_aux_kernels");
+registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_variable");
+registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_kernel");
+registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_material");
+registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_interface_kernel");
+registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_aux_variable");
+registerMooseAction("achlysApp", DiffusiveMaterialAction, "add_aux_kernel");
 
 
 /*
@@ -213,28 +213,27 @@ DiffusiveMaterialAction::DiffusiveMaterialAction(const InputParameters & params)
 void
 DiffusiveMaterialAction::act()
 {
-
-    if (_current_task == "add_variables")
+    if (_current_task == "add_variable")
     {
         addVariables();
     }
-    if (_current_task == "add_materials")
+    if (_current_task == "add_material")
     {
         addMaterials();
     }
-    if (_current_task == "add_kernels")
+    if (_current_task == "add_kernel")
     {
         addKernels();
     }
-    if (_current_task == "add_aux_variables" && !_aux_variable_names.empty())
+    if (_current_task == "add_aux_variable" && !_aux_variable_names.empty())
     {
         addAuxVariables();
     }
-    if (_current_task == "add_aux_kernels" && !_aux_variable_names.empty())
+    if (_current_task == "add_aux_kernel" && !_aux_variable_names.empty())
     {
         addAuxKernels();
     }
-    if (_current_task == "add_interface_kernels" && !_solid_boundaries.empty())
+    if (_current_task == "add_interface_kernel" && !_solid_boundaries.empty())
     {
         addInterfaceKernels();
     }
@@ -572,11 +571,11 @@ void DiffusiveMaterialAction::add_chemical_potential_interface(std::string varia
     params.set<NonlinearVariableName>("variable") = variable_1_name;
     params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("s") = "S";
-    params.set<MaterialPropertyName>("s_neighbour") = "S";
+    params.set<MaterialPropertyName>("s_neighbor") = "S";
     // params.set<MaterialPropertyName>("D") = "D";
     // params.set<MaterialPropertyName>("D_neighbour") = "D";
     params.set<MaterialPropertyName>("rho") = "rho";
-    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbor") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
 
     // or just be lazy and shove this in a try/except block?
@@ -610,9 +609,9 @@ void DiffusiveMaterialAction::add_mass_continuity_interface(std::string variable
     params.set<NonlinearVariableName>("variable") = variable_1_name;
     params.set<std::vector<VariableName>>("neighbor_var") = {variable_2_name};
     params.set<MaterialPropertyName>("D") = "D";
-    params.set<MaterialPropertyName>("D_neighbour") = "D";
+    params.set<MaterialPropertyName>("D_neighbor") = "D";
     params.set<MaterialPropertyName>("rho") = "rho";
-    params.set<MaterialPropertyName>("rho_neighbour") = "rho";
+    params.set<MaterialPropertyName>("rho_neighbor") = "rho";
     params.set<std::vector<BoundaryName>>("boundary") = {boundary};
     // _problem->addAuxKernel(type, block_name, params);
     try

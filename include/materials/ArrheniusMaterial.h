@@ -7,13 +7,14 @@
 
 class ArrheniusMaterial;
 
-template <>
-InputParameters validParams<ArrheniusMaterial>();
+// template <>
+// InputParameters validParams<ArrheniusMaterial>();
 
 class ArrheniusMaterial : public ADMaterial
 {
 public:
   ArrheniusMaterial(const InputParameters & parameters);
+  static InputParameters validParams();
 
 protected:
   virtual void computeQpProperties() override;
