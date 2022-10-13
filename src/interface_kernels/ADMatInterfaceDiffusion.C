@@ -17,8 +17,8 @@ ADMatInterfaceDiffusion::validParams()
   params.addParam<MaterialPropertyName>("rho",
                     "rho",
                     "the name of the lattice density material property");
-  params.addParam<MaterialPropertyName>("rho_neighbour",
-                    "rho_neighbour",
+  params.addParam<MaterialPropertyName>("rho_neighbor",
+                    "rho",
                     "the name of the lattice density material property");
   return params;
 }
@@ -26,9 +26,9 @@ ADMatInterfaceDiffusion::validParams()
 ADMatInterfaceDiffusion::ADMatInterfaceDiffusion(const InputParameters & parameters)
   : ADInterfaceKernel(parameters),
   _D(getADMaterialProperty<Real>("D")),
-  _D_neighbor(getNeighborADMaterialProperty<Real>("D_neighbour")),
+  _D2(getNeighborADMaterialProperty<Real>("D_neighbor")),
   _rho(getADMaterialProperty<Real>("rho")),
-  _rho_neighbor(getNeighborADMaterialProperty<Real>("rho_neighbour"))
+  _rho2(getNeighborADMaterialProperty<Real>("rho_neighbor"))
 {
 }
 
@@ -36,17 +36,20 @@ ADReal
 ADMatInterfaceDiffusion::computeQpResidual(Moose::DGResidualType type)
 {
   // equal gradients means difference is zero
-  ADReal res =
-      (_rho[_qp] * _D[_qp] * _grad_u[_qp] * _normals[_qp])
-       - (_rho_neighbor[_qp] * _D_neighbor[_qp] * _grad_neighbor_value[_qp] * _normals[_qp]);
+  // ADReal res =
+  //     (_rho[_qp] * _D[_qp] * _grad_u[_qp] * _normals[_qp])
+  //      - (_rho2[_qp] * _D2[_qp] * _grad_neighbor_value[_qp] * _normals[_qp]);
+  ADReal res = 0;
 
   switch (type)
   {
     case Moose::Element:
+      res = (_rho2[_qp] * _D2[_qp] * _grad_neighbor_value[_qp] * _normals[_qp]);
       return -(res / _rho[_qp]) * _test[_i][_qp];
 
     case Moose::Neighbor:
-      return (res / _rho_neighbor[_qp]) * _test_neighbor[_i][_qp];
+      res = (_rho[_qp] * _D[_qp] * _grad_u[_qp] * _normals[_qp]);
+      return (res / _rho2[_qp]) * _test_neighbor[_i][_qp];
   }
 
   mooseError("Internal error.");

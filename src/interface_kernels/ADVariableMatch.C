@@ -6,16 +6,16 @@ InputParameters
 ADVariableMatch::validParams()
 {
   InputParameters params = ADInterfaceKernel::validParams();
-  params.addParam<MaterialPropertyName>("rho", "s", "The lattice density of this material");
-  params.addParam<MaterialPropertyName>("rho_neighbour", "s", "The lattice density in the neighbouring material");
+  // params.addParam<MaterialPropertyName>("rho", "rho", "The lattice density of this material");
+  // params.addParam<MaterialPropertyName>("rho_neighbour", "rho", "The lattice density in the neighbouring material");
   // params.addParam<Real>("penalty", 1e6, "Penalty term");
   params.addClassDescription(
       "The kernel is utilized to establish equivalence of variable values on an interface for variables.");
   params.addParam<MaterialPropertyName>("rho",
                     "rho",
                     "the name of the lattice density material property");
-  params.addParam<MaterialPropertyName>("rho_neighbour",
-                    "rho_neighbour",
+  params.addParam<MaterialPropertyName>("rho_neighbor",
+                    "rho",
                     "the name of the lattice density material property");
   return params;
 }
@@ -23,7 +23,7 @@ ADVariableMatch::validParams()
 ADVariableMatch::ADVariableMatch(const InputParameters & parameters)
   : ADInterfaceKernel(parameters),
     _rho(getADMaterialProperty<Real>("rho")),
-    _rho_neighbor(getNeighborADMaterialProperty<Real>("rho_neighbour"))
+    _rho_neighbor(getNeighborADMaterialProperty<Real>("rho_neighbor"))
 {
 }
 

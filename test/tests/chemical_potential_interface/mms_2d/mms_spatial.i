@@ -3,7 +3,7 @@
     type = GeneratedMeshGenerator
     dim = 2
     nx = 10
-    ny = 5
+    ny = 10
     xmax = 1
     ymax = 1
     elem_type = QUAD9
@@ -56,6 +56,29 @@
   []
 []
 
+[AuxVariables]
+  [Solute]
+    order = SECOND
+  []
+[]
+
+
+[AuxKernels]
+  [total_solute1]
+    type = ParsedAux
+    variable = Solute
+    args= 'Mobile'
+    function = '(Mobile)'
+    block = 1
+  []
+  [total_solute2]
+    type = ParsedAux
+    variable = Solute
+    args= 'm2'
+    function = '(m2 )'
+    block = 2
+  []
+[]
 
 [Kernels]
   [time_1]
@@ -98,7 +121,7 @@
     neighbor_var = m2
     boundary = interface
     s = S1
-    s_neighbor = S2
+    neighbor_s = S2
   []
   [diffusion]
     type = ADMatInterfaceDiffusion
@@ -106,7 +129,7 @@
     neighbor_var = m2
     boundary = interface
     D = 'D1'
-    D_neighbor = 'D2'
+    neighbor_D = 'D2'
   [../]
 []
 
@@ -329,6 +352,13 @@
     vals = 'dcm2dt G'
     value = 'dcm2dt - G'
   []
+
+  [exact]
+    type = ParsedFunction
+    vars = 'cm1 cm2'
+    vals = 'cm1 cm2'
+    value = 'if(x<0.5, cm1, cm2)'
+  []
 []
 
 [Materials]
@@ -377,10 +407,22 @@
   petsc_options_iname = '-ksp_type -pc_type -pc_factor_shift_type'
   petsc_options_value = 'bcgs lu NONZERO'
   #nl_rel_tol = 1e-13
-  dt = 5e-3
+  dt = 2e-3
   end_time = 0.04
+[]
+
+[Postprocessors]
+[error]
+    type = ElementL2Error
+    function = exact
+    variable = Solute
+  []
+  [h]
+    type = AverageElementSize
+  []
 []
 
 [Outputs]
   exodus = true
+  csv = true
 []
