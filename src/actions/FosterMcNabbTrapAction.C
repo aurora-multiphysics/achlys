@@ -156,16 +156,6 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     {
         _Ep = _Ed;
     }
-    // _solubility_specified = params.isParamSetByUser("S0") &&params.isParamSetByUser("Es");
-
-    /*
-        construct unique lists of variable names
-    */
-    // _block_prepend = "";
-    // if(! _blocks.empty())
-    // {
-    //     _block_prepend = std::string("_") + std::string(_blocks[0]);
-    // }
 
     for (int i = 0; i < _n_traps; i++)
     {
@@ -178,18 +168,11 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
         std::string detrappign_rate_name = _detrap_material_base + _block_prepend + "_" + std::to_string(i +1);
         _detrapping_rate_names.push_back(detrappign_rate_name);
     }
-    // _mobile_variable_name = _mobile_variable_base + _block_prepend;
+
     _all_variable_names =  _trap_variable_names;
     _all_variable_names.push_back(_mobile_variable_name);
 
     _trapping_rate_material_name = _trap_material_base + _block_prepend;
-    // _diffusivity_material_name = _diffusivity_material_base + _block_prepend;
-    // _solubility_material_name = _solubility_material_base + _block_prepend;
-
-    // uncontrolled names for generated objects:
-    // - diffusivity - D
-    // - Solubility - S
-    // - Density - rho
 
     // _transient = _problem->isTransient();
     // bool naive_interface = _interface_type == InterfaceType::concentration; 
@@ -324,42 +307,6 @@ void FosterMcNabbTrapAction::addDetrappingRateMaterials()
     }
 }
 
-// void FosterMcNabbTrapAction::addArrheniusMaterial(std::string name, Real V0, Real E)
-// {
-//     std::string type = "ArrheniusMaterial";
-//     auto params = _factory.getValidParams(type);
-//     if (!_blocks.empty())
-//     {
-//         params.set<std::vector<SubdomainName>>("block") = _blocks; 
-//     }
-//     // params.set<MaterialPropertyName>("name") = name;
-//     params.set<std::string>("name") = name;
-//     params.set<Real>("v0") = V0;
-//     params.set<Real>("E") = E;
-//     params.set<Real>("k") = _k; 
-//     params.set<std::vector<VariableName>>("Temperature") = {_temperature_variable};
-//     // params.set<std::string>("Temperature") = _temperature_variable;
-//     params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
-//     std::string material_block_name = name + "_material" + _block_prepend;
-//     _problem->addMaterial(type, material_block_name, params);
-
-// }
-
-// void FosterMcNabbTrapAction::addGenericConstantMaterial(std::vector<std::string> names, std::vector<Real> values)
-// {
-//     std::string type = "ADGenericConstantMaterial";
-//     auto params = _factory.getValidParams(type);
-//     params.set<std::vector<std::string>>("prop_names") = names;
-//     params.set<std::vector<Real>>("prop_values") = values;
-//     std::string material_block_name = names[0] + "_material" + _block_prepend;
-//     if (!_blocks.empty())
-//     {
-//         params.set<std::vector<SubdomainName>>("block") = _blocks; 
-//     }
-//     params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
-//     _problem->addMaterial(type, material_block_name, params);
-// }
-
 void FosterMcNabbTrapAction::addParsedMaterial(std::string name, std::vector<std::string> args, std::string function)
 {
     std::string type = "ADParsedMaterial";
@@ -427,16 +374,6 @@ void FosterMcNabbTrapAction::addTrapCouplingKernels()
     }
 }
 
-// void FosterMcNabbTrapAction::addDiffusionKernel()
-// {
-//     std::string kernel_type = "ADMatDiffusion";
-//     InputParameters params = _factory.getValidParams(kernel_type);
-//     params.set<NonlinearVariableName>("variable") = _mobile_variable_name;
-//     params.set<MaterialPropertyName>("diffusivity") = "D";
-//     std::string kernel_name = _mobile_variable_name + "diffusion";
-//     _problem->addKernel(kernel_type, kernel_name, params);
-// }
-
 // void FosterMcNabbTrapAction::addAuxVariables()
 // {
 //     for (auto variable_name: _aux_variable_names)
@@ -461,25 +398,6 @@ void FosterMcNabbTrapAction::addAuxKernels()
         add_total_retention_aux();
     }
 }
-
-// void FosterMcNabbTrapAction::add_aux_variable(std::string name)
-// {
-//     // only want to call this
-//     auto params = _factory.getValidParams("MooseVariable");
-//     params.set<MooseEnum>("order") = _variable_order;
-//     params.set<MooseEnum>("family") = "LAGRANGE";
-//     _problem->addAuxVariable("MooseVariable", name, params);
-// }
-
-// void FosterMcNabbTrapAction::add_continuous_mobile_aux()
-// {
-//     std::vector<std::string> args = {_mobile_variable_name};
-//     // std::vector<std::string> const_vars = {"rho"};
-//     // std::vector<std::string> const_vals = {std::to_string(_rho)};
-//     std::string function = _mobile_variable_name + " * " + std::to_string(_rho);
-//     // std::cout << "parsed aux function: \n" << function << "\n";
-//     add_parsed_aux("mobile", args, function);
-// }
 
 void FosterMcNabbTrapAction::add_total_trapped_aux()
 {
