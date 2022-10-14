@@ -3,7 +3,6 @@
   dim = 1 
   nx = 20
   xmax = 5e-5
-  #elem_type = EDGE3
 []
 
 [Problem]
@@ -23,7 +22,6 @@
     n = '0.1'
     v0 = '1.0E13'
     E = '8.6e-3'
-    #k = 8.6E-5
     energy_units=eV
     D0 = 1.0
     Ed = 0.0
@@ -31,6 +29,7 @@
     n_sol = 2
     Temperature = "Temperature"
     variable_order= FIRST
+    jsonify = 'action.json'
 []
 []
 

@@ -64,29 +64,36 @@ def main():
     rho = 3.16e22
     tf = 1e-8
     plt.rc('text', usetex=True)
-    fig, axes = plt.subplots(3)
+    fig, axes = plt.subplots(4)
+    fig.set_size_inches(12,6)
     axes[0].plot(a.times / tf, flux * rho, 'k+', label='Analytical')
     axes[0].plot(gold_data['time']/tf,rho*gold_data['back_flux'], '--',label='gold')
     axes[0].plot(action_data['time']/tf,rho*action_data['back_flux'], '--',label='actions')
     axes[0].set_xlabel(r'$\mathrm{t} / \mathrm{t}_f [\mathrm{-}]$')
     axes[0].set_ylabel(r'$\mathrm{flux\:} [\mathrm{H\: m}^{-2}\mathrm{s}^{-1}]$')
 
-    axes[1].plot(gold_data['time']/tf,np.abs((-gold_data['back_flux'] + action_data['time']) / gold_data['back_flux']), '--',label='gold/actions')
+    axes[1].plot(gold_data['time']/tf,np.abs((-gold_data['back_flux'] + action_data['back_flux']) / gold_data['back_flux']), '--',label='gold/actions')
     axes[1].set_xlabel(r'$\mathrm{t} / \mathrm{t}_f [\mathrm{-}]$')
     axes[1].set_ylabel('|Relative fluxes|')
     axes[1].set_yscale('log')
 
     analytical_spline = spline(a.times / tf, flux * rho, s=0)
-    axes[2].plot(gold_data['time']/tf,np.abs((gold_data['back_flux'] -analytical_spline(gold_data['time']))/ analytical_spline(gold_data['time'])), '--',label='gold/analytical')
-    axes[2].plot(action_data['time']/tf,np.abs((action_data['back_flux'] -analytical_spline(gold_data['time']))/ analytical_spline(action_data['time'])), '--',label='actions/analytical')
+    axes[2].plot(gold_data['time']/tf,(gold_data['back_flux'] -analytical_spline(gold_data['back_flux'])/ analytical_spline(gold_data['back_flux'])), '--',label='gold/analytical')
+    axes[2].plot(action_data['time']/tf, (action_data['back_flux'] -analytical_spline(gold_data['back_flux'])/ analytical_spline(action_data['back_flux'])), '--',label='actions/analytical')
     axes[2].set_xlabel(r'$\mathrm{t} / \mathrm{t}_f [\mathrm{-}]$')
     axes[2].set_ylabel('|Relative fluxes|')
-    axes[2].set_yscale('log')
+    #axes[2].set_yscale('log')
+
+    axes[3].plot(gold_data['time']/tf, gold_data['back_flux'] - action_data['back_flux'], '--',label='gold/actions')
+    axes[3].set_xlabel(r'$\mathrm{t} / \mathrm{t}_f [\mathrm{-}]$')
+    axes[3].set_ylabel('abs diff')
+
     for ax in axes:
         ax.grid(visible=True,which='major',axis='both')
         ax.minorticks_on()
         ax.grid(visible=True,which='minor',axis='both',alpha=0.2)
         ax.legend()
+    plt.savefig('action_regression.png')
     plt.show()
 
 

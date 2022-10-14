@@ -149,9 +149,13 @@ class TestArgumentParsing(unittest.TestCase):
         Note this just says if any instance exists, not all expected instances. 
         e.g. that the trapping kernel exists, but not necessarily for each trap variable in each block.
         """
-        for input in self.config:
-            for obj in self.config[input]["objects"]:
-                assert obj in self.object_lists[input]
+        try:
+            for input in self.config:
+                for obj in self.config[input]["objects"]:
+                    assert obj in self.object_lists[input]
+        except AttributeError(e):
+            print(e)
+            raise AttributeError(e)
 
 # class TestOutflow(unittest.TestCase):
 #     def test(self):

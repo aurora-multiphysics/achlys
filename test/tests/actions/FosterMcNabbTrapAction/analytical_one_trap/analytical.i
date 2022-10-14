@@ -12,10 +12,10 @@
 []
 
 [Variables]
-  [./Mobile]
+  [./mobile]
     initial_condition = 0.0
   [../]
-  [./Trapped]
+  [./trap_1]
     initial_condition = 0.0
   [../]
 []
@@ -29,41 +29,41 @@
 [Kernels]
   [./H3_diffusion_eq1]
     type = ADMatDiffusion
-    variable = Mobile
+    variable = mobile
     diffusivity = D
   [../]
   [./mobile_time_deriv]
     type = ADTimeDerivative
-    variable = Mobile
+    variable = mobile
   [../]
   [./trapping_equilibrium_equation]
     type = ADTrappingEquilibriumEquation
-    variable = Trapped
-    v = Mobile
+    variable = trap_1
+    v = mobile
     vi = V1
     n_traps = n1
   [../]
   [./trapped_time_deriv_couple]
     type = ADCoupledTimeDerivative 
-    variable = Mobile
-    v = Trapped
+    variable = mobile
+    v = trap_1
   [../]
   [./trapped_time_deriv]
     type = ADTimeDerivative
-    variable = Trapped
+    variable = trap_1
   [../]
 []
 
 [BCs]
   [./left_face]
     type = ADDirichletBC
-    variable = Mobile
+    variable = mobile
     boundary = left
     value = 1e-4
   [../]
   [./right_face]
     type = ADDirichletBC
-    variable = Mobile
+    variable = mobile
     boundary = right
     value = 0
   [../]
@@ -72,7 +72,6 @@
 [Materials]
   [./mat1]
     type = TrappingMaterial
-    v0 = 1.0E13
     v1 = 1.0E13
     v2 = 1.0E13
     v3 = 1.0E13
@@ -97,10 +96,10 @@
 [Postprocessors]
   [back_flux]
     type = ADSideDiffusiveFluxIntegral
-    variable = Mobile
+    variable = mobile
     boundary = right
     diffusivity = D
-  [../]
+  []
 []
 
 [Executioner]

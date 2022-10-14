@@ -42,7 +42,7 @@ public:
   virtual void act();
 
 protected:
-    void addVariables();
+    // void addVariables();
     void addKernels();
     void addMaterials();
 

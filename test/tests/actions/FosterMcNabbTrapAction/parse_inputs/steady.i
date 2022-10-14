@@ -157,5 +157,5 @@
 
 [Outputs]
   exodus = false #true
-  console = false #true
+  console = true #true
 []

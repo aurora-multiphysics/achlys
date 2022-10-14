@@ -231,51 +231,51 @@ FosterMcNabbTrapAction::act()
     //         _variable_order = second_order ? "SECOND" : "FIRST";
     //     }
     // }
-    if (_current_task == "add_fm_variables")
+    if (_current_task == "add_variable")
     {
         addVariables();
     }
-    if (_current_task == "add_fm_materials")
+    if (_current_task == "add_material")
     {
         addMaterials();
     }
-    if (_current_task == "add_fm_kernels")
+    if (_current_task == "add_kernel")
     {
         addKernels();
     }
-    if (_current_task == "add_fm_aux_variables" && !_aux_variable_names.empty())
+    if (_current_task == "add_aux_variable" && !_aux_variable_names.empty())
     {
         addAuxVariables();
     }
-    if (_current_task == "add_fm_aux_kernels" && !_aux_variable_names.empty())
+    if (_current_task == "add_aux_kernel" && !_aux_variable_names.empty())
     {
         addAuxKernels();
     }
-    if (_current_task == "add_fm_interface_kernels" && !_solid_boundaries.empty())
+    if (_current_task == "add_interface_kernel" && !_solid_boundaries.empty())
     {
         addInterfaceKernels();
     }
 }
 
 
-void FosterMcNabbTrapAction::addVariables()
-{
-    auto params = _factory.getValidParams("MooseVariable");
-    // const bool second = _order_specified ? _order == "SECOND" : _problem->mesh().hasSecondOrderElements();
-    // const bool second_order =  _problem->mesh().hasSecondOrderElements();
-    // params.set<MooseEnum>("order") = second_order ? "SECOND" : "FIRST";
-    params.set<MooseEnum>("order") = _variable_order;
-    params.set<MooseEnum>("family") = "LAGRANGE";
-    if (!_blocks.empty())
-    {
-        params.set<std::vector<SubdomainName>>("block") = _blocks; 
-    }
+// void FosterMcNabbTrapAction::addVariables()
+// {
+//     auto params = _factory.getValidParams("MooseVariable");
+//     // const bool second = _order_specified ? _order == "SECOND" : _problem->mesh().hasSecondOrderElements();
+//     // const bool second_order =  _problem->mesh().hasSecondOrderElements();
+//     // params.set<MooseEnum>("order") = second_order ? "SECOND" : "FIRST";
+//     params.set<MooseEnum>("order") = _variable_order;
+//     params.set<MooseEnum>("family") = "LAGRANGE";
+//     if (!_blocks.empty())
+//     {
+//         params.set<std::vector<SubdomainName>>("block") = _blocks; 
+//     }
 
-    for (const auto & name : _all_variable_names)
-    {
-        _problem->addVariable("MooseVariable", name, params);
-    }
-}
+//     for (const auto & name : _all_variable_names)
+//     {
+//         _problem->addVariable("MooseVariable", name, params);
+//     }
+// }
 
 void FosterMcNabbTrapAction::addMaterials()
 {
