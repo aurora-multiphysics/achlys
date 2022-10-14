@@ -1,0 +1,14 @@
+[Tests]
+  [run_1]
+    type = 'Exodiff'
+    input = 'action_1.i'
+    exodiff = 'action_1_out.e'
+    rel_err = 1e-8
+  []
+  [run_2]
+    type = 'Exodiff'
+    input = 'action_2.i'
+    exodiff = 'action_2_out.e'
+    rel_err = 1e-8
+  []
+[]
