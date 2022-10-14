@@ -1,0 +1,8 @@
+[Tests]
+  [analytical_1d]
+    type = 'Exodiff'
+    input = 'action.i'
+    exodiff = 'action_out.e'
+    rel_err = 1e-8
+  []
+[]
