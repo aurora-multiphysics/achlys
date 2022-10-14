@@ -46,7 +46,9 @@ protected:
     void addKernels();
     void addMaterials();
 
-    void addParsedMaterial(std::string name, std::vector<std::string> args, std::string function);
+    void addParsedMaterial(std::string name, std::vector<std::string> args, 
+        std::vector<std::string> mat_props, std::string function);
+    void addFunctionMaterial(std::vector<std::string> names, std::vector<FunctionName> function_names);
 
     void addTrappingKernels();
     void addTrappingReactionKernels();
@@ -58,7 +60,7 @@ protected:
     void add_total_trapped_aux();
     void add_total_retention_aux();
 
-    std::vector<Real> _n;
+    std::vector<FunctionName> _n;
     std::vector<Real> _v0;
     std::vector<Real> _E;
 

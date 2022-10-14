@@ -16,6 +16,7 @@
 #include "libmesh/string_to_enum.h"
 #include <algorithm>
 #include <iostream>
+#include <regex>
 
 
 registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_variable");
@@ -84,6 +85,12 @@ registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_kernel");
 
 */
 
+bool string_is_numeric( std::string token )
+{
+    std::string reg = "((\\+|-)?[[:digit:]]+)(\\.)?(([[:digit:]]+)?)(e(\\+|-)?)?([[:digit:]]+)?";
+    return std::regex_match( token, std::regex(reg) );
+}
+
 InputParameters
 FosterMcNabbTrapAction::validParams()
 {
@@ -91,7 +98,7 @@ FosterMcNabbTrapAction::validParams()
     params.addClassDescription("Set up kernels and materials for a Foster-McNabb trapping model");
     params.addRequiredParam<std::vector<Real>>("v0", "pre-exponential detrapping factor in Arrhenious eq.");
     params.addRequiredParam<std::vector<Real>>("E", "Trap detrapping energy in eV");
-    params.addRequiredParam<std::vector<Real>>("n", "possible trapping sites");
+    params.addRequiredParam<std::vector<FunctionName>>("n", "possible trapping sites");
     params.addParam<Real>("p0", -1, "Explicit pre-exponential factor for the trapping reaction rate (bypasses internal calculaution based on D(T) and lambda)");
     params.addParam<Real>("Ep", -1, "Explicit binding energy for the trapping reaction rate");
     params.addParam<Real>("lambda", -1, "Lattice constant in m-1");
@@ -113,7 +120,7 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
   : DiffusiveMaterialAction(params),
 //   BlockRestrictable(this),
     // _material_definition_names(getParam<std::vector<MaterialPropertyName>>("material_definitions"))
-    _n(getParam<std::vector<Real>>("n")),
+    _n(getParam<std::vector<FunctionName>>("n")),
     _v0(getParam<std::vector<Real>>("v0")),
     _E(getParam<std::vector<Real>>("E")),
     _p0(getParam<Real>("p0")),
@@ -129,6 +136,8 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     //    // verifyOrderAndFamilyOutputs();
     //  use displaced mesh?
     // consistency checks
+
+    // std::vector<std::string> n_name_inputs = getParam<std::vector<std::string>>("n");
     
     bool equal_arrays = _v0.size() == _n.size() && _E.size() == _n.size();
     if (! equal_arrays)
@@ -164,6 +173,19 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
 
         std::string trap_densityty_name = _trap_density_material_base + _block_prepend + "_" + std::to_string(i +1);
         _trap_density_names.push_back(trap_densityty_name);
+        // if (string_is_numeric(n_name_inputs[i]))
+        // {
+        //     std::string trap_densityty_name = _trap_density_material_base + _block_prepend + "_" + std::to_string(i +1);
+        //     _trap_density_names.push_back(trap_densityty_name);
+        //     _n.emplace_back(std::stod(n_name_inputs[i]));
+        //     std::cout << "i=" << i << ": NUMERIC --- " << n_name_inputs[i] << std::endl;
+        // }
+        // else
+        // {
+        //     _trap_density_names.push_back(n_name_inputs[i]);
+        //     _n.emplace_back(-1);
+        //      std::cout << "i=" << i << ": name --- " << n_name_inputs[i] << std::endl;
+        // }
 
         std::string detrappign_rate_name = _detrap_material_base + _block_prepend + "_" + std::to_string(i +1);
         _detrapping_rate_names.push_back(detrappign_rate_name);
@@ -192,13 +214,14 @@ FosterMcNabbTrapAction::FosterMcNabbTrapAction(const InputParameters & params)
     // _k = (_energy_units == EnergyUnits::eV) ? AchlysConstants::Boltzmann : AchlysConstants::UiversalGas;
     std::vector<std::string> request = getParam<std::vector<std::string>>("aux_variables");
     if (std::find(request.begin(), request.end(), "trapped") != request.end())
-            {
-                _aux_variable_names.push_back("trapped");
-            }
+    {
+        _aux_variable_names.push_back("trapped");
+    }
 
     if(params.isParamSetByUser("jsonify")){
         jsonify(getParam<std::string>("jsonify"));
     }
+
 
 }
 
@@ -277,7 +300,15 @@ void FosterMcNabbTrapAction::addMaterials()
     }
 
     addDetrappingRateMaterials();
-    addGenericConstantMaterial(_trap_density_names, _n);
+    // for (unsigned int i=0; i<_n.size(); i++)
+    // {
+    //     // if (_n[i] != -1) addParsedMaterial(_trap_density_names[i], {}, {}, std::to_string(_n[i]));    
+    //     // if (_n[i] != -1) addGenericConstantMaterial({_trap_density_names[i]}, {_n[i]});
+    // }
+    // addGenericConstantMaterial(_trap_density_names, _n);
+    std::cout << "trap names length: " << _trap_density_names.size() << std::endl;
+    std::cout << "n length: " << _n.size() << std::endl;
+    addFunctionMaterial(_trap_density_names, _n);
     addGenericConstantMaterial({"rho"}, {_rho});
     
 }
@@ -307,17 +338,44 @@ void FosterMcNabbTrapAction::addDetrappingRateMaterials()
     }
 }
 
-void FosterMcNabbTrapAction::addParsedMaterial(std::string name, std::vector<std::string> args, std::string function)
+void FosterMcNabbTrapAction::addParsedMaterial(std::string name, std::vector<std::string> args, 
+                                                std::vector<std::string> mat_names, std::string function)
 {
     std::string type = "ADParsedMaterial";
     auto params = _factory.getValidParams(type);
-    std::string f_name = name;
-    params.set<std::string>("f_name") = f_name;
-    // params.set<std::vector<std::string>>("args") = args;
+    // std::string f_name = name;
+    params.set<std::string>("f_name") = name;
+
+    if (!args.empty())
+    {
+        std::vector<VariableName> variable_names(args.size());
+        std::transform(args.begin(), args.end(), variable_names.begin(), [](std::string x) { return VariableName(x);});
+        params.set<std::vector<VariableName>>("args") = variable_names;
+    }
+
+    if (!mat_names.empty())
+    {
+        params.set<std::vector<std::string>>("material_property_names") = mat_names;
+    }
+    
+    // this must be the raw function string
     params.set<std::string>("function") = function;
-    std::string material_block_name = name + "parsed_material" + _block_prepend;
+    std::string material_block_name = name + "_parsed_material" + _block_prepend;
     _problem->addMaterial(type, material_block_name, params);
 
+}
+
+void FosterMcNabbTrapAction::addFunctionMaterial(std::vector<std::string> names, std::vector<FunctionName> function_names)
+{
+    std::string type = "ADGenericFunctionMaterial";
+    auto params = _factory.getValidParams(type);
+    // std::string f_name = name;
+    params.set<std::vector<std::string>>("prop_names") = names;
+
+    // std::transform(args.begin(), args.end(), variable_names.begin(), [](std::string x) { return VariableName(x);});
+    params.set<std::vector<FunctionName>>("prop_values") = function_names;
+    std::string material_block_name = names[0] + "_function_material" + _block_prepend;
+    _problem->addMaterial(type, material_block_name, params);
 }
 
 void FosterMcNabbTrapAction::addKernels()
