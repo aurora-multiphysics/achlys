@@ -21,7 +21,7 @@
 
 registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_variable");
 registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_kernel");
-registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_material");
+registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_master_action_material");
 registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_interface_kernel");
 registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_variable");
 registerMooseAction("achlysApp", FosterMcNabbTrapAction, "add_aux_kernel");
@@ -241,7 +241,7 @@ FosterMcNabbTrapAction::act()
     {
         addVariables();
     }
-    if (_current_task == "add_material")
+    if (_current_task == "add_master_action_material")
     {
         addMaterials();
     }
@@ -375,6 +375,7 @@ void FosterMcNabbTrapAction::addFunctionMaterial(std::vector<std::string> names,
     // std::transform(args.begin(), args.end(), variable_names.begin(), [](std::string x) { return VariableName(x);});
     params.set<std::vector<FunctionName>>("prop_values") = function_names;
     std::string material_block_name = names[0] + "_function_material" + _block_prepend;
+    if (_exodus) params.set<std::vector<OutputName>>("outputs") = {"exodus"}; 
     _problem->addMaterial(type, material_block_name, params);
 }
 

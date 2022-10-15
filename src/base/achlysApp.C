@@ -32,6 +32,7 @@ associateSyntaxInner(Syntax & syntax, ActionFactory & /*action_factory*/)
 
   // registerTask("add_extra_material", /*is_required=*/false);
   // addTaskDependency("add_extra_material", "add_variable");
+  // addTaskDependency("add_master_action_material", "setup_function_complete");
 
 }
 
