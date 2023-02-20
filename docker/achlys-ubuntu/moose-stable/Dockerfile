@@ -7,7 +7,7 @@
 
 #FROM helenbrooks/moose-ubuntu
 FROM idaholab/moose:585603bc636b1c990c4b2aa31eb1b3c12b79058d
-ARG compile_cores=1
+ARG compile_cores=""
 ARG build_git_sha="master"
 
 # Should we generate a coverage report
