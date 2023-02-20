@@ -48,4 +48,5 @@ jobs:
             - test_coverage=true
             - coveralls_token=$COVERALLS_TOKEN
             - coveralls_branch=${GITHUB_REF##*/}  
+            - compile_cores=1
 
