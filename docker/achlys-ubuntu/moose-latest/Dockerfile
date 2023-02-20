@@ -29,23 +29,21 @@ RUN if "$test_coverage" ; then \
        pip install coveralls; \
     fi
 
-RUN if "$test_coverage" ; then \
-       export CXXFLAGS="--coverage $CXXFLAGS"; \
-       export CFLAGS="-fprofile-arcs -ftest-coverage"; \
-       echo "Generating test coverage"; \
-       echo $CXXFLAGS && \
-       echo $CFLAGS && \
-       echo "testing coveralls" && \
-       cpp-coveralls --help; \
-    fi
 
 WORKDIR /opt
 RUN  git clone https://github.com/aurora-multiphysics/achlys.git
 WORKDIR  /opt/achlys
 RUN  git checkout "$build_git_sha"
 RUN  make -j"$compile_cores"
-RUN  ./run_tests
-RUN echo $CXX_FLAGS
+
+RUN if "$test_coverage" ; then \
+       export CXXFLAGS="--coverage $CXXFLAGS"; \
+       export CFLAGS="-fprofile-arcs -ftest-coverage"; \
+       echo "Generating test coverage"; \
+       ./run_tests; \
+    else \ 
+       ./run_tests; \
+    fi
 
 # Generate test coverage report using coveralls and upload
 WORKDIR  /opt/achlys
