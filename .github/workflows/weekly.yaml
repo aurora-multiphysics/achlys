@@ -1,9 +1,9 @@
 name: DeployNightly
 on:
-  - schedule:
+  schedule:
     - cron: '0 18 * * 0' # run at 6 PM UTC every Sunday
-  
-  - workflow_dispatch
+  workflow_dispatch:
+  workflow_call:
 
 jobs:
   docker-build-test-ubuntu:
