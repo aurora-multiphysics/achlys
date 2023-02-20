@@ -36,7 +36,7 @@ RUN if "$test_coverage" ; then \
        echo $CXXFLAGS && \
        echo $CFLAGS && \
        echo "testing coveralls" && \
-       cpp-coveralls --help
+       cpp-coveralls --help; \
     fi
 
 WORKDIR /opt
