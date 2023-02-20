@@ -34,14 +34,16 @@ WORKDIR /opt
 RUN  git clone https://github.com/aurora-multiphysics/achlys.git
 WORKDIR  /opt/achlys
 RUN  git checkout "$build_git_sha"
-RUN  make -j"$compile_cores"
+#RUN  make -j"$compile_cores"
 
 RUN if "$test_coverage" ; then \
        export CXXFLAGS="--coverage $CXXFLAGS"; \
        export CFLAGS="-fprofile-arcs -ftest-coverage"; \
        echo "Generating test coverage"; \
-       ./run_tests; \
-    else \ 
+       make -j"$compile_cores" && \
+      ./run_tests; \
+    else \
+       make -j"$compile_cores" &&\ 
        ./run_tests; \
     fi
 
