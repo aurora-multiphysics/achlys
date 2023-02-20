@@ -43,10 +43,10 @@ RUN  make -j"$compile_cores"
 RUN  ./run_tests
 
 # Generate test coverage report using coveralls and upload
+WORKDIR  /opt/achlys
 RUN if "$test_coverage" ; then \
        export COVERALLS_REPO_TOKEN="$coveralls_token" && \
        export CI_BRANCH="$coveralls_branch" && \
-       cd /opt/achlys && \
        cpp-coveralls -i src/ -i include/ --exclude-pattern "/usr/*" --dump cpp_cov.json && \
        coveralls --merge=cpp_cov.json; \
     fi
