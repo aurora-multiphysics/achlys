@@ -33,6 +33,10 @@ RUN if "$test_coverage" ; then \
        export CXXFLAGS="--coverage $CXXFLAGS"; \
        export CFLAGS="-fprofile-arcs -ftest-coverage"; \
        echo "Generating test coverage"; \
+       echo $CXXFLAGS && \
+       echo $CFLAGS && \
+       echo "testing coveralls" && \
+       cpp-coveralls --help
     fi
 
 WORKDIR /opt
@@ -41,12 +45,13 @@ WORKDIR  /opt/achlys
 RUN  git checkout "$build_git_sha"
 RUN  make -j"$compile_cores"
 RUN  ./run_tests
+RUN echo $CXX_FLAGS
 
 # Generate test coverage report using coveralls and upload
 WORKDIR  /opt/achlys
 RUN if "$test_coverage" ; then \
        export COVERALLS_REPO_TOKEN="$coveralls_token" && \
        export CI_BRANCH="$coveralls_branch" && \
-       cpp-coveralls -i src/ -i include/ --exclude-pattern "/usr/*" --dump cpp_cov.json && \
+       cpp-coveralls -i /opt/achlys/src/ -i /opt/achlys/include/ --exclude-pattern "/usr/*" --dump cpp_cov.json && \
        coveralls --merge=cpp_cov.json; \
     fi
