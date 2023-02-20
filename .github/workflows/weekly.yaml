@@ -43,10 +43,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           file: docker/achlys-ubuntu/moose-latest
-          build-args: 
-            - build_git_sha=$PRCOMMITSHA
-            - test_coverage=true
-            - coveralls_token=$COVERALLS_TOKEN
-            - coveralls_branch=${GITHUB_REF##*/}  
-            - compile_cores=1
+          build-args: | 
+            build_git_sha=$PRCOMMITSHA
+            test_coverage=true
+            coveralls_token=$COVERALLS_TOKEN
+            coveralls_branch=${GITHUB_REF##*/}  
+            compile_cores=1
 
