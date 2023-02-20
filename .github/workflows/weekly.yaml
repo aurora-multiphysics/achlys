@@ -44,7 +44,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           file: docker/achlys-ubuntu/moose-latest/Dockerfile
           build-args: | 
-            build_git_sha=$PRCOMMITSHA
+            build_git_sha=master
             test_coverage=true
             coveralls_token=$COVERALLS_TOKEN
             coveralls_branch=${GITHUB_REF##*/}  
