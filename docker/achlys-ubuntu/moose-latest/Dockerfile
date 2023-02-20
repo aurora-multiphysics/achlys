@@ -33,13 +33,14 @@ RUN if "$test_coverage" ; then \
        export CXXFLAGS="--coverage $CXXFLAGS"; \
        export CFLAGS="-fprofile-arcs -ftest-coverage"; \
        echo "Generating test coverage"; \
-    fi && \
-    cd /opt && \
-    git clone https://github.com/aurora-multiphysics/achlys.git && \
-    cd achlys && \
-    git checkout "$build_git_sha" && \
-    make -j"$compile_cores" && \
-    ./run_tests
+    fi
+
+WORKDIR /opt
+RUN  git clone https://github.com/aurora-multiphysics/achlys.git
+WORKDIR  achlys
+RUN  git checkout "$build_git_sha"
+RUN  make -j"$compile_cores" && \
+RUN  ./run_tests
 
 # Generate test coverage report using coveralls and upload
 RUN if "$test_coverage" ; then \
