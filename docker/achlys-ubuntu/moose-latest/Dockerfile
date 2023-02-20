@@ -39,7 +39,7 @@ WORKDIR /opt
 RUN  git clone https://github.com/aurora-multiphysics/achlys.git
 WORKDIR  /opt/achlys
 RUN  git checkout "$build_git_sha"
-RUN  make -j"$compile_cores" && \
+RUN  make -j"$compile_cores"
 RUN  ./run_tests
 
 # Generate test coverage report using coveralls and upload
