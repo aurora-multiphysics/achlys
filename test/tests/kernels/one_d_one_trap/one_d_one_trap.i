@@ -66,9 +66,6 @@
   [./mat1]
     type = TrappingMaterialConstT
     v0 = 1.0E13
-    v1 = 1.0E13
-    v2 = 1.0E13
-    v3 = 1.0E13
     E1 = 8.6e-3
     E2 = 0.0
     E3 = 0.0

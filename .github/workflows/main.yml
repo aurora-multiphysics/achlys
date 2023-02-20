@@ -18,12 +18,16 @@ jobs:
       # First check out the repository to get the docker file
       - name: Checkout
         uses: actions/checkout@v2
+
       # Now build in a container with all deps
       - name: PrintGithubContext
         run: echo $PRCOMMITSHA
+
       - name: DockerBuildTestPR
         if:  ${{ github.event.pull_request.head.sha != '' }}
         run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$PRCOMMITSHA docker/achlys-ubuntu/moose-stable/ --build-arg test_coverage=true --build-arg coveralls_token=$COVERALLS_TOKEN --build-arg coveralls_branch=$GITHUB_HEAD_REF
+
       - name:  DockerBuildTestPush
         if:  ${{ github.event.pull_request.head.sha == '' }}
         run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$GITHUB_SHA docker/achlys-ubuntu/moose-stable/ --build-arg test_coverage=true --build-arg coveralls_token=$COVERALLS_TOKEN --build-arg coveralls_branch=${GITHUB_REF##*/}
+

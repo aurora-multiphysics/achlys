@@ -7,19 +7,43 @@ jobs:
   docker-build-test-ubuntu:
     runs-on: ubuntu-latest
     name: WeeklyUbuntu
+
     env:
       PRCOMMITSHA : ${{ github.event.pull_request.head.sha }}
       COVERALLS_TOKEN : ${{ secrets.COVERALLS_TOKEN }}
+    
     steps:
       # First check out the repository to get the docker file
       - name: Checkout
         uses: actions/checkout@v3
+
       # Now build in a container with all deps
       - name: PrintGithubContext
         run: echo $PRCOMMITSHA
-      - name: DockerBuildTestPR
-        if:  ${{ github.event.pull_request.head.sha != '' }}
-        run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$PRCOMMITSHA docker/achlys-ubuntu/ --build-arg test_coverage=true --build-arg coveralls_token=$COVERALLS_TOKEN --build-arg coveralls_branch=$GITHUB_HEAD_REF
-      - name:  DockerBuildTestPush
-        if:  ${{ github.event.pull_request.head.sha == '' }}
-        run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$GITHUB_SHA docker/achlys-ubuntu/moose-latest/ --build-arg test_coverage=true --build-arg coveralls_token=$COVERALLS_TOKEN --build-arg coveralls_branch=${GITHUB_REF##*/}
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: sdixonukaea
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: sdixonukaea/achlys-ubuntu
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          file: docker/achlys-ubuntu/moose-latest
+          build-args: 
+            - build_git_sha=$PRCOMMITSHA
+            - test_coverage=true
+            - coveralls_token=$COVERALLS_TOKEN
+            - coveralls_branch=${GITHUB_REF##*/}  
+

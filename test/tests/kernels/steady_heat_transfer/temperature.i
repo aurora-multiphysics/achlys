@@ -2,7 +2,6 @@
   [./unlabelled]
     file = monoblock.msh
     type = FileMeshGenerator
-    construct_side_list_from_node_list=true
   [../] 
   [./block_1]
     type= AllSideSetsByNormalsGenerator
@@ -145,13 +144,13 @@
 
 [Postprocessors]
   [/pfc_flux]
-    type = ADSideFluxIntegral
+    type = ADSideDiffusiveFluxIntegral
     variable = Temperature
     boundary = 2
     diffusivity = conductivity #thermal_diffusivity #conductivity
   [../]
   [cooling_surface_flux]
-    type = ADSideFluxIntegral
+    type = ADSideDiffusiveFluxIntegral
     variable = Temperature
     boundary = 5
     diffusivity = conductivity

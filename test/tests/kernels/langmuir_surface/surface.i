@@ -11,7 +11,7 @@
     dim=1
     xmin=1e-6
     xmax=1.5e-6
-    bias = 1.003
+    bias_x = 1.003
     nx=50
   []
   [Mesh_stitcher]  
@@ -19,7 +19,6 @@
     inputs = 'surface_mesh bulk_mesh'
     clear_stitched_boundary_ids = true
     stitch_boundaries_pairs = 'right left'
-    parallel_type = 'replicated'
   []
   [subdomain_gas] 
     input=Mesh_stitcher
@@ -165,8 +164,7 @@
 []
 
 [Executioner]
-  scheme = bdf2
-  type = Steady #Transient
+  type = Steady
   solve_type = NEWTON
   petsc_options_iname = '-snes_type -pc_type -ksp_type -pc_factor_shift_type'
   petsc_options_value = 'fas lu bcgs NONZERO'

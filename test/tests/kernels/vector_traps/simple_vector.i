@@ -124,9 +124,6 @@
     lambda = 3.16E-8
     n_sol = 2
     Temperature = Temperature
-    Cp  =1
-    conductivity = 1
-    density = 1
   [../]
 []
 
@@ -144,7 +141,7 @@
 
 [Postprocessors]
   [back_flux]
-    type = ADSideFluxIntegral
+    type = ADSideDiffusiveFluxIntegral
     variable = Mobile
     boundary = right
     diffusivity = D
