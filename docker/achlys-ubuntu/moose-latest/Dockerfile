@@ -54,4 +54,5 @@ RUN if "$test_coverage" ; then \
        export CI_BRANCH="$coveralls_branch" && \
        cpp-coveralls -i /opt/achlys/src/ -i /opt/achlys/include/ --exclude-pattern "/usr/*" --dump cpp_cov.json && \
        coveralls --merge=cpp_cov.json; \
+       cat cpp_cov.json; \
     fi
