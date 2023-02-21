@@ -5,7 +5,7 @@
 # To compile a particular git sha use
 # docker build -t achlys-ubuntu --build-arg build_git_sha=${GITHUB_SHA} .
 
-FROM sdixonukaea/achlys-ubuntu
+FROM sdixonukaea/achlys-ubuntu:latest
 ARG compile_cores=1
 ARG build_git_sha="master"
 
@@ -15,12 +15,15 @@ ARG coveralls_token=""
 ARG coveralls_branch=""
 
 WORKDIR /opt/achlys
+RUN git branch
 
 RUN if "$test_coverage" ; then \
        export CXXFLAGS="--coverage $CXXFLAGS"; \
        export CFLAGS="-fprofile-arcs -ftest-coverage"; \
        echo "Generating test coverage"; \
     fi; \
+    ls; \
+    echo $build_git_sha; \
     git checkout "$build_git_sha" && \
     make -j"$compile_cores" && \
     ./run_tests
