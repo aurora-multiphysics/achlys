@@ -24,10 +24,10 @@ jobs:
         run: echo $PRCOMMITSHA
 
       - name: build test and upload coverage
-        run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$GITHUB_SHA docker/achlys-ubuntu-test/ --build-arg test_coverage=true --build-arg coveralls_token=$COVERALLS_TOKEN --build-arg coveralls_branch=${GITHUB_REF##*/} --build-arg compile_cores=1   
+        run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$GITHUB_SHA docker/achlys-ubuntu-test/moose-latest --build-arg test_coverage=true --build-arg coveralls_token=$COVERALLS_TOKEN --build-arg coveralls_branch=${GITHUB_REF##*/} --build-arg compile_cores=1   
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+#      - name: Set up QEMU
+#       uses: docker/setup-qemu-action@v2
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
