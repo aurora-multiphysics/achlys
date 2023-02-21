@@ -14,26 +14,13 @@ ARG test_coverage=false
 ARG coveralls_token=""
 ARG coveralls_branch=""
 
-RUN apt-get update && \
-  apt-get -y install pip && \
-  pip3 install sympy  \
-   pandas \ 
-   matplotlib \
-   pyyaml \ 
-   mock
-
-RUN if "$test_coverage" ; then \
-       apt-get install -y python3-pip && \
-       pip install cpp-coveralls && \
-       pip install coveralls; \
-    fi
+WORKDIR /opt/achlys
 
 RUN if "$test_coverage" ; then \
        export CXXFLAGS="--coverage $CXXFLAGS"; \
        export CFLAGS="-fprofile-arcs -ftest-coverage"; \
        echo "Generating test coverage"; \
-    fi && \
-    cd /opt/achlys && \
+    fi; \
     git checkout "$build_git_sha" && \
     make -j"$compile_cores" && \
     ./run_tests
@@ -42,7 +29,6 @@ RUN if "$test_coverage" ; then \
 RUN if "$test_coverage" ; then \
        export COVERALLS_REPO_TOKEN="$coveralls_token" && \
        export CI_BRANCH="$coveralls_branch" && \
-       cd /opt/achlys && \
        cpp-coveralls -i src/ -i include/ --exclude-pattern "/usr/*" --dump cpp_cov.json && \
        coveralls --merge=cpp_cov.json; \
     fi
