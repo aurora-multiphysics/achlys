@@ -26,7 +26,7 @@ RUN if "$test_coverage" ; then \
        export CXXFLAGS="--coverage $CXXFLAGS"; \
        export CFLAGS="-fprofile-arcs -ftest-coverage"; \
        echo "Generating test coverage"; \
-       make clobber
+       make clobber; \
     fi; \
     git pull && \
     git checkout "$build_git_sha" && \
