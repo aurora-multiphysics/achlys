@@ -14,16 +14,19 @@ ARG test_coverage=false
 ARG coveralls_token=""
 ARG coveralls_branch=""
 
+RUN if "$test_coverage" ; then \
+       apt-get install -y python3-pip && \
+       pip install cpp-coveralls && \
+       pip install coveralls; \
+    fi
+
 WORKDIR /opt/achlys
-RUN git branch
 
 RUN if "$test_coverage" ; then \
        export CXXFLAGS="--coverage $CXXFLAGS"; \
        export CFLAGS="-fprofile-arcs -ftest-coverage"; \
        echo "Generating test coverage"; \
     fi; \
-    ls; \
-    echo $build_git_sha; \
     git pull && \
     git checkout "$build_git_sha" && \
     make -j"$compile_cores" && \
