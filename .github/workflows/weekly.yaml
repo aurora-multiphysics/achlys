@@ -4,6 +4,11 @@ on:
     - cron: '0 18 * * 0' # run at 6 PM UTC every Sunday
   workflow_dispatch:
   workflow_call:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - '*'
 
 jobs:
   docker-build-test-ubuntu:
@@ -43,6 +48,16 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: sdixonukaea/achlys-ubuntu
+          tags: |
+            # always add latest to default branch
+            type=raw,value=latest,enable={{is_default_branch}}
+            # edge tag for latest commit to default branch
+            type=edge
+            type=sha
+            #semantic versioning for push-tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern=v{{major}}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
