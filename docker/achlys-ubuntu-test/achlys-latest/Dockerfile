@@ -24,6 +24,7 @@ RUN if "$test_coverage" ; then \
     fi; \
     ls; \
     echo $build_git_sha; \
+    git pull && \
     git checkout "$build_git_sha" && \
     make -j"$compile_cores" && \
     ./run_tests
