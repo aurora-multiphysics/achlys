@@ -39,9 +39,15 @@ RUN  git checkout "$build_git_sha"
 RUN if "$test_coverage" ; then \
        export CXXFLAGS="--coverage $CXXFLAGS"; \
        export CFLAGS="-fprofile-arcs -ftest-coverage"; \
+       export COVERALLS_SERVICE_NAME=github; \
        echo "Generating test coverage"; \
        make -j"$compile_cores" && \
-      ./run_tests; \
+       ./run_tests && \
+       export COVERALLS_REPO_TOKEN="$coveralls_token" && \
+       export CI_BRANCH="$coveralls_branch" && \
+       cpp-coveralls -i src/ -i include/ --exclude-pattern "/usr/*" --dump cpp_cov.json && \
+       coveralls --merge=cpp_cov.json; \
+       cat cpp_cov.json; \
     else \
        make -j"$compile_cores" &&\ 
        ./run_tests; \
@@ -49,11 +55,11 @@ RUN if "$test_coverage" ; then \
 
 # Generate test coverage report using coveralls and upload
 #WORKDIR  /opt/achlys
-RUN if "$test_coverage" ; then \
-       export COVERALLS_REPO_TOKEN="$coveralls_token" && \
-       export CI_BRANCH="$coveralls_branch" && \
-       export COVERALLS_SERVICE_NAME=github; \
-       cpp-coveralls -i src/ -i include/ --exclude-pattern "/usr/*" --dump cpp_cov.json && \
-       coveralls --merge=cpp_cov.json; \
-       cat cpp_cov.json; \
-    fi
+#RUN if "$test_coverage" ; then \
+#       export COVERALLS_REPO_TOKEN="$coveralls_token" && \
+#       export CI_BRANCH="$coveralls_branch" && \
+#       export COVERALLS_SERVICE_NAME=github; \
+#       cpp-coveralls -i src/ -i include/ --exclude-pattern "/usr/*" --dump cpp_cov.json && \
+#       coveralls --merge=cpp_cov.json; \
+#       cat cpp_cov.json; \
+#    fi
