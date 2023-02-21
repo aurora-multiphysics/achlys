@@ -23,6 +23,9 @@ jobs:
       - name: PrintGithubContext
         run: echo $PRCOMMITSHA
 
+      - name: build test and upload coverage
+        run: docker build -t ci-achlys-ubuntu --build-arg build_git_sha=$GITHUB_SHA docker/achlys-ubuntu-test/ --build-arg test_coverage=true --build-arg coveralls_token=$COVERALLS_TOKEN --build-arg coveralls_branch=${GITHUB_REF##*/} --build-arg compile_cores=1   
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -52,8 +55,6 @@ jobs:
           build-args: | 
             build_git_sha=master
             test_coverage=true
-            coveralls_token=$COVERALLS_TOKEN
-            coveralls_branch=${GITHUB_REF##*/} 
             compile_cores=1
 
 #      - name: Coveralls test coverage
@@ -61,4 +62,4 @@ jobs:
 #          with:
 #            github-token: ${{ secrets.GITHUB_TOKEN }}
 #            path-to-lcov:
- 
+# 
